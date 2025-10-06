@@ -1,0 +1,19 @@
+{
+    "textures": {
+        "particle": "#penguin_egg"
+    },
+    "elements": [
+        {
+            "from": [5, 0, 5],
+            "to": [11, 8, 11],
+            "faces": {
+                "north": {"uv": [0, 0, 6, 8], "texture": "#penguin_egg"},
+                "east": {"uv": [0, 0, 6, 8], "texture": "#penguin_egg"},
+                "south": {"uv": [0, 0, 6, 8], "texture": "#penguin_egg"},
+                "west": {"uv": [0, 0, 6, 8], "texture": "#penguin_egg"},
+                "up": {"uv": [0, 0, 6, 6], "texture": "#penguin_egg", "cullface": "up"},
+                "down": {"uv": [0, 0, 6, 6], "texture": "#penguin_egg", "cullface": "down"}
+            }
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+/summon ancienthorizons:tiger ~ ~ ~ {"Variant":2}
+/summon ancienthorizons:tiger ~ ~ ~ {"Variant":3}
+/summon minecraft:zombie
+/playsound ancienthorizons:entity.tiger.hurt master @p
+/playsound ancienthorizons:entity.tiger.hurt master @з
+/playsound ancienthorizons:entity.tiger.hurt master @p
+/summon ancienthorizons:bactrian_camel
+/summon ancienthorizons:blackcap
+/summon ancienthorizons:tiger
+/summon ancienthorizons:chimpanzee
+/give Dev ancienthorizons:beluga_sturgeon_caviar
+/summon ancienthorizons:anaconda
+/summon ancienthorizons:fisher
+/summon ancienthorizons:ruff
+/give Dev ancienthorizons:obsidian_shard 64
+/summon ancienthorizons:chimpanzee
+/playsound ancienthorizons:entity.tiger.hurt
+/summon ancienthorizons:chimpanzee
+/summon ancienthorizons:crocodile
+/summon ancienthorizons:hippopotamus
+/summon ancienthorizons:eromangasaurus
+/advancement grant Dev everything

@@ -1,0 +1,133 @@
+---- Minecraft Crash Report ----
+// Daisy, daisy...
+
+Time: 2025-09-30 21:23:41
+Description: Exception in server tick loop
+
+java.lang.ExceptionInInitializerError: null
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractSauropodEntity.defineSynchedData(AbstractSauropodEntity.java:154) ~[%23187!/:?] {re:classloading}
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.entity.custom.mob.sauropoda.DiplodocusEntity.defineSynchedData(DiplodocusEntity.java:69) ~[%23187!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Entity.<init>(Entity.java:266) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:jade.mixins.json:EntityAccess from mod jade,pl:mixin:APP:automobility.mixins.json:EntityMixin from mod automobility,pl:mixin:APP:ponder.mixins.json:accessor.EntityAccessor from mod ponder,pl:mixin:APP:create.mixins.json:client.EntityContraptionInteractionMixin from mod create,pl:mixin:APP:create.mixins.json:EntityMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.LivingEntity.<init>(LivingEntity.java:276) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:toughasnails.mixins.json:MixinLivingEntity from mod toughasnails,pl:mixin:APP:create.mixins.json:CustomItemUseEffectsMixin from mod create,pl:mixin:APP:create.mixins.json:LavaSwimmingMixin from mod create,pl:mixin:APP:create.mixins.json:accessor.LivingEntityAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Mob.<init>(Mob.java:139) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ancienthorizons.mixins.json:MobTargetingMixin from mod ancienthorizons,pl:mixin:APP:create.mixins.json:MobMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.PathfinderMob.<init>(PathfinderMob.java:17) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,re:classloading,re:mixin}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.AgeableMob.<init>(AgeableMob.java:24) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading,re:mixin}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.animal.Animal.<init>(Animal.java:39) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.TamableAnimal.<init>(TamableAnimal.java:42) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractSauropodEntity.<init>(AbstractSauropodEntity.java:83) ~[%23187!/:?] {re:classloading}
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.entity.custom.mob.sauropoda.DiplodocusEntity.<init>(DiplodocusEntity.java:55) ~[%23187!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.EntityType.create(EntityType.java:1100) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,xf:fml:default,re:classloading,xf:fml:default,pl:mixin:APP:flywheel.impl.mixins.json:EntityTypeMixin from mod flywheel,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.EntityType.create(EntityType.java:968) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,xf:fml:default,re:classloading,xf:fml:default,pl:mixin:APP:flywheel.impl.mixins.json:EntityTypeMixin from mod flywheel,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.EntityType.spawn(EntityType.java:958) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,xf:fml:default,re:classloading,xf:fml:default,pl:mixin:APP:flywheel.impl.mixins.json:EntityTypeMixin from mod flywheel,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.EntityType.spawn(EntityType.java:925) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,xf:fml:default,re:classloading,xf:fml:default,pl:mixin:APP:flywheel.impl.mixins.json:EntityTypeMixin from mod flywheel,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.item.SpawnEggItem.useOn(SpawnEggItem.java:89) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/neoforge@21.1.152/net.neoforged.neoforge.common.CommonHooks.onPlaceItemIntoWorld(CommonHooks.java:614) ~[neoforge-21.1.152-minecraft-merged.jar%23185!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.item.ItemStack.useOn(ItemStack.java:366) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinItemStack from mod glitchcore,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerPlayerGameMode.useItemOn(ServerPlayerGameMode.java:386) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.network.ServerGamePacketListenerImpl.handleUseItemOn(ServerGamePacketListenerImpl.java:1144) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:automobility.mixins.json:ServerGamePacketListenerImplMixin from mod automobility,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.network.protocol.game.ServerboundUseItemOnPacket.handle(ServerboundUseItemOnPacket.java:48) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.network.protocol.game.ServerboundUseItemOnPacket.handle(ServerboundUseItemOnPacket.java:10) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.network.protocol.PacketUtils.lambda$ensureRunningOnSameThread$0(PacketUtils.java:36) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.TickTask.run(TickTask.java:18) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.util.thread.BlockableEventLoop.doRunTask(BlockableEventLoop.java:151) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.util.thread.ReentrantBlockableEventLoop.doRunTask(ReentrantBlockableEventLoop.java:24) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:computing_frames,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:881) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:170) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.util.thread.BlockableEventLoop.pollTask(BlockableEventLoop.java:122) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.pollTaskInternal(MinecraftServer.java:864) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.pollTask(MinecraftServer.java:858) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.util.thread.BlockableEventLoop.runAllTasks(BlockableEventLoop.java:111) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.waitUntilNextTick(MinecraftServer.java:834) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:718) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:267) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?] {}
+Caused by: java.lang.ClassCastException: class net.minecraft.core.Holder$Reference cannot be cast to class net.minecraft.sounds.SoundEvent (net.minecraft.core.Holder$Reference and net.minecraft.sounds.SoundEvent are in module minecraft@1.21.1 of loader 'TRANSFORMER' @3cd206b5)
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractSauropodEntity$HarnessWeapon.<clinit>(AbstractSauropodEntity.java:796) ~[?:?] {re:classloading}
+	... 36 more
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.21.1
+	Minecraft Version ID: 1.21.1
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 21.0.8, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
+	Memory: 480128576 bytes (457 MiB) / 1365245952 bytes (1302 MiB) up to 2061500416 bytes (1966 MiB)
+	CPUs: 8
+	Processor Vendor: GenuineIntel
+	Processor Name: Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz
+	Identifier: Intel64 Family 6 Model 94 Stepping 3
+	Microarchitecture: Skylake (Client)
+	Frequency (GHz): 2.71
+	Number of physical packages: 1
+	Number of physical CPUs: 4
+	Number of logical CPUs: 8
+	Graphics card #0 name: Intel(R) HD Graphics 530
+	Graphics card #0 vendor: Intel Corporation
+	Graphics card #0 VRAM (MiB): 1024.00
+	Graphics card #0 deviceId: VideoController1
+	Graphics card #0 versionInfo: 31.0.101.2115
+	Graphics card #1 name: AMD Radeon (TM) R7 M370
+	Graphics card #1 vendor: Advanced Micro Devices, Inc.
+	Graphics card #1 VRAM (MiB): 2048.00
+	Graphics card #1 deviceId: VideoController2
+	Graphics card #1 versionInfo: 27.20.1034.6
+	Memory slot #0 capacity (MiB): 8192.00
+	Memory slot #0 clockSpeed (GHz): 2.40
+	Memory slot #0 type: DDR4
+	Virtual memory max (MiB): 11774.70
+	Virtual memory used (MiB): 9997.67
+	Swap memory total (MiB): 3914.25
+	Swap memory used (MiB): 749.56
+	Space in storage for jna.tmpdir (MiB): <path not set>
+	Space in storage for org.lwjgl.system.SharedLibraryExtractPath (MiB): <path not set>
+	Space in storage for io.netty.native.workdir (MiB): <path not set>
+	Space in storage for java.io.tmpdir (MiB): available: 3037.13, total: 99427.74
+	Space in storage for workdir (MiB): available: 52212.67, total: 144195.00
+	JVM Flags: 0 total; 
+	Server Running: true
+	Player Count: 1 / 8; [ServerPlayer['Dev'/13, l='ServerLevel[Новий світ]', x=37.81, y=79.00, z=42.64]]
+	Active Data Packs: create:dynamic_data, vanilla, mod_data, mod/farmersdelight (incompatible), mod/glitchcore (incompatible), mod/sereneseasons, mod/toughasnails (incompatible), mod/jade (incompatible), mod/ancienthorizons, mod/automobility (incompatible), mod/appleskin (incompatible), mod/flywheel (incompatible), mod/ponder (incompatible), mod/create (incompatible), mod/neoforge
+	Available Data Packs: bundle, trade_rebalance, vanilla, mod/ancienthorizons, mod/appleskin (incompatible), mod/automobility (incompatible), mod/create (incompatible), mod/farmersdelight (incompatible), mod/flywheel (incompatible), mod/glitchcore (incompatible), mod/jade (incompatible), mod/neoforge, mod/ponder (incompatible), mod/sereneseasons, mod/toughasnails (incompatible), mod_data, create:dynamic_data
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Stable
+	World Seed: -1805481073196602962
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'neoforge'; Server brand changed to 'neoforge'
+	Launched Version: 21.1.152
+	ModLauncher: 11.0.4+main.d2e20e43
+	ModLauncher launch target: forgeclientuserdev
+	ModLauncher services: 
+		sponge-mixin-0.15.2+mixin.0.8.7.jar mixin PLUGINSERVICE 
+		loader-4.0.38.jar slf4jfixer PLUGINSERVICE 
+		loader-4.0.38.jar runtime_enum_extender PLUGINSERVICE 
+		at-modlauncher-10.0.1.jar accesstransformer PLUGINSERVICE 
+		loader-4.0.38.jar runtimedistcleaner PLUGINSERVICE 
+		modlauncher-11.0.4.jar mixin TRANSFORMATIONSERVICE 
+		modlauncher-11.0.4.jar fml TRANSFORMATIONSERVICE 
+	FML Language Providers: 
+		javafml@4.0
+		lowcodefml@4.0
+		minecraft@4.0
+	Mod List: 
+		main                                              |Ancient Horizons              |ancienthorizons               |0.0.3               |Manifest: NOSIGNATURE
+		appleskin-248787-6616291.jar                      |AppleSkin                     |appleskin                     |3.0.7+mc1.21        |Manifest: NOSIGNATURE
+		automobility-0.5.0.h-neoforge.jar                 |Automobility                  |automobility                  |0.5.0.h             |Manifest: NOSIGNATURE
+		create-328085-6624071.jar                         |Create                        |create                        |6.0.5               |Manifest: NOSIGNATURE
+		farmers-delight-398521-6154807.jar                |Farmer's Delight              |farmersdelight                |1.2.7               |Manifest: NOSIGNATURE
+		flywheel-neoforge-1.21.1-1.0.2.jar                |Flywheel                      |flywheel                      |1.0.2               |Manifest: NOSIGNATURE
+		GlitchCore-neoforge-1.21.1-2.1.0.0.jar            |GlitchCore                    |glitchcore                    |2.1.0.0             |Manifest: NOSIGNATURE
+		jade-324717-6738687.jar                           |Jade                          |jade                          |15.10.2+neoforge    |Manifest: NOSIGNATURE
+		neoforge-21.1.152-minecraft-merged.jar            |Minecraft                     |minecraft                     |1.21.1              |Manifest: NOSIGNATURE
+		neoforge-21.1.152-minecraft-merged.jar            |NeoForge                      |neoforge                      |21.1.152            |Manifest: NOSIGNATURE
+		Ponder-NeoForge-1.21.1-1.0.46.jar                 |Ponder                        |ponder                        |1.0.46              |Manifest: NOSIGNATURE
+		serene-seasons-291874-6182596.jar                 |Serene Seasons                |sereneseasons                 |10.1.0.3            |Manifest: NOSIGNATURE
+		tough-as-nails-246391-5833252.jar                 |Tough As Nails                |toughasnails                  |10.1.0.13           |Manifest: NOSIGNATURE
+	Crash Report UUID: 48b24d16-afb5-456b-b433-99487a612199
+	FML: 4.0.38
+	NeoForge: 21.1.152
+	Flywheel Backend: flywheel:instancing

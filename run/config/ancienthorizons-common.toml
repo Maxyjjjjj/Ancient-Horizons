@@ -1,0 +1,6 @@
+#Whether seagulls can steal items from players.
+seagullTheft = true
+#A list of items that seagulls can steal from players.
+seagullTheftItems = ["minecraft:feather", "minecraft:egg"]
+#A list of items that seagulls cannot steal from players.
+seagullTheftBlacklist = ["minecraft:diamond", "minecraft:gold_ingot"]

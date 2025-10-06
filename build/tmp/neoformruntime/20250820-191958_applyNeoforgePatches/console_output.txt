@@ -1,0 +1,25 @@
+--------------------------------------------------------------------------------
+
+Command-Line:
+ - C:\Users\User\.gradle\jdks\eclipse_adoptium-21-amd64-windows.2\bin\java.exe
+ - -jar
+ - C:\Users\User\.gradle\caches\modules-2\files-2.1\codechicken\DiffPatch\1.5.0.29\da63995592cfbd64b5b33d3824a3c30946f0d1e1\DiffPatch-1.5.0.29-all.jar
+ - C:\Users\User\.gradle\caches\neoformruntime\intermediate_results\patch_16e56303a1d432c844e747631d7952667e83c0ff_output.zip
+ - C:\Users\User\.gradle\caches\modules-2\files-2.1\net.neoforged\neoforge\21.1.152\a36ee4a82fa9cd4938ad2e89b8cb93f9ac902bc4\neoforge-21.1.152-userdev.jar
+ - --prefix
+ - patches/
+ - --patch
+ - --archive
+ - ZIP
+ - --output
+ - ./output.zip
+ - --log-level
+ - WARN
+ - --mode
+ - OFFSET
+ - --archive-rejects
+ - ZIP
+ - --reject
+ - ./outputRejects.zip
+--------------------------------------------------------------------------------
+

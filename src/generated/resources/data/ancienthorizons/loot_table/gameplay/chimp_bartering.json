@@ -1,0 +1,30 @@
+{
+    "type": "minecraft:gift",
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "ancienthorizons:gameplay/chimp_bartering/food",
+                    "weight": 70
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "ancienthorizons:gameplay/chimp_bartering/treasures",
+                    "weight": 5
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "ancienthorizons:gameplay/chimp_bartering/trash",
+                    "weight": 15
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "ancienthorizons:gameplay/chimp_bartering/bamboo",
+                    "weight": 10
+                }
+            ]
+        }
+    ]
+}

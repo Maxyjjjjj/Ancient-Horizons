@@ -1,0 +1,18 @@
+{
+    "values": [
+        "ancienthorizons:raw_chevon",
+        "ancienthorizons:cooked_chevon",
+        "minecraft:mutton",
+        "minecraft:cooked_mutton",
+        "minecraft:apple",
+        "minecraft:sweet_berries",
+        "minecraft:chicken",
+        "minecraft:cooked_chicken",
+        "minecraft:beef",
+        "minecraft:cooked_beef",
+        "minecraft:porkchop",
+        "minecraft:cooked_porkchop",
+        "minecraft:rabbit",
+        "minecraft:cooked_rabbit"
+    ]
+}

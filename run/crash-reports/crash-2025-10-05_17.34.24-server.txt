@@ -1,0 +1,194 @@
+---- Minecraft Crash Report ----
+// Why did you do that?
+
+Time: 2025-10-05 17:34:24
+Description: Ticking entity
+
+java.lang.NullPointerException: Cannot invoke "net.minecraft.world.level.pathfinder.NodeEvaluator.prepare(net.minecraft.world.level.PathNavigationRegion, net.minecraft.world.entity.Mob)" because "this.nodeEvaluator" is null
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.pathfinder.PathFinder.findPath(PathFinder.java:39) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:169) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:151) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:130) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:109) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.moveTo(PathNavigation.java:185) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.goal.PanicGoal.start(PanicGoal.java:83) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.goal.WrappedGoal.start(WrappedGoal.java:46) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.goal.GoalSelector.tick(GoalSelector.java:108) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Mob.serverAiStep(Mob.java:792) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ancienthorizons.mixins.json:MobTargetingMixin from mod ancienthorizons,pl:mixin:APP:create.mixins.json:MobMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.LivingEntity.aiStep(LivingEntity.java:2767) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:toughasnails.mixins.json:MixinLivingEntity from mod toughasnails,pl:mixin:APP:create.mixins.json:CustomItemUseEffectsMixin from mod create,pl:mixin:APP:create.mixins.json:LavaSwimmingMixin from mod create,pl:mixin:APP:create.mixins.json:accessor.LivingEntityAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Mob.aiStep(Mob.java:571) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ancienthorizons.mixins.json:MobTargetingMixin from mod ancienthorizons,pl:mixin:APP:create.mixins.json:MobMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.AgeableMob.aiStep(AgeableMob.java:127) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading,re:mixin}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.animal.Animal.aiStep(Animal.java:55) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.entity.custom.mob.SeagullEntity.aiStep(SeagullEntity.java:192) ~[%23187!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.LivingEntity.tick(LivingEntity.java:2493) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:toughasnails.mixins.json:MixinLivingEntity from mod toughasnails,pl:mixin:APP:create.mixins.json:CustomItemUseEffectsMixin from mod create,pl:mixin:APP:create.mixins.json:LavaSwimmingMixin from mod create,pl:mixin:APP:create.mixins.json:accessor.LivingEntityAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Mob.tick(Mob.java:357) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ancienthorizons.mixins.json:MobTargetingMixin from mod ancienthorizons,pl:mixin:APP:create.mixins.json:MobMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.tickNonPassenger(ServerLevel.java:777) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.Level.guardEntityTick(Level.java:604) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:sereneseasons.mixins.json:MixinLevel from mod sereneseasons,pl:mixin:APP:flywheel.impl.mixins.json:LevelMixin from mod flywheel,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.lambda$tick$2(ServerLevel.java:423) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.entity.EntityTickList.forEach(EntityTickList.java:53) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.tick(ServerLevel.java:403) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1052) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:932) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.client.server.IntegratedServer.tickServer(IntegratedServer.java:113) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:713) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:267) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?] {}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.pathfinder.PathFinder.findPath(PathFinder.java:39) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:169) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:151) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:130) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.createPath(PathNavigation.java:109) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.navigation.PathNavigation.moveTo(PathNavigation.java:185) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.goal.PanicGoal.start(PanicGoal.java:83) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.goal.WrappedGoal.start(WrappedGoal.java:46) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.ai.goal.GoalSelector.tick(GoalSelector.java:108) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Mob.serverAiStep(Mob.java:792) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ancienthorizons.mixins.json:MobTargetingMixin from mod ancienthorizons,pl:mixin:APP:create.mixins.json:MobMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.LivingEntity.aiStep(LivingEntity.java:2767) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:toughasnails.mixins.json:MixinLivingEntity from mod toughasnails,pl:mixin:APP:create.mixins.json:CustomItemUseEffectsMixin from mod create,pl:mixin:APP:create.mixins.json:LavaSwimmingMixin from mod create,pl:mixin:APP:create.mixins.json:accessor.LivingEntityAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Mob.aiStep(Mob.java:571) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ancienthorizons.mixins.json:MobTargetingMixin from mod ancienthorizons,pl:mixin:APP:create.mixins.json:MobMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.AgeableMob.aiStep(AgeableMob.java:127) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading,re:mixin}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.animal.Animal.aiStep(Animal.java:55) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.entity.custom.mob.SeagullEntity.aiStep(SeagullEntity.java:192) ~[%23187!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.LivingEntity.tick(LivingEntity.java:2493) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:toughasnails.mixins.json:MixinLivingEntity from mod toughasnails,pl:mixin:APP:create.mixins.json:CustomItemUseEffectsMixin from mod create,pl:mixin:APP:create.mixins.json:LavaSwimmingMixin from mod create,pl:mixin:APP:create.mixins.json:accessor.LivingEntityAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.entity.Mob.tick(Mob.java:357) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ancienthorizons.mixins.json:MobTargetingMixin from mod ancienthorizons,pl:mixin:APP:create.mixins.json:MobMixin from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.tickNonPassenger(ServerLevel.java:777) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.Level.guardEntityTick(Level.java:604) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:sereneseasons.mixins.json:MixinLevel from mod sereneseasons,pl:mixin:APP:flywheel.impl.mixins.json:LevelMixin from mod flywheel,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.lambda$tick$2(ServerLevel.java:423) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.entity.EntityTickList.forEach(EntityTickList.java:53) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+-- Entity being ticked --
+Details:
+	Entity Type: ancienthorizons:seagull (com.fungoussoup.ancienthorizons.entity.custom.mob.SeagullEntity)
+	Entity ID: 9169
+	Entity Name: Мартин
+	Entity's Exact location: 25.50, 92.00, -268.50
+	Entity's Block location: World: (25,92,-269), Section: (at 9,12,3 in 1,5,-17; chunk contains blocks 16,-64,-272 to 31,319,-257), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,-64,-512 to 511,319,-1)
+	Entity's Momentum: 0.40, 0.36, 0.03
+	Entity's Passengers: []
+	Entity's Vehicle: null
+Stacktrace:
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.Level.guardEntityTick(Level.java:604) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:computing_frames,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:sereneseasons.mixins.json:MixinLevel from mod sereneseasons,pl:mixin:APP:flywheel.impl.mixins.json:LevelMixin from mod flywheel,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.lambda$tick$2(ServerLevel.java:423) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.entity.EntityTickList.forEach(EntityTickList.java:53) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.tick(ServerLevel.java:403) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1052) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:932) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.client.server.IntegratedServer.tickServer(IntegratedServer.java:113) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:713) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:267) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?] {}
+
+
+-- Affected level --
+Details:
+	All players: 1 total; [ServerPlayer['Dev'/11, l='ServerLevel[Новий світ]', x=22.88, y=92.00, z=-268.68]]
+	Chunk stats: 2833
+	Level dimension: minecraft:overworld
+	Level spawn location: World: (0,93,32), Section: (at 0,13,0 in 0,5,2; chunk contains blocks 0,-64,32 to 15,319,47), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,-64,0 to 511,319,511)
+	Level time: 27230 game time, 27230 day time
+	Level name: Новий світ
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Commands: true
+	Level weather: Rain time: 46543 (now: false), thunder time: 19422 (now: false)
+	Known server brands: neoforge
+	Removed feature flags: 
+	Level was modded: true
+	Level storage version: 0x04ABD - Anvil
+	Loaded entity count: 270
+Stacktrace:
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.level.ServerLevel.fillReportDetails(ServerLevel.java:1745) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:glitchcore.mixins.json:MixinServerLevel from mod glitchcore,pl:mixin:APP:sereneseasons.mixins.json:MixinServerLevel from mod sereneseasons,pl:mixin:APP:toughasnails.mixins.json:MixinServerLevel from mod toughasnails,pl:mixin:APP:create.mixins.json:accessor.ServerLevelAccessor from mod create,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:1055) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:932) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.client.server.IntegratedServer.tickServer(IntegratedServer.java:113) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:713) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:267) ~[neoforge-21.1.152-minecraft-merged.jar%23184!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B,pl:mixin:APP:ponder.mixins.json:accessor.MinecraftServerAccessor from mod ponder,pl:mixin:A}
+	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?] {}
+
+
+-- System Details --
+Details:
+	Minecraft Version: 1.21.1
+	Minecraft Version ID: 1.21.1
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 21.0.8, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
+	Memory: 173287744 bytes (165 MiB) / 1649410048 bytes (1573 MiB) up to 2061500416 bytes (1966 MiB)
+	CPUs: 8
+	Processor Vendor: GenuineIntel
+	Processor Name: Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz
+	Identifier: Intel64 Family 6 Model 94 Stepping 3
+	Microarchitecture: Skylake (Client)
+	Frequency (GHz): 2.71
+	Number of physical packages: 1
+	Number of physical CPUs: 4
+	Number of logical CPUs: 8
+	Graphics card #0 name: Intel(R) HD Graphics 530
+	Graphics card #0 vendor: Intel Corporation
+	Graphics card #0 VRAM (MiB): 1024.00
+	Graphics card #0 deviceId: VideoController1
+	Graphics card #0 versionInfo: 31.0.101.2115
+	Graphics card #1 name: AMD Radeon (TM) R7 M370
+	Graphics card #1 vendor: Advanced Micro Devices, Inc.
+	Graphics card #1 VRAM (MiB): 2048.00
+	Graphics card #1 deviceId: VideoController2
+	Graphics card #1 versionInfo: 27.20.1034.6
+	Memory slot #0 capacity (MiB): 8192.00
+	Memory slot #0 clockSpeed (GHz): 2.40
+	Memory slot #0 type: DDR4
+	Virtual memory max (MiB): 12489.13
+	Virtual memory used (MiB): 10942.78
+	Swap memory total (MiB): 4628.69
+	Swap memory used (MiB): 1713.34
+	Space in storage for jna.tmpdir (MiB): <path not set>
+	Space in storage for org.lwjgl.system.SharedLibraryExtractPath (MiB): <path not set>
+	Space in storage for io.netty.native.workdir (MiB): <path not set>
+	Space in storage for java.io.tmpdir (MiB): available: 1977.18, total: 99427.74
+	Space in storage for workdir (MiB): available: 36223.67, total: 144195.00
+	JVM Flags: 0 total; 
+	Server Running: true
+	Player Count: 1 / 8; [ServerPlayer['Dev'/11, l='ServerLevel[Новий світ]', x=22.88, y=92.00, z=-268.68]]
+	Active Data Packs: create:dynamic_data, vanilla, mod_data, mod/farmersdelight (incompatible), mod/glitchcore (incompatible), mod/sereneseasons, mod/toughasnails (incompatible), mod/jade (incompatible), mod/ancienthorizons, mod/automobility (incompatible), mod/appleskin (incompatible), mod/flywheel (incompatible), mod/ponder (incompatible), mod/create (incompatible), mod/neoforge
+	Available Data Packs: bundle, trade_rebalance, vanilla, mod/ancienthorizons, mod/appleskin (incompatible), mod/automobility (incompatible), mod/create (incompatible), mod/farmersdelight (incompatible), mod/flywheel (incompatible), mod/glitchcore (incompatible), mod/jade (incompatible), mod/neoforge, mod/ponder (incompatible), mod/sereneseasons, mod/toughasnails (incompatible), mod_data, create:dynamic_data
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Stable
+	World Seed: -9069168969869048726
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'neoforge'; Server brand changed to 'neoforge'
+	Launched Version: 21.1.152
+	ModLauncher: 11.0.4+main.d2e20e43
+	ModLauncher launch target: forgeclientuserdev
+	ModLauncher services: 
+		sponge-mixin-0.15.2+mixin.0.8.7.jar mixin PLUGINSERVICE 
+		loader-4.0.38.jar slf4jfixer PLUGINSERVICE 
+		loader-4.0.38.jar runtime_enum_extender PLUGINSERVICE 
+		at-modlauncher-10.0.1.jar accesstransformer PLUGINSERVICE 
+		loader-4.0.38.jar runtimedistcleaner PLUGINSERVICE 
+		modlauncher-11.0.4.jar mixin TRANSFORMATIONSERVICE 
+		modlauncher-11.0.4.jar fml TRANSFORMATIONSERVICE 
+	FML Language Providers: 
+		javafml@4.0
+		lowcodefml@4.0
+		minecraft@4.0
+	Mod List: 
+		main                                              |Ancient Horizons              |ancienthorizons               |0.0.3               |Manifest: NOSIGNATURE
+		appleskin-248787-6616291.jar                      |AppleSkin                     |appleskin                     |3.0.7+mc1.21        |Manifest: NOSIGNATURE
+		automobility-0.5.0.h-neoforge.jar                 |Automobility                  |automobility                  |0.5.0.h             |Manifest: NOSIGNATURE
+		create-328085-6624071.jar                         |Create                        |create                        |6.0.5               |Manifest: NOSIGNATURE
+		farmers-delight-398521-6154807.jar                |Farmer's Delight              |farmersdelight                |1.2.7               |Manifest: NOSIGNATURE
+		flywheel-neoforge-1.21.1-1.0.2.jar                |Flywheel                      |flywheel                      |1.0.2               |Manifest: NOSIGNATURE
+		GlitchCore-neoforge-1.21.1-2.1.0.0.jar            |GlitchCore                    |glitchcore                    |2.1.0.0             |Manifest: NOSIGNATURE
+		jade-324717-6738687.jar                           |Jade                          |jade                          |15.10.2+neoforge    |Manifest: NOSIGNATURE
+		neoforge-21.1.152-minecraft-merged.jar            |Minecraft                     |minecraft                     |1.21.1              |Manifest: NOSIGNATURE
+		neoforge-21.1.152-minecraft-merged.jar            |NeoForge                      |neoforge                      |21.1.152            |Manifest: NOSIGNATURE
+		Ponder-NeoForge-1.21.1-1.0.46.jar                 |Ponder                        |ponder                        |1.0.46              |Manifest: NOSIGNATURE
+		serene-seasons-291874-6182596.jar                 |Serene Seasons                |sereneseasons                 |10.1.0.3            |Manifest: NOSIGNATURE
+		tough-as-nails-246391-5833252.jar                 |Tough As Nails                |toughasnails                  |10.1.0.13           |Manifest: NOSIGNATURE
+	Crash Report UUID: 34900a1e-f69c-48b2-aafb-40c272acb36e
+	FML: 4.0.38
+	NeoForge: 21.1.152
+	Flywheel Backend: flywheel:instancing

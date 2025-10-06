@@ -1,0 +1,18 @@
+{
+    "values": [
+        "minecraft:apple",
+        "minecraft:carrot",
+        "minecraft:beetroot",
+        "minecraft:golden_apple",
+        "minecraft:golden_carrot",
+        "minecraft:melon_slice",
+        "minecraft:sweet_berries",
+        "minecraft:glow_berries",
+        "minecraft:wheat",
+        "#minecraft:small_flowers",
+        "minecraft:cactus",
+        "minecraft:bamboo",
+        "minecraft:fern",
+        "minecraft:sugar_cane"
+    ]
+}

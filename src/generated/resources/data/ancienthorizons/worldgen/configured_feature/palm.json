@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:tree",
+  "config": {
+    "decorators": [],
+    "dirt_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:dirt"
+      }
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "ancienthorizons:palm_leaves"
+      }
+    },
+    "foliage_placer": {
+      "type": "ancienthorizons:palm_foliage_placer",
+      "radius": {
+        "type": "minecraft:constant",
+        "value": 2
+      },
+      "offset": {
+        "type": "minecraft:constant",
+        "value": 0
+      },
+      "frond_length": {
+        "type": "minecraft:constant",
+        "value": 5
+      }
+    },
+    "force_dirt": false,
+    "ignore_vines": true,
+    "minimum_size": {
+      "type": "minecraft:two_layers_feature_size",
+      "limit": 1,
+      "lower_size": 0,
+      "upper_size": 1
+    },
+    "trunk_placer": {
+      "type": "ancienthorizons:palm_trunk_placer",
+      "base_height": 4,
+      "height_rand_a": 2,
+      "height_rand_b": 3
+    },
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "ancienthorizons:palm_log",
+        "Properties": {
+          "axis": "y"
+        }
+      }
+    }
+  }
+}

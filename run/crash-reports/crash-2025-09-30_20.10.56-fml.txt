@@ -1,0 +1,134 @@
+---- Minecraft Crash Report ----
+// Shall we play a game?
+
+Time: 2025-09-30 20:10:56
+Description: Mod loading failures have occurred; consult the issue messages for more details
+
+net.neoforged.neoforge.logging.CrashReportExtender$ModLoadingCrashException: Mod loading has failed
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Render thread
+Stacktrace:
+	at TRANSFORMER/neoforge@21.1.152/net.neoforged.neoforge.registries.DeferredRegister.register(DeferredRegister.java:235) ~[neoforge-21.1.152-minecraft-merged.jar%23185!/:?] {re:classloading}
+-- Mod loading issue for: ancienthorizons --
+Details:
+	Caused by 0: java.lang.ExceptionInInitializerError
+		at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.AncientHorizons.<init>(AncientHorizons.java:76) ~[%23187!/:?] {re:classloading}
+		at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62) ~[?:?] {}
+		at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502) ~[?:?] {}
+		at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486) ~[?:?] {}
+		at MC-BOOTSTRAP/fml_loader@4.0.38/net.neoforged.fml.javafmlmod.FMLModContainer.constructMod(FMLModContainer.java:115) ~[loader-4.0.38.jar%23139!/:4.0] {}
+		at MC-BOOTSTRAP/fml_loader@4.0.38/net.neoforged.fml.ModLoader.lambda$constructMods$3(ModLoader.java:153) ~[loader-4.0.38.jar%23139!/:4.0] {re:mixin}
+		at MC-BOOTSTRAP/fml_loader@4.0.38/net.neoforged.fml.ModLoader.lambda$dispatchParallelTask$7(ModLoader.java:231) ~[loader-4.0.38.jar%23139!/:4.0] {re:mixin}
+		at java.base/java.util.concurrent.CompletableFuture.uniHandle(CompletableFuture.java:934) ~[?:?] {re:mixin}
+		at java.base/java.util.concurrent.CompletableFuture$UniHandle.tryFire(CompletableFuture.java:911) ~[?:?] {}
+		at java.base/java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:483) ~[?:?] {}
+		at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387) ~[?:?] {}
+		at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312) ~[?:?] {}
+		at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843) ~[?:?] {}
+		at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808) ~[?:?] {}
+		at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188) ~[?:?] {}
+
+	Mod file: /D:/AncientHorizons/build/classes/java/main/
+	Failure message: Ancient Horizons (ancienthorizons) has failed to load correctly
+		java.lang.ExceptionInInitializerError: null
+	Mod version: 0.0.3
+	Mod issues URL: <No issues URL found>
+	Exception message: java.lang.IllegalArgumentException: Duplicate registration ancient_horizons_misc
+Stacktrace:
+	at TRANSFORMER/neoforge@21.1.152/net.neoforged.neoforge.registries.DeferredRegister.register(DeferredRegister.java:235) ~[neoforge-21.1.152-minecraft-merged.jar%23185!/:?] {re:classloading}
+	at TRANSFORMER/neoforge@21.1.152/net.neoforged.neoforge.registries.DeferredRegister.register(DeferredRegister.java:215) ~[neoforge-21.1.152-minecraft-merged.jar%23185!/:?] {re:classloading}
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.registry.ModCreativeModeTabs.<clinit>(ModCreativeModeTabs.java:590) ~[%23187!/:?] {re:classloading}
+	at TRANSFORMER/ancienthorizons@0.0.3/com.fungoussoup.ancienthorizons.AncientHorizons.<init>(AncientHorizons.java:76) ~[%23187!/:?] {re:classloading}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62) ~[?:?] {}
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502) ~[?:?] {}
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486) ~[?:?] {}
+	at MC-BOOTSTRAP/fml_loader@4.0.38/net.neoforged.fml.javafmlmod.FMLModContainer.constructMod(FMLModContainer.java:115) ~[loader-4.0.38.jar%23139!/:4.0] {}
+	at MC-BOOTSTRAP/fml_loader@4.0.38/net.neoforged.fml.ModLoader.lambda$constructMods$3(ModLoader.java:153) ~[loader-4.0.38.jar%23139!/:4.0] {re:mixin}
+	at MC-BOOTSTRAP/fml_loader@4.0.38/net.neoforged.fml.ModLoader.lambda$dispatchParallelTask$7(ModLoader.java:231) ~[loader-4.0.38.jar%23139!/:4.0] {re:mixin}
+	at java.base/java.util.concurrent.CompletableFuture.uniHandle(CompletableFuture.java:934) ~[?:?] {re:mixin}
+	at java.base/java.util.concurrent.CompletableFuture$UniHandle.tryFire(CompletableFuture.java:911) ~[?:?] {}
+	at java.base/java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:483) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188) ~[?:?] {}
+
+
+-- System Details --
+Details:
+	Minecraft Version: 1.21.1
+	Minecraft Version ID: 1.21.1
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 21.0.8, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
+	Memory: 257465792 bytes (245 MiB) / 609222656 bytes (581 MiB) up to 2061500416 bytes (1966 MiB)
+	CPUs: 8
+	Processor Vendor: GenuineIntel
+	Processor Name: Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz
+	Identifier: Intel64 Family 6 Model 94 Stepping 3
+	Microarchitecture: Skylake (Client)
+	Frequency (GHz): 2.71
+	Number of physical packages: 1
+	Number of physical CPUs: 4
+	Number of logical CPUs: 8
+	Graphics card #0 name: Intel(R) HD Graphics 530
+	Graphics card #0 vendor: Intel Corporation
+	Graphics card #0 VRAM (MiB): 1024.00
+	Graphics card #0 deviceId: VideoController1
+	Graphics card #0 versionInfo: 31.0.101.2115
+	Graphics card #1 name: AMD Radeon (TM) R7 M370
+	Graphics card #1 vendor: Advanced Micro Devices, Inc.
+	Graphics card #1 VRAM (MiB): 2048.00
+	Graphics card #1 deviceId: VideoController2
+	Graphics card #1 versionInfo: 27.20.1034.6
+	Memory slot #0 capacity (MiB): 8192.00
+	Memory slot #0 clockSpeed (GHz): 2.40
+	Memory slot #0 type: DDR4
+	Virtual memory max (MiB): 10766.83
+	Virtual memory used (MiB): 8971.26
+	Swap memory total (MiB): 2906.39
+	Swap memory used (MiB): 686.02
+	Space in storage for jna.tmpdir (MiB): <path not set>
+	Space in storage for org.lwjgl.system.SharedLibraryExtractPath (MiB): <path not set>
+	Space in storage for io.netty.native.workdir (MiB): <path not set>
+	Space in storage for java.io.tmpdir (MiB): available: 4607.35, total: 99427.74
+	Space in storage for workdir (MiB): available: 52194.20, total: 144195.00
+	JVM Flags: 0 total; 
+	ModLauncher: 11.0.4+main.d2e20e43
+	ModLauncher launch target: forgeclientuserdev
+	ModLauncher services: 
+		sponge-mixin-0.15.2+mixin.0.8.7.jar mixin PLUGINSERVICE 
+		loader-4.0.38.jar slf4jfixer PLUGINSERVICE 
+		loader-4.0.38.jar runtime_enum_extender PLUGINSERVICE 
+		at-modlauncher-10.0.1.jar accesstransformer PLUGINSERVICE 
+		loader-4.0.38.jar runtimedistcleaner PLUGINSERVICE 
+		modlauncher-11.0.4.jar mixin TRANSFORMATIONSERVICE 
+		modlauncher-11.0.4.jar fml TRANSFORMATIONSERVICE 
+	FML Language Providers: 
+		javafml@4.0
+		lowcodefml@4.0
+		minecraft@4.0
+	Mod List: 
+		main                                              |Ancient Horizons              |ancienthorizons               |0.0.3               |Manifest: NOSIGNATURE
+		appleskin-248787-6616291.jar                      |AppleSkin                     |appleskin                     |3.0.7+mc1.21        |Manifest: NOSIGNATURE
+		automobility-0.5.0.h-neoforge.jar                 |Automobility                  |automobility                  |0.5.0.h             |Manifest: NOSIGNATURE
+		create-328085-6624071.jar                         |Create                        |create                        |6.0.5               |Manifest: NOSIGNATURE
+		farmers-delight-398521-6154807.jar                |Farmer's Delight              |farmersdelight                |1.2.7               |Manifest: NOSIGNATURE
+		flywheel-neoforge-1.21.1-1.0.2.jar                |Flywheel                      |flywheel                      |1.0.2               |Manifest: NOSIGNATURE
+		GlitchCore-neoforge-1.21.1-2.1.0.0.jar            |GlitchCore                    |glitchcore                    |2.1.0.0             |Manifest: NOSIGNATURE
+		jade-324717-6738687.jar                           |Jade                          |jade                          |15.10.2+neoforge    |Manifest: NOSIGNATURE
+		neoforge-21.1.152-minecraft-merged.jar            |Minecraft                     |minecraft                     |1.21.1              |Manifest: NOSIGNATURE
+		neoforge-21.1.152-minecraft-merged.jar            |NeoForge                      |neoforge                      |21.1.152            |Manifest: NOSIGNATURE
+		Ponder-NeoForge-1.21.1-1.0.46.jar                 |Ponder                        |ponder                        |1.0.46              |Manifest: NOSIGNATURE
+		serene-seasons-291874-6182596.jar                 |Serene Seasons                |sereneseasons                 |10.1.0.3            |Manifest: NOSIGNATURE
+		tough-as-nails-246391-5833252.jar                 |Tough As Nails                |toughasnails                  |10.1.0.13           |Manifest: NOSIGNATURE
+	Crash Report UUID: e9013a67-2c47-4019-b64f-dfe0e37af74b
+	FML: 4.0.38
+	NeoForge: 21.1.152
+	Flywheel Backend: flywheel:off

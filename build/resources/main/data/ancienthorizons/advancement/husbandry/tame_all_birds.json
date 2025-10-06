@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:husbandry/tame_an_animal",
+  "criteria": {
+    "tame_all_passerines": {
+      "trigger": "ancienthorizons:ornithologist"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.ancienthorizons.professional_ornithologist.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:wheat_seeds"
+    },
+    "title": {
+      "translate": "advancement.ancienthorizons.professional_ornithologist.title"
+    }
+  },
+  "requirements": [
+    [
+      "tame_all_birds"
+    ]
+  ],
+  "rewards": {
+    "experience": 75
+  },
+  "sends_telemetry_event": true
+}
