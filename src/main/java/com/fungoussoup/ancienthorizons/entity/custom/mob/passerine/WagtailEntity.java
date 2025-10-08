@@ -15,8 +15,8 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public class WagtailEntity extends AbstractPasserineEntity{
-    public WagtailEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
-        super(entityType, level);
+    public WagtailEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
+        super(entityType, level, groundNavigation, flyingNavigation);
     }
 
     protected void registerGoals() {

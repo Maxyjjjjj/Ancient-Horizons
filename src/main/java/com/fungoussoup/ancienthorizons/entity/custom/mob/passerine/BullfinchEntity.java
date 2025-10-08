@@ -16,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class BullfinchEntity extends AbstractPasserineEntity {
 
-    public BullfinchEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
-        super(entityType, level);
+    public BullfinchEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
+        super(entityType, level, groundNavigation, flyingNavigation);
     }
 
     protected void registerGoals() {

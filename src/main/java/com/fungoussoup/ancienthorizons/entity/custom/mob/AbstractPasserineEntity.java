@@ -108,7 +108,7 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 
         // Target goals
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, EarthwormEntity.class, false, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, EarthwormEntity.class, false, true));
 
         // Custom jump control
         this.jumpControl = new PasserineJumpController(this);

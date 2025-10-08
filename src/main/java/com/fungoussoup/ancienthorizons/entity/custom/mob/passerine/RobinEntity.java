@@ -16,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class RobinEntity extends AbstractPasserineEntity {
 
-    public RobinEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
-        super(entityType, level);
+    public RobinEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
+        super(entityType, level, groundNavigation, flyingNavigation);
     }
 
     protected void registerGoals() {
