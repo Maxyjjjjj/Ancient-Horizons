@@ -1,6 +1,5 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ai.BirdMoveControl;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.DancingAnimal;

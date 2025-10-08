@@ -1,7 +1,8 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ai.BirdMoveControl;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
+import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingLookControl;
+import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -96,7 +97,8 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
 
     public AbstractLargeAzhdarchidEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
-        this.moveControl = new AzhdarchidMoveControl(this);
+        this.moveControl = new SemiFlyingMoveControl(this);
+        this.lookControl = new SemiFlyingLookControl(this);
         this.groundNavigation = new GroundPathNavigation(this, level);
         this.flyingNavigation = new BirdNavigation(this, level, 64);
         this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
@@ -721,36 +723,6 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
 
     private void setAttacking(boolean attacking){
         this.entityData.set(DATA_ATTACKING, attacking);
-    }
-
-    // Custom move control for flight
-    static class AzhdarchidMoveControl extends MoveControl {
-        private final AbstractLargeAzhdarchidEntity azhdarchid;
-
-        public AzhdarchidMoveControl(AbstractLargeAzhdarchidEntity azhdarchid) {
-            super(azhdarchid);
-            this.azhdarchid = azhdarchid;
-        }
-
-        @Override
-        public void tick() {
-            if (this.azhdarchid.isFlying()) {
-                // Custom flight movement logic
-                if (this.operation == MoveControl.Operation.MOVE_TO) {
-                    Vec3 targetPos = new Vec3(this.wantedX, this.wantedY, this.wantedZ);
-                    Vec3 currentPos = this.azhdarchid.position();
-                    Vec3 direction = targetPos.subtract(currentPos).normalize();
-
-                    this.azhdarchid.setDeltaMovement(direction.scale(this.speedModifier));
-
-                    // Face movement direction
-                    float yaw = (float) (Mth.atan2(direction.z, direction.x) * 180.0 / Math.PI) - 90.0F;
-                    this.azhdarchid.setYRot(this.rotlerp(this.azhdarchid.getYRot(), yaw, 10.0F));
-                }
-            } else {
-                super.tick();
-            }
-        }
     }
 
     class AzhdarchidTakeoffGoal extends Goal {
