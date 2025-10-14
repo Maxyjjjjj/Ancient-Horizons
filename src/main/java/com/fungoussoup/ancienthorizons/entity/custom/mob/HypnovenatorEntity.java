@@ -47,16 +47,19 @@ public class HypnovenatorEntity extends Animal {
 
     @Override
     protected void registerGoals() {
-        // Priority 0 - Hypnosis (highest priority)
-        this.goalSelector.addGoal(0, new HypnosisGoal());
+        // Priority 0 - Float in water (highest priority)
+        this.goalSelector.addGoal(0, new FloatGoal(this));
 
-        // Priority 1 - Survival and animal behaviour
+        // Priority 1 - Hypnosis (highest priority afer floating)
+        this.goalSelector.addGoal(1, new HypnosisGoal());
+
+        // Priority 2 - Survival and animal behaviour
         this.goalSelector.addGoal(2, new PanicGoal(this, 1.4D));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.1D, this::isFood, false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
 
-        // Priority 2 - Basic movement and behavior
+        // Priority 3 - Basic movement and behavior
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
