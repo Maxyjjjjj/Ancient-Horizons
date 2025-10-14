@@ -3,7 +3,6 @@ package com.fungoussoup.ancienthorizons.entity.ai.troop;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Troop {
 
@@ -13,7 +12,7 @@ public class Troop {
 
     private int territoryCenterX;
     private int territoryCenterZ;
-    private int territoryRadius = 64;
+    private final int territoryRadius = 64;
 
     public Troop(UUID id, TroopMember founder) {
         this.id = id;
