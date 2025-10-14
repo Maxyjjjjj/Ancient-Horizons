@@ -1,0 +1,393 @@
+{
+    "entity.tiger.idle": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_idle_0",
+            "ancienthorizons:entity/tiger_idle_1",
+            "ancienthorizons:entity/tiger_idle_2",
+            "ancienthorizons:entity/tiger_idle_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.idle"
+    },
+    "entity.tiger.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_hurt_0",
+            "ancienthorizons:entity/tiger_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.hurt"
+    },
+    "entity.tiger.death": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_death"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.death"
+    },
+    "entity.tiger.attack": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_attack"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.attack"
+    },
+    "entity.tiger.angry": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_angry_2",
+            "ancienthorizons:entity/tiger_angry_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.angry"
+    },
+    "entity.tiger.roar": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_roar"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.roar"
+    },
+    "entity.tiger.roar_aggro": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_roar_aggro_1",
+            "ancienthorizons:entity/tiger_roar_aggro_2",
+            "ancienthorizons:entity/tiger_roar_aggro_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.roar_aggro"
+    },
+    "entity.tiger.yawn": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_yawn_1",
+            "ancienthorizons:entity/tiger_yawn_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.yawn"
+    },
+    "entity.tiger.idle_baby": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_idle_baby"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.idle_baby"
+    },
+    "entity.tiger.warning": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_warning"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.tiger.warning"
+    },
+    "entity.giraffe.idle": {
+        "sounds": [
+            "ancienthorizons:entity/giraffe_idle_0",
+            "ancienthorizons:entity/giraffe_idle_1",
+            "ancienthorizons:entity/giraffe_idle_2",
+            "ancienthorizons:entity/giraffe_idle_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.giraffe.idle"
+    },
+    "entity.giraffe.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/giraffe_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.giraffe.hurt"
+    },
+    "entity.giraffe.death": {
+        "sounds": [
+            "ancienthorizons:entity/giraffe_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.giraffe.death"
+    },
+    "entity.giraffe.snort": {
+        "sounds": [
+            "ancienthorizons:entity/giraffe_snort"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.giraffe.snort"
+    },
+    "entity.zebra.idle": {
+        "sounds": [
+            "ancienthorizons:entity/zebra_idle"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.zebra.idle"
+    },
+    "entity.zebra.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/zebra_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.zebra.hurt"
+    },
+    "entity.zebra.death": {
+        "sounds": [
+            "ancienthorizons:entity/zebra_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.zebra.death"
+    },
+    "entity.zebra.angry": {
+        "sounds": [
+            "ancienthorizons:entity/zebra_angry"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.zebra.angry"
+    },
+    "entity.elephant.idle": {
+        "sounds": [
+            "ancienthorizons:entity/elephant_idle_0",
+            "ancienthorizons:entity/elephant_idle_1",
+            "ancienthorizons:entity/elephant_idle_2",
+            "ancienthorizons:entity/elephant_idle_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.elephant.idle"
+    },
+    "entity.elephant.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/elephant_hurt_0",
+            "ancienthorizons:entity/elephant_hurt_1",
+            "ancienthorizons:entity/elephant_hurt_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.elephant.hurt"
+    },
+    "entity.elephant.death": {
+        "sounds": [
+            "ancienthorizons:entity/elephant_death_0",
+            "ancienthorizons:entity/elephant_death_1",
+            "ancienthorizons:entity/elephant_death_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.elephant.death"
+    },
+    "entity.elephant.step": {
+        "sounds": [
+            "ancienthorizons:entity/elephant_step_0",
+            "ancienthorizons:entity/elephant_step_1",
+            "ancienthorizons:entity/elephant_step_2",
+            "ancienthorizons:entity/elephant_step_3"
+        ],
+        "subtitle": "subtitles.block.generic.footsteps"
+    },
+    "entity.elephant.trumpet": {
+        "sounds": [
+            "ancienthorizons:entity/elephant_trumpet_0",
+            "ancienthorizons:entity/elephant_trumpet_1",
+            "ancienthorizons:entity/elephant_trumpet_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.elephant.trumpet"
+    },
+    "entity.elephant.charge": {
+        "sounds": [
+            "ancienthorizons:entity/elephant_trumpet_0",
+            "ancienthorizons:entity/elephant_trumpet_1",
+            "ancienthorizons:entity/elephant_trumpet_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.elephant.charge"
+    },
+    "entity.raccoon.idle": {
+        "sounds": [
+            "ancienthorizons:entity/raccoon_idle_0",
+            "ancienthorizons:entity/raccoon_idle_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.raccoon.idle"
+    },
+    "entity.raccoon.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/raccoon_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.raccoon.hurt"
+    },
+    "entity.raccoon.death": {
+        "sounds": [
+            "ancienthorizons:entity/raccoon_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.raccoon.death"
+    },
+    "entity.passerine.chirp": {
+        "sounds": [
+            "ancienthorizons:entity/passerine_chirp_0",
+            "ancienthorizons:entity/passerine_chirp_1",
+            "ancienthorizons:entity/passerine_chirp_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.passerine.chirp"
+    },
+    "entity.cow.rut": {
+        "sounds": [
+            "ancienthorizons:entity/cow_rut_0",
+            "ancienthorizons:entity/cow_rut_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.cow.rut"
+    },
+    "entity.roadrunner.idle": {
+        "sounds": [
+            "ancienthorizons:entity/roadrunner_idle_0",
+            "ancienthorizons:entity/roadrunner_idle_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.roadrunner.idle"
+    },
+    "entity.roadrunner.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/roadrunner_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.roadrunner.hurt"
+    },
+    "entity.roadrunner.death": {
+        "sounds": [
+            "ancienthorizons:entity/roadrunner_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.roadrunner.death"
+    },
+    "entity.roadrunner.meep": {
+        "sounds": [
+            "ancienthorizons:entity/roadrunner_meep_0",
+            "ancienthorizons:entity/roadrunner_meep_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.roadrunner.meep"
+    },
+    "entity.roadrunner.crazy": {
+        "sounds": [
+            "ancienthorizons:entity/roadrunner_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.roadrunner.crazy"
+    },
+    "entity.eagle.idle": {
+        "sounds": [
+            "ancienthorizons:entity/eagle_idle_0",
+            "ancienthorizons:entity/eagle_idle_1",
+            "ancienthorizons:entity/eagle_idle_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.eagle.idle"
+    },
+    "entity.eagle.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/eagle_hurt_0",
+            "ancienthorizons:entity/eagle_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.eagle.hurt"
+    },
+    "entity.eagle.death": {
+        "sounds": [
+            "ancienthorizons:entity/eagle_hurt_0",
+            "ancienthorizons:entity/eagle_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.eagle.death"
+    },
+    "entity.pheasant.idle": {
+        "sounds": [
+            "ancienthorizons:entity/pheasant_idle_0",
+            "ancienthorizons:entity/pheasant_idle_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.pheasant.idle"
+    },
+    "entity.pheasant.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/pheasant_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.pheasant.hurt"
+    },
+    "entity.pheasant.death": {
+        "sounds": [
+            "ancienthorizons:entity/pheasant_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.pheasant.death"
+    },
+    "entity.penguin.idle": {
+        "sounds": [
+            "ancienthorizons:entity/penguin_idle_0",
+            "ancienthorizons:entity/penguin_idle_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.penguin.idle"
+    },
+    "entity.penguin.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/penguin_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.penguin.hurt"
+    },
+    "entity.penguin.death": {
+        "sounds": [
+            "ancienthorizons:entity/penguin_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.penguin.death"
+    },
+    "entity.deer.idle": {
+        "sounds": [
+            "ancienthorizons:entity/deer_idle_0",
+            "ancienthorizons:entity/deer_idle_1",
+            "ancienthorizons:entity/deer_idle_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.deer.idle"
+    },
+    "entity.deer.idle.baby": {
+        "sounds": [
+            "ancienthorizons:entity/deer_idle_baby_0",
+            "ancienthorizons:entity/deer_idle_baby_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.deer.idle.baby"
+    },
+    "entity.deer.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/deer_hurt_0",
+            "ancienthorizons:entity/deer_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.deer.hurt"
+    },
+    "entity.deer.death": {
+        "sounds": [
+            "ancienthorizons:entity/deer_death"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.deer.death"
+    },
+    "entity.gallimimus.idle": {
+        "sounds": [
+            "ancienthorizons:entity/gallimimus_idle_0",
+            "ancienthorizons:entity/gallimimus_idle_1",
+            "ancienthorizons:entity/gallimimus_idle_2",
+            "ancienthorizons:entity/gallimimus_idle_3",
+            "ancienthorizons:entity/gallimimus_idle_4"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.gallimimus.idle"
+    },
+    "entity.gallimimus.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/gallimimus_hurt_0",
+            "ancienthorizons:entity/gallimimus_hurt_1",
+            "ancienthorizons:entity/gallimimus_hurt_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.gallimimus.hurt"
+    },
+    "entity.gallimimus.death": {
+        "sounds": [
+            "ancienthorizons:entity/gallimimus_hurt_0",
+            "ancienthorizons:entity/gallimimus_hurt_1",
+            "ancienthorizons:entity/gallimimus_hurt_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.gallimimus.death"
+    },
+    "entity.gallimimus.angry": {
+        "sounds": [
+            "ancienthorizons:entity/gallimimus_angry_0",
+            "ancienthorizons:entity/gallimimus_angry_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.gallimimus.angry"
+    },
+    "item.chakram.throw": {
+        "sounds": [
+            "ancienthorizons:item/chakram_throw_0",
+            "ancienthorizons:item/chakram_throw_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.item.chakram.throw"
+    },
+    "entity.croc.idle": {
+        "sounds": [
+            "ancienthorizons:entity/crocodile_idle_0",
+            "ancienthorizons:entity/crocodile_idle_1",
+            "ancienthorizons:entity/crocodile_idle_2",
+            "ancienthorizons:entity/crocodile_idle_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.crocodile.idle"
+    },
+    "entity.croc.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/crocodile_hurt_1",
+            "ancienthorizons:entity/crocodile_hurt_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.crocodile.hurt"
+    },
+    "entity.croc.death": {
+        "sounds": [
+            "ancienthorizons:entity/crocodile_death"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.crocodile.death"
+    },
+    "block.cannon.launch": {
+        "sounds": [
+            "ancienthorizons:block/cannon_launch"
+        ],
+        "subtitle": "ancienthorizons.subtitles.block.cannon.launch"
+    }
+}

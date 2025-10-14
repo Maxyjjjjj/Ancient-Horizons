@@ -1,0 +1,19 @@
+{
+    "values": [
+        "minecraft:polar_bear",
+        "minecraft:wolf",
+        "minecraft:ocelot",
+        "minecraft:cat",
+        "ancienthorizons:tiger",
+        "ancienthorizons:snow_leopard",
+        "ancienthorizons:cryodrakon",
+        "ancienthorizons:anaconda",
+        "ancienthorizons:beluga_sturgeon",
+        "#ancienthorizons:omnivores",
+        "#ancienthorizons:scavengers",
+        "ancienthorizons:eagle",
+        "ancienthorizons:fisher",
+        "ancienthorizons:mantis",
+        "ancienthorizons:stoat"
+    ]
+}

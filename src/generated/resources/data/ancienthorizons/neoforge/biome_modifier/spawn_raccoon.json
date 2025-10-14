@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "minecraft:plains",
+  "spawners": {
+    "type": "ancienthorizons:raccoon",
+    "maxCount": 2,
+    "minCount": 1,
+    "weight": 7
+  }
+}

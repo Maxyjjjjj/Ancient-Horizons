@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:entity",
+    "pools": [
+        {
+        "bonus_rolls": 0.0,
+        "conditions": [
+            {
+            "condition": "minecraft:survives_explosion"
+            }
+        ],
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "ancienthorizons:raw_chevon"
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "ancienthorizons:cooked_chevon",
+                    "conditions": [
+                        {
+                            "condition": "minecraft:in_fire"
+                        },
+                        {
+                            "condition": "minecraft:on_fire"
+                        }
+                    ]
+                }
+            ],
+        "rolls": 1.0
+        }
+    ]
+}

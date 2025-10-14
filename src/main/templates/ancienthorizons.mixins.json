@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.fungoussoup.ancienthorizons.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "CreeperMixin",
+    "PlayerMixin",
+    "DonkeyMateWithZebra",
+    "HorseMateWithZebra",
+    "SpiderBehaviorMixin",
+    "MobTargetingMixin",
+    "FoxHuntNewPrey",
+    "PolarBearMixin",
+    "WolfHuntNewPrey",
+    "CowRutMixin",
+    "ParrotMixin"
+  ],
+  "client": [
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
