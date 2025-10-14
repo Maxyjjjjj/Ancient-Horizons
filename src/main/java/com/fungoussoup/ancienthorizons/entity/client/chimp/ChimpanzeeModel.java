@@ -64,27 +64,8 @@ public class ChimpanzeeModel<T extends ChimpanzeeEntity> extends HierarchicalMod
         this.armright.zRot = 0.0F;
         this.armleft.zRot = 0.0F;
 
-        if (entity.isSitting()) {
-            this.armright.xRot = -((float)Math.PI / 5F);
-            this.armleft.xRot = -((float)Math.PI / 5F);
-            this.legleft.xRot = -1.4137167F;
-            this.legleft.yRot = ((float)Math.PI / 10F);
-            this.legleft2.xRot = -1.4137167F;
-            this.legleft2.yRot = -((float)Math.PI / 10F);
-        }  else if (entity.isClimbing()) {
-            // Non-player climbing pose
-            float climbSwing = ageInTicks * 0.6662F;
-            this.armright.xRot = Mth.cos(climbSwing) * 0.5F;
-            this.armleft.xRot = Mth.cos(climbSwing + (float)Math.PI) * 0.5F;
-            this.legleft.xRot = Mth.cos(climbSwing + (float)Math.PI) * 0.5F;
-            this.legleft2.xRot = Mth.cos(climbSwing) * 0.5F;
-
-            // Slightly look down while climbing
-            this.head.xRot = 0.25F;
-        } else {
         this.legleft.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-            this.legleft2.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
-        }
+        this.legleft2.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
         if (entity.isUsingItem()) {
             armright.xRot = -Mth.PI / 2;
         }

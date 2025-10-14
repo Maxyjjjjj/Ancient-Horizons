@@ -106,6 +106,13 @@ public class Troop {
         return territoryCenterZ;
     }
 
+    public TroopMember getLeader() {
+        for (TroopMember member : members) {
+            if (member.getTroopRank() == TroopRank.ALPHA) {
+                return member;
+            }
+        }
+        return null;
+    }
+
 }
-
-
