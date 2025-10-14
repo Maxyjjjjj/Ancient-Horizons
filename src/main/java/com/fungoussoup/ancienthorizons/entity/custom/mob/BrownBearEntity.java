@@ -48,7 +48,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.IntFunction;
 
-public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable, VariantHolder<BrownBearEntity.Gene> {
+public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable {
 
     // Data accessors for synching data between client and server
     private static final EntityDataAccessor<Integer> DATA_MAIN_GENE = SynchedEntityData.defineId(BrownBearEntity.class, EntityDataSerializers.INT);
@@ -97,16 +97,6 @@ public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable,
         builder.define(DATA_PLAYING, false);
         builder.define(DATA_COWERING, false);
         builder.define(BROWN_BEAR_HIBERNATING , false);
-    }
-
-    @Override
-    public void setVariant(Gene gene) {
-        setMainGene(gene);
-    }
-
-    @Override
-    public Gene getVariant() {
-        return getGene();
     }
 
     public enum Gene implements StringRepresentable {
