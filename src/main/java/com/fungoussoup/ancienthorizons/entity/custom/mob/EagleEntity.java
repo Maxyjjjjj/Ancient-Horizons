@@ -63,7 +63,7 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
     private int swoopCooldown = 0;
     private LivingEntity preyTarget;
     private boolean isCarryingPrey = false;
-    private int huntingRange = 32;
+    private final int huntingRange = 32;
 
     private boolean isHunting = false;
 
@@ -233,7 +233,6 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
             }
         }
 
-        // Update prey status
         this.entityData.set(HAS_PREY, isCarryingPrey);
     }
 
@@ -542,7 +541,6 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
         }
     }
-
 
     public boolean isCarryingPrey() {
         return isCarryingPrey;

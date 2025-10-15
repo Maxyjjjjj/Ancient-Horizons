@@ -1,17 +1,12 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob.passerine;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractPasserineEntity;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.EarthwormEntity;
-import com.fungoussoup.ancienthorizons.registry.ModTags;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EntityType;
@@ -20,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class CanaryEntity extends AbstractPasserineEntity {
-    public CanaryEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
-        super(entityType, level);
+    public CanaryEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
+        super(entityType, level, groundNavigation, flyingNavigation);
     }
 
     protected void registerGoals() {

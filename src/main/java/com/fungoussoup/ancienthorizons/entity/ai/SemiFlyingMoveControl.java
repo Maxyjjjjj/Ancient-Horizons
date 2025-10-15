@@ -156,7 +156,6 @@ public class SemiFlyingMoveControl extends MoveControl {
      */
     public float getCurrentSpeedModifier() {
         float base = this.flyer.shouldGlide() ? this.glidingSpeed : this.flyingSpeed;
-        float energy = this.flyer.getFlightEnergy();
-        return base * energy;
+        return base;
     }
 }

@@ -5,12 +5,13 @@ import com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractPasserineEntity
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public class NightingaleEntity extends AbstractPasserineEntity {
-    public NightingaleEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
-        super(entityType, level);
+    public NightingaleEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
+        super(entityType, level, groundNavigation, flyingNavigation);
     }
 
     protected void registerGoals() {

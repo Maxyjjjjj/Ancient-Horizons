@@ -72,7 +72,7 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
     private LivingEntity preyTarget = null;
     private boolean isCarryingPrey = false;
     private boolean isHunting = false;
-    private int huntingRange = 28;
+    private final int huntingRange = 28;
 
     public PhilippineEagleEntity(EntityType<? extends TamableAnimal> type, Level level) {
         super(type, level);
@@ -455,9 +455,14 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         return baby;
     }
 
-    /* ----------------------
-       Swoop attack goal
-       ---------------------- */
+    public boolean isWasFlying() {
+        return wasFlying;
+    }
+
+    public void setWasFlying(boolean wasFlying) {
+        this.wasFlying = wasFlying;
+    }
+
     private class SwoopAttackGoal extends Goal {
         private LivingEntity target;
         private int phase = 0;
@@ -533,9 +538,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         return this.entityData.get(DATA_ATTACKING);
     }
 
-    /* ----------------------
-       Misc helpers
-       ---------------------- */
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(ItemTags.MEAT);
@@ -548,7 +550,4 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
     public boolean hasVisiblePrey() {
         return this.entityData.get(DATA_HAS_PREY);
     }
-
-    // neutral mob helpers are handled by NeutralMob interface default methods in vanilla code
-
 }

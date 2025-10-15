@@ -33,13 +33,6 @@ public interface SemiFlyer {
     void setFlying(boolean flying);
 
     /**
-     * @return the current energy/stamina level (0.0 to 1.0)
-     */
-    default float getFlightEnergy() {
-        return isTired() ? 0.0f : 1.0f;
-    }
-
-    /**
      * @return the preferred flight height above ground
      */
     default double getPreferredFlightHeight() {
