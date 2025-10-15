@@ -29,6 +29,7 @@ import com.fungoussoup.ancienthorizons.entity.client.hippo.HippopotamusRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.hoatzin.HoatzinRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.hypnovenator.HypnovenatorRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.large_azhdarchid.CryodrakonRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.lion.LionRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.mantis.MantisRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.non_mob.DartRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.pangolin.PangolinRenderer;
@@ -184,6 +185,7 @@ public class AncientHorizons {
             EntityRenderers.register(ModEntities.BEIPIAOSAURUS.get(), BeipiaosaurusRenderer::new);
             EntityRenderers.register(ModEntities.WHITE_SHARK.get(), WhiteSharkRenderer::new);
             EntityRenderers.register(ModEntities.DEARC.get(), DearcRenderer::new);
+            EntityRenderers.register(ModEntities.LION.get(), LionRenderer::new);
         }
     }
 }

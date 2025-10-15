@@ -5,7 +5,6 @@ import com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractPasserineEntity
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;

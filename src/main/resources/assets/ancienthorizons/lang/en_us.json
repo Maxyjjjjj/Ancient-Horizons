@@ -681,6 +681,9 @@
 
     "item.ancienthorizons.saola_spawn_egg": "Saola Spawn Egg",
     "entity.ancienthorizons.saola": "Saola",
+    "ancienthorizons.subtitles.entity.saola.idle": "Saola bleats",
+    "ancienthorizons.subtitles.entity.saola.hurt": "Saola is hurt",
+    "ancienthorizons.subtitles.entity.saola.death": "Saola dies",
 
     "item.ancienthorizons.chimpanzee_spawn_egg": "Chimpanzee Spawn Egg",
     "entity.ancienthorizons.chimpanzee": "Chimpanzee",
@@ -814,6 +817,15 @@
     "entity.ancienthorizons.lion": "Lion",
     "description.ancienthorizons.sereneseasons.ancienthorizons.lion": "Lions can breed year-round, but often peak in late spring and summer.",
 
+    "item.ancienthorizons.monkey_spawn_egg": "Monkey Spawn Egg",
+    "entity.ancienthorizons.monkey": "Monkey",
+    "description.ancienthorizons.sereneseasons.ancienthorizons.monkey": "Monkeys can breed year-round in stable environments.",
+
+    "item.ancienthorizons.philippine_eagle_spawn_egg": "Philippine Eagle Spawn Egg",
+    "entity.ancienthorizons.philippine_eagle": "Philippine Eagle",
+    "description.ancienthorizons.sereneseasons.ancienthorizons.philippine_eagle": "Philippine Eagles breed every two years, typically laying eggs in late winter to early spring.",
+
     "effect.ancienthorizons.tranquilized": "Tranquilized",
-    "effect.ancienthorizons.tranquilized.description": "Tranquilizes player"
+    "effect.ancienthorizons.tranquilized.description": "Tranquilizes player",
+    "message.ancienthorizons.bad_omen_eagle": "You have slain a protected species!"
 }

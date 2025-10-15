@@ -2,15 +2,20 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
+import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -30,6 +35,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -121,6 +127,46 @@ public class SaolaEntity extends Animal {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        Entity attacker = source.getEntity();
+
+        if (attacker instanceof Player || source.is(DamageTypeTags.IS_PLAYER_ATTACK)) {
+            if (this.level().isClientSide) return false;
+
+            ((ServerLevel) this.level()).sendParticles(ParticleTypes.SMOKE, this.getX(), this.getY() + 1.0, this.getZ(), 3, 0.2, 0.1, 0.2, 0.0);
+            this.playSound(SoundEvents.VILLAGER_NO, 0.6F, 1.0F + this.random.nextFloat() * 0.4F);
+            return false;
+        } else {
+            source.is(DamageTypeTags.IS_PROJECTILE);
+        }
+
+        return super.hurt(source, amount);
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean recentlyHit) {
+        // No drops if player or player-caused
+        Entity attacker = source.getEntity();
+        if (attacker instanceof Player) return;
+        super.dropCustomDeathLoot(level, source, recentlyHit);
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return ModSoundEvents.SAOLA_AMBIENT;
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+        return ModSoundEvents.SAOLA_HURT;
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return ModSoundEvents.SAOLA_DEATH;
     }
 
     public void setTrustedPlayer(@Nullable UUID uuid) {

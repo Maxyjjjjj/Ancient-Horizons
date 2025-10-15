@@ -389,5 +389,27 @@
             "ancienthorizons:block/cannon_launch"
         ],
         "subtitle": "ancienthorizons.subtitles.block.cannon.launch"
+    },
+    "entity.saola.idle": {
+        "sounds": [
+            "ancienthorizons:entity/saola_idle"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.saola.idle"
+    },
+    "entity.saola.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/saola_hurt_0",
+            "ancienthorizons:entity/saola_hurt_1",
+            "ancienthorizons:entity/saola_hurt_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.saola.hurt"
+    },
+    "entity.saola.death": {
+        "sounds": [
+            "ancienthorizons:entity/saola_hurt_0",
+            "ancienthorizons:entity/saola_hurt_1",
+            "ancienthorizons:entity/saola_hurt_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.saola.death"
     }
 }

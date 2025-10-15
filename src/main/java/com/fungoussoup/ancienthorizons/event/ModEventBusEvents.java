@@ -27,6 +27,7 @@ import com.fungoussoup.ancienthorizons.entity.client.hippo.HippopotamusModel;
 import com.fungoussoup.ancienthorizons.entity.client.hoatzin.HoatzinModel;
 import com.fungoussoup.ancienthorizons.entity.client.hypnovenator.HypnovenatorModel;
 import com.fungoussoup.ancienthorizons.entity.client.large_azhdarchid.CryodrakonModel;
+import com.fungoussoup.ancienthorizons.entity.client.lion.LionModel;
 import com.fungoussoup.ancienthorizons.entity.client.mantis.MantisModel;
 import com.fungoussoup.ancienthorizons.entity.client.non_mob.DartModel;
 import com.fungoussoup.ancienthorizons.entity.client.pangolin.PangolinModel;
@@ -118,6 +119,7 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(WhiteSharkModel.LAYER_LOCATION, WhiteSharkModel::createBodyLayer);
         event.registerLayerDefinition(BeipiaosaurusModel.LAYER_LOCATION, BeipiaosaurusModel::createBodyLayer);
         event.registerLayerDefinition(DearcModel.LAYER_LOCATION, DearcModel::createBodyLayer);
+        event.registerLayerDefinition(LionModel.LAYER_LOCATION, LionModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -184,6 +186,7 @@ public class ModEventBusEvents {
         event.put(BEIPIAOSAURUS.get(), BeipiaosaurusEntity.createAttributes().build());
         event.put(DEARC.get(), DearcEntity.createAttributes().build());
         event.put(PHILIPPINE_EAGLE.get(), PhilippineEagleEntity.createAttributes().build());
+        event.put(LION.get(), LionEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -244,5 +247,6 @@ public class ModEventBusEvents {
         event.register(WHITE_SHARK.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WhiteSharkEntity::checkSurfaceWaterAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(BEIPIAOSAURUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(DEARC.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(LION.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }

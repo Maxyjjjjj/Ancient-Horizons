@@ -59,7 +59,7 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
 
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(TigerEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> TIGER_SLEEPING = SynchedEntityData.defineId(TigerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_YAWNING = SynchedEntityData.defineId(TigerEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> TIGER_YAWNING = SynchedEntityData.defineId(TigerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> TIGER_SITTING = SynchedEntityData.defineId(TigerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> COLLAR_COLOR_ID = SynchedEntityData.defineId(TigerEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_STEALTH = SynchedEntityData.defineId(TigerEntity.class, EntityDataSerializers.BOOLEAN);
@@ -94,7 +94,7 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         super.defineSynchedData(builder);
         builder.define(VARIANT, 0);
         builder.define(TIGER_SLEEPING, false);
-        builder.define(IS_YAWNING, false);
+        builder.define(TIGER_YAWNING, false);
         builder.define(TIGER_SITTING, false);
         builder.define(COLLAR_COLOR_ID, DyeColor.RED.getId());
         builder.define(IS_STEALTH, false);
@@ -110,14 +110,14 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         super.registerGoals();
 
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new TigerSleepGoal(this)); // High priority when tired
-        this.goalSelector.addGoal(2, new TigerYawnGoal(this));  // Yawning comes before attacking
-        this.goalSelector.addGoal(3, new SitWhenOrderedToGoal(this)); // Follows when tamed
+        this.goalSelector.addGoal(1, new TigerSleepGoal(this));
+        this.goalSelector.addGoal(2, new TigerYawnGoal(this));
+        this.goalSelector.addGoal(3, new SitWhenOrderedToGoal(this));
 
         this.goalSelector.addGoal(5, new TigerRoarGoal(this, 1.0f, 40, 80));
         this.goalSelector.addGoal(6, new TigerMeleeAttackGoal());
         this.goalSelector.addGoal(6, new TigerHuntAndPounceGoal(this));
-        this.goalSelector.addGoal(7, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F)); // Custom or vanilla
+        this.goalSelector.addGoal(7, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(8, new FollowParentGoal(this, 1.0D));
         this.goalSelector.addGoal(9, new WaterAvoidingRandomStrollGoal(this, 0.8D));
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -344,7 +344,7 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
             return super.mobInteract(player, hand);
         }
     }
-    // Sitting logic (used for tameable behavior)
+
     @Override
     public boolean isOrderedToSit() {
         return this.entityData.get(TIGER_SITTING);
@@ -355,7 +355,6 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         this.entityData.set(TIGER_SITTING, sitting);
     }
 
-    // Optional alias if needed elsewhere
     public void setSitting(boolean sitting) {
         this.setOrderedToSit(sitting);
     }
@@ -651,11 +650,11 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
     }
 
     public boolean isYawning() {
-        return this.entityData.get(IS_YAWNING);
+        return this.entityData.get(TIGER_YAWNING);
     }
 
     public void setYawning(boolean yawning) {
-        this.entityData.set(IS_YAWNING, yawning);
+        this.entityData.set(TIGER_YAWNING, yawning);
         if (yawning) {
             this.setAnimation(TIGER_YAWN);
         } else {

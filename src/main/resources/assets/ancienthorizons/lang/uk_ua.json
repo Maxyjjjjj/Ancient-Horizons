@@ -660,6 +660,9 @@
     "description.ancienthorizons.sereneseasons.ancienthorizons.cryodrakon": "Сезон розмноження цих вимерлих істот невідомий, тому вони можуть розмножуватися цілий рік.",
     "item.ancienthorizons.saola_spawn_egg": "Яйце виклику саоли",
     "entity.ancienthorizons.saola": "Саола",
+    "ancienthorizons.subtitles.entity.saola.idle": "Саола бекає",
+    "ancienthorizons.subtitles.entity.saola.hurt": "Саолу поранено",
+    "ancienthorizons.subtitles.entity.saola.death": "Саола гине",
     "item.ancienthorizons.chimpanzee_spawn_egg": "Яйце виклику шимпанзе",
     "entity.ancienthorizons.chimpanzee": "Шимпанзе",
     "item.ancienthorizons.cryodrakon_spawn_egg": "Яйце виклику кріодракона",
@@ -779,5 +782,12 @@
     "description.ancienthorizons.sereneseasons.ancienthorizons.dearc": "Сезон розмноження цих вимерлих істот невідомий, тому вони можуть розмножуватися цілий рік.",
     "item.ancienthorizons.lion_spawn_egg": "Яйце виклику лева",
     "entity.ancienthorizons.lion": "Лев",
-    "description.ancienthorizons.sereneseasons.ancienthorizons.lion": "Леви можуть розмножуватися цілий рік, але часто пік їхнього розмноження припадає на кінець весни та літо."
+    "description.ancienthorizons.sereneseasons.ancienthorizons.lion": "Леви можуть розмножуватися цілий рік, але часто пік їхнього розмноження припадає на кінець весни та літо.",
+    "item.ancienthorizons.monkey_spawn_egg": "Яйце виклику мавпи",
+    "entity.ancienthorizons.monkey": "Мавпа",
+    "description.ancienthorizons.sereneseasons.ancienthorizons.monkey": "Мавпи можуть розмножуватися цілий рік у стабільних умовах.",
+    "item.ancienthorizons.philippine_eagle_spawn_egg": "Яйце виклику філіппінського орла",
+    "entity.ancienthorizons.philippine_eagle": "Філіппінський орел",
+    "description.ancienthorizons.sereneseasons.ancienthorizons.philippine_eagle": "Філіппінські орли розмножуються кожні два роки, зазвичай відкладаючи яйця наприкінці зими - на початку весни.",
+    "message.ancienthorizons.bad_omen_eagle": "Ви вбили вид, що знаходиться під охороною!"
 }

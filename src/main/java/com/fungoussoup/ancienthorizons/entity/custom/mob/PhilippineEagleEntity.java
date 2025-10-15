@@ -7,12 +7,15 @@ import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -266,9 +269,41 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         this.setRemainingPersistentAngerTime(ANGER_TIME_RANGE.sample(this.random));
     }
 
-    /* ----------------------
-       Interaction / taming
-       ---------------------- */
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+
+        if (!this.level().isClientSide) {
+            Entity attacker = source.getEntity();
+            if (attacker instanceof Player player) {
+                // Apply Bad Omen to the killer
+                player.addEffect(new net.minecraft.world.effect.MobEffectInstance(
+                        net.minecraft.world.effect.MobEffects.BAD_OMEN,
+                        12000, // 10 minutes (same as vanilla)
+                        0,
+                        false,
+                        true,
+                        true
+                ));
+                if (player instanceof ServerPlayer sp) {
+                    sp.displayClientMessage(Component.translatable("message.ancienthorizons.bad_omen_eagle"), true);
+                }
+
+
+                // Optional: message or sound feedback
+                this.level().playSound(attacker, this.blockPosition(), SoundEvents.APPLY_EFFECT_RAID_OMEN, SoundSource.PLAYERS, 1.5F, 1.0F);
+            }
+        }
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean recentlyHit) {
+        // No drops if player or player-caused
+        Entity attacker = source.getEntity();
+        if (attacker instanceof Player) return;
+        super.dropCustomDeathLoot(level, source, recentlyHit);
+    }
+
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);

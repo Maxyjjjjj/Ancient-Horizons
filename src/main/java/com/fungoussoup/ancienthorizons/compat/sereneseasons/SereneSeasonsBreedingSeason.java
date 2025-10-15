@@ -131,6 +131,10 @@ public class SereneSeasonsBreedingSeason {
         addBreedingSeason(ModEntities.ROE_DEER.get(), EnumSet.of(MID_SUMMER, LATE_SUMMER));
         addBreedingSeason(ModEntities.CROCODILE.get(), EnumSet.of(EARLY_SPRING, MID_SPRING, LATE_SPRING));
         addBreedingSeason(ModEntities.HIPPOPOTAMUS.get(), EnumSet.of(EARLY_SPRING, MID_SPRING, LATE_SPRING));
+        addBreedingSeason(ModEntities.WHITE_SHARK.get(), EnumSet.of(EARLY_SUMMER, MID_SUMMER, LATE_SUMMER));
+        addBreedingSeason(ModEntities.LION.get(), EnumSet.of(LATE_SPRING, EARLY_SUMMER, MID_SUMMER, LATE_SUMMER));
+        addBreedingSeason(ModEntities.MONKEY.get(), EnumSet.allOf(Season.SubSeason.class));
+        addBreedingSeason(ModEntities.PHILIPPINE_EAGLE.get(), EnumSet.of(LATE_WINTER, EARLY_SPRING));
 
         // --- MODDED ENTITIES (FOSSIL) ---
 
@@ -140,6 +144,8 @@ public class SereneSeasonsBreedingSeason {
         addBreedingSeason(ModEntities.VELOCIRAPTOR.get(), EnumSet.allOf(Season.SubSeason.class));
         addBreedingSeason(ModEntities.GALLIMIMUS.get(), EnumSet.allOf(Season.SubSeason.class));
         addBreedingSeason(ModEntities.EROMANGASAURUS.get(), EnumSet.allOf(Season.SubSeason.class));
+        addBreedingSeason(ModEntities.BEIPIAOSAURUS.get(), EnumSet.allOf(Season.SubSeason.class));
+        addBreedingSeason(ModEntities.DEARC.get(), EnumSet.allOf(Season.SubSeason.class));
     }
 
     private static void addBreedingSeason(EntityType<?> entityType, Set<Season.SubSeason> seasons) {

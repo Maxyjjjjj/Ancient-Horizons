@@ -5,6 +5,9 @@ import com.fungoussoup.ancienthorizons.entity.ai.BigCatSleepGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.BigCatYawnGoal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SleepingAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
+import com.fungoussoup.ancienthorizons.registry.ModTags;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -12,29 +15,37 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.TargetGoal;
+import net.minecraft.world.entity.ai.goal.target.*;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.BusBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+import static com.fungoussoup.ancienthorizons.entity.client.tiger.TigerAnimations.*;
+
 public class LionEntity extends TamableAnimal implements NeutralMob, VariantHolder<LionEntity.LionVariant>, SleepingAnimal {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> IS_MALE = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_SLEEPING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_YAWNING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_RUNNING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> LION_MALE = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> LION_SLEEPING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> LION_YAWNING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_PLAYING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> LION_SITTING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> LION_COLLAR_COLOR_ID = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.INT);
 
     private UUID prideLeaderUUID;
     private final List<UUID> prideMembers = new ArrayList<>();
@@ -44,19 +55,46 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
 
     private int prideCheckCooldown;
 
+    public AnimationState sleepAnimationState = new AnimationState();
+    private int sleepAnimationTimeout = 0;
+    public AnimationState roarAnimationState = new AnimationState();
+    private int roarAnimationTimeout = 0;
+    public AnimationState attackAnimationState = new AnimationState();
+    private int attackAnimationTimeout = 0;
+    public AnimationState yawnAnimationState = new AnimationState();
+    private int yawnAnimationTimeout = 0;
+    public AnimationState sitAnimationState = new AnimationState();
+    public int sitAnimationTimeout = 0;
+
+    private int warningSoundTicks;
+    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+
+    public final AnimationState angryAnimationState = new AnimationState();
+    private int angryAnimationTimeout = 0;
+    private AnimationDefinition currentAnimation = null;
+
     public LionEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return TamableAnimal.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 30.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 8.0)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.5);
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(VARIANT, 0);
-        builder.define(IS_MALE, this.random.nextBoolean());
-        builder.define(IS_SLEEPING, false);
-        builder.define(IS_YAWNING, false);
-        builder.define(IS_RUNNING, false);
+        builder.define(LION_MALE, this.random.nextBoolean());
+        builder.define(LION_SLEEPING, false);
+        builder.define(LION_YAWNING, false);
         builder.define(IS_PLAYING, false);
+        builder.define(LION_SITTING, false);
+        builder.define(LION_COLLAR_COLOR_ID, DyeColor.RED.getId());
     }
 
     @Override
@@ -77,7 +115,13 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Monster.class, true));
+        this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false,
+                entity -> entity.getType().is(ModTags.EntityTypes.TIGER_ENEMIES)));
+
+        this.targetSelector.addGoal(4, new NonTameRandomTargetGoal<>(this, LivingEntity.class, true, this::isAngryAt));
+        this.targetSelector.addGoal(7, new ResetUniversalAngerTargetGoal<>(this, false));
     }
 
     @Override
@@ -94,6 +138,72 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
         if (remainingPersistentAngerTime > 0)
             remainingPersistentAngerTime--;
     }
+
+    @Override
+    public boolean isOrderedToSit() {
+        return this.entityData.get(LION_SITTING);
+    }
+
+    @Override
+    public void setOrderedToSit(boolean sitting) {
+        this.entityData.set(LION_SITTING, sitting);
+    }
+
+    public void setSitting(boolean sitting) {
+        this.setOrderedToSit(sitting);
+    }
+
+    public DyeColor getCollarColor() {
+        int id = this.entityData.get(LION_COLLAR_COLOR_ID);
+        return DyeColor.byId(Mth.clamp(id, 0, DyeColor.values().length - 1));
+    }
+
+    public void setCollarColor(DyeColor color) {
+        if (color != null) {
+            this.entityData.set(LION_COLLAR_COLOR_ID, color.getId());
+        }
+    }
+
+    public boolean canBeLeashed() {
+        return !this.isAngry();
+    }
+
+    public boolean isSitting() {
+        return this.entityData.get(LION_SITTING);
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        super.onSyncedDataUpdated(key);
+        if (key.equals(LION_COLLAR_COLOR_ID)) {
+            this.getCollarColor();
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.readPersistentAngerSaveData(this.level(), compound);
+        this.entityData.set(VARIANT, compound.getInt("Variant"));
+        this.setSitting(compound.getBoolean("Sitting"));
+        if (compound.contains("CollarColor", 99)) {
+            this.setCollarColor(DyeColor.byId(compound.getInt("CollarColor")));
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        this.addPersistentAngerSaveData(compound);
+        compound.putInt("Variant", this.getTypeVariant());
+        compound.putBoolean("Sitting", this.isSitting());
+        compound.putInt("CollarColor", this.getCollarColor().getId());
+    }
+
+    private int getTypeVariant() {
+        return this.entityData.get(VARIANT);
+    }
+
 
     private void updatePride() {
         if (prideLeaderUUID == null) {
@@ -127,7 +237,7 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
     }
 
     public boolean isMale() {
-        return this.entityData.get(IS_MALE);
+        return this.entityData.get(LION_MALE);
     }
 
     public boolean isLeader() {
@@ -139,27 +249,83 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
     }
 
     public boolean isSleeping() {
-        return this.entityData.get(IS_SLEEPING);
+        return this.entityData.get(LION_SLEEPING);
     }
 
     public void setSleeping(boolean sleeping) {
-        this.entityData.set(IS_SLEEPING, sleeping);
+        this.entityData.set(LION_SLEEPING, sleeping);
     }
 
     public boolean isYawning() {
-        return this.entityData.get(IS_YAWNING);
+        return this.entityData.get(LION_YAWNING);
     }
 
     public void setYawning(boolean yawning) {
-        this.entityData.set(IS_YAWNING, yawning);
+        this.entityData.set(LION_YAWNING, yawning);
+        if (yawning) {
+            this.setAnimation(TIGER_YAWN);
+        } else {
+            this.setAnimation(null);
+        }
+    }
+
+    @Override
+    public void startPersistentAngerTimer() {
+        this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
+    }
+
+    @Override
+    public void setRemainingPersistentAngerTime(int time) {
+        this.remainingPersistentAngerTime = time;
+    }
+
+    @Override
+    public int getRemainingPersistentAngerTime() {
+        return this.remainingPersistentAngerTime;
+    }
+
+    @Override
+    public void setPersistentAngerTarget(@Nullable UUID target) {
+        this.persistentAngerTarget = target;
+    }
+
+    @Nullable
+    @Override
+    public UUID getPersistentAngerTarget() {
+        return this.persistentAngerTarget;
+    }
+
+
+    private AnimationDefinition getAnimation() {
+        return currentAnimation;
+    }
+
+    public void setAnimation(@Nullable AnimationDefinition anim) {
+        this.currentAnimation = anim;
+
+        // Stop all animation states first
+        this.roarAnimationState.stop();
+        this.attackAnimationState.stop();
+        this.sleepAnimationState.stop();
+        this.yawnAnimationState.stop();
+        this.angryAnimationState.stop();
+
+        // Start the appropriate animation state
+        if (anim == TIGER_ROAR || anim == TIGER_ROAR2) {
+            this.roarAnimationState.start(this.tickCount);
+        } else if (anim == TIGER_PAW_SWIPE) {
+            this.attackAnimationState.start(this.tickCount);
+        } else if (anim == TIGER_SLEEP) {
+            this.sleepAnimationState.start(this.tickCount);
+        } else if (anim == TIGER_YAWN) {
+            this.yawnAnimationState.start(this.tickCount);
+        }
+
     }
 
     public boolean isRunning() {
-        return this.entityData.get(IS_RUNNING);
-    }
-
-    public void setRunning(boolean running) {
-        this.entityData.set(IS_RUNNING, running);
+        // Use the current animation state to decide if running
+        return this.currentAnimation == TIGER_RUN || this.currentAnimation == TIGER_RUN_ANGRY;
     }
 
     public boolean isPlaying() {
@@ -207,17 +373,11 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
             else
                 cub.setVariant(LionVariant.NORMAL);
 
-            cub.entityData.set(IS_MALE, random.nextBoolean());
+            cub.entityData.set(LION_MALE, random.nextBoolean());
         }
 
         return cub;
     }
-
-    @Override public int getRemainingPersistentAngerTime() { return remainingPersistentAngerTime; }
-    @Override public void setRemainingPersistentAngerTime(int i) { this.remainingPersistentAngerTime = i; }
-    @Nullable @Override public UUID getPersistentAngerTarget() { return persistentAngerTarget; }
-    @Override public void setPersistentAngerTarget(@Nullable UUID uuid) { this.persistentAngerTarget = uuid; }
-    @Override public void startPersistentAngerTimer() { this.remainingPersistentAngerTime = 200 + random.nextInt(200); }
 
     @Override public void setVariant(LionVariant lionVariant) { this.entityData.set(VARIANT, lionVariant.getId()); }
     @Override public LionVariant getVariant() { return LionVariant.byIdMale(this.entityData.get(VARIANT)); }
@@ -452,6 +612,11 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
                 lion.playSound(ModSoundEvents.LION_ROAR, 2.0F, 0.8F);
             }
         }
+    }
+
+    @Override
+    public float getAgeScale() {
+        return super.getAgeScale();
     }
 
     public enum LionVariant {

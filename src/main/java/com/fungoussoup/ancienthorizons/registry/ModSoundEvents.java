@@ -6,6 +6,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Pair;
 
 public class ModSoundEvents {
@@ -123,6 +124,12 @@ public class ModSoundEvents {
     public static final SoundEvent LION_DEATH = registerSoundEvent("lion_death", createSoundEvent("entity.lion.death"));
     public static final SoundEvent LION_ROAR = registerSoundEvent("lion_roar", createSoundEvent("entity.lion.roar"));
     public static final SoundEvent LION_YAWN = registerSoundEvent("lion_yawn", createSoundEvent("entity.lion.yawn"));
+
+    // SAOLA
+
+    public static final SoundEvent SAOLA_AMBIENT = registerSoundEvent("saola_idle", createSoundEvent("entity.saola.idle"));
+    public static final SoundEvent SAOLA_HURT = registerSoundEvent("saola_hurt", createSoundEvent("entity.saola.hurt"));
+    public static final SoundEvent SAOLA_DEATH = registerSoundEvent("saola_death", createSoundEvent("entity.saola.death"));
 
     private static SoundEvent createSoundEvent(String path) {
         ResourceLocation rl = ResourceLocation.fromNamespaceAndPath("ancienthorizons", path);
