@@ -15,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class CanaryEntity extends AbstractPasserineEntity {
-    public CanaryEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
-        super(entityType, level, groundNavigation, flyingNavigation);
+    public CanaryEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     protected void registerGoals() {

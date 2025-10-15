@@ -10,8 +10,8 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public class BlackcapEntity extends AbstractPasserineEntity{
-    public BlackcapEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
-        super(entityType, level, groundNavigation, flyingNavigation);
+    public BlackcapEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     protected void registerGoals() {

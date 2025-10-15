@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class CardinalEntity extends AbstractPasserineEntity {
 
-    public CardinalEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
-        super(entityType, level, groundNavigation, flyingNavigation);
+    public CardinalEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     protected void registerGoals() {

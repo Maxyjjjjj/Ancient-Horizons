@@ -10,8 +10,8 @@ import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
 
 public class GoldfinchEntity extends AbstractPasserineEntity {
-    public GoldfinchEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
-        super(entityType, level, groundNavigation, flyingNavigation);
+    public GoldfinchEntity(EntityType<? extends AbstractPasserineEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     protected void registerGoals() {

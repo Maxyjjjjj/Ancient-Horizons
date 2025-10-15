@@ -12,8 +12,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class SiskinEntity extends AbstractPasserineEntity {
 
-    public SiskinEntity(EntityType<? extends ShoulderRidingEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
-        super(entityType, level, groundNavigation, flyingNavigation);
+    public SiskinEntity(EntityType<? extends ShoulderRidingEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     protected void registerGoals() {

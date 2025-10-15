@@ -64,7 +64,7 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
     public float prevDanceProgress;
     public float danceProgress;
 
-    private final PathNavigation groundNavigation;
+    protected final PathNavigation groundNavigation;
     private final PathNavigation flyingNavigation;
 
     // Dancing
@@ -79,7 +79,7 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
     private static final float FLYING_SPEED_MODIFIER = 1.2F;
     private static final float HOPPING_SPEED_MODIFIER = 0.8F;
 
-    public AbstractPasserineEntity(EntityType<? extends ShoulderRidingEntity> entityType, Level level, PathNavigation groundNavigation, PathNavigation flyingNavigation) {
+    public AbstractPasserineEntity(EntityType<? extends ShoulderRidingEntity> entityType, Level level) {
         super(entityType, level);
         this.groundNavigation = new GroundPathNavigation(this, level);
         this.flyingNavigation = new BirdNavigation(this, level, 32);
