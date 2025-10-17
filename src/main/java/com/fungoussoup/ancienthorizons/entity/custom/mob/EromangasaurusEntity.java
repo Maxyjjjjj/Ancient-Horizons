@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -67,20 +66,14 @@ public class EromangasaurusEntity extends AirBreathingWaterAnimal {
         return ModEntities.EROMANGASAURUS.get().create(serverLevel);
     }
 
-    /**
-     * Customize air supply - Eromangasaurus could hold breath for longer
-     */
     @Override
     public int getMaxAirSupply() {
-        return 6000; // 5 minutes underwater (300 seconds)
+        return 6000;
     }
 
-    /**
-     * When to start seeking surface - surfaces with 90 seconds of air left
-     */
     @Override
     protected int getAirSupplyThreshold() {
-        return 1800; // 90 seconds
+        return 1800;
     }
 
     // Sound events - replace with your custom sounds if available
@@ -116,14 +109,5 @@ public class EromangasaurusEntity extends AirBreathingWaterAnimal {
     @Override
     protected float getSoundVolume() {
         return 0.6F;
-    }
-
-    @Override
-    public void push(Entity entity) {
-        if (!this.isBaby() && entity instanceof Animal animal && !animal.isBaby()) {
-            super.push(entity);
-        } else if (!this.isBaby()) {
-            entity.push(this);
-        }
     }
 }

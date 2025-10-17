@@ -1,0 +1,12 @@
+{
+    "type": "neoforge:add_spawns",
+    "biomes": "ancienthorizons:tundra",
+    "spawners": [
+        {
+            "type": "ancienthorizons:stoat",
+            "weight": 8,
+            "minCount": 2,
+            "maxCount": 3
+        }
+    ]
+}

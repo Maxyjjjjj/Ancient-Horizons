@@ -517,6 +517,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.CHIMPANZEE_SPAWN_EGG);
                         output.accept(ModItems.CROCODILE_SPAWN_EGG);
                         output.accept(ModItems.CRYODRAKON_SPAWN_EGG);
+                        output.accept(ModItems.DEARC_SPAWN_EGG);
                         output.accept(ModItems.DEER_SPAWN_EGG);
                         output.accept(ModItems.DIPLODOCUS_SPAWN_EGG);
                         output.accept(ModItems.DOMESTIC_GOAT_SPAWN_EGG);
@@ -533,11 +534,14 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.HIPPOPOTAMUS_SPAWN_EGG);
                         output.accept(ModItems.HOATZIN_SPAWN_EGG);
                         output.accept(ModItems.HYPNOVENATOR_SPAWN_EGG);
+                        output.accept(ModItems.LION_SPAWN_EGG);
                         output.accept(ModItems.MANTIS_SPAWN_EGG);
+                        output.accept(ModItems.MONKEY_SPAWN_EGG);
                         output.accept(ModItems.NIGHTINGALE_SPAWN_EGG);
                         output.accept(ModItems.PANGOLIN_SPAWN_EGG);
                         output.accept(ModItems.PENGUIN_SPAWN_EGG);
                         output.accept(ModItems.PHEASANT_SPAWN_EGG);
+                        output.accept(ModItems.PHILIPPINE_EAGLE_SPAWN_EGG);
                         output.accept(ModItems.RACCOON_SPAWN_EGG);
                         output.accept(ModItems.REDSTART_SPAWN_EGG);
                         output.accept(ModItems.REEDLING_SPAWN_EGG);

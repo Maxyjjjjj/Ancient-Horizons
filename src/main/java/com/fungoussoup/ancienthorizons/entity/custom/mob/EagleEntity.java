@@ -2,6 +2,7 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
+import com.fungoussoup.ancienthorizons.entity.ai.ModFollowOwnerGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
@@ -94,7 +95,7 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
 
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0));
 
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.2, 16, 1));
+        this.goalSelector.addGoal(4, new ModFollowOwnerGoal(this, 1.2, 16, 1));
 
         // Priority 5: Main flying OR walking behavior
         this.goalSelector.addGoal(5, new SemiFlyingFlyGoal(this, 1.0));

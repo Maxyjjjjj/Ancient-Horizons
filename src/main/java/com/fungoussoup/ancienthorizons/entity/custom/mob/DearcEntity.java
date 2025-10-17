@@ -2,6 +2,7 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
+import com.fungoussoup.ancienthorizons.entity.ai.ModFollowOwnerGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
@@ -70,7 +71,7 @@ public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(1, new LandOnOwnersShoulderGoal(this));
-        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(2, new ModFollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, this::isFood, false));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));

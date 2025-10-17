@@ -31,10 +31,12 @@ import com.fungoussoup.ancienthorizons.entity.client.hypnovenator.HypnovenatorRe
 import com.fungoussoup.ancienthorizons.entity.client.large_azhdarchid.CryodrakonRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.lion.LionRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.mantis.MantisRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.monkey.MonkeyRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.non_mob.DartRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.pangolin.PangolinRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.penguin.PenguinRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.pheasant.PheasantRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.philippine_eagle.PhilippineEagleRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.raccoon.RaccoonRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.roadrunner.RoadrunnerRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.roe_deer.RoeDeerRenderer;
@@ -186,6 +188,8 @@ public class AncientHorizons {
             EntityRenderers.register(ModEntities.WHITE_SHARK.get(), WhiteSharkRenderer::new);
             EntityRenderers.register(ModEntities.DEARC.get(), DearcRenderer::new);
             EntityRenderers.register(ModEntities.LION.get(), LionRenderer::new);
+            EntityRenderers.register(ModEntities.PHILIPPINE_EAGLE.get(), PhilippineEagleRenderer::new);
+            EntityRenderers.register(ModEntities.MONKEY.get(), MonkeyRenderer::new);
         }
     }
 }

@@ -158,10 +158,6 @@ public class AnacondaPartEntity extends LivingEntity implements HurtableMultipar
         float xRotRad = xRot * Mth.DEG_TO_RAD;
         float yRotRad = yRot * Mth.DEG_TO_RAD;
 
-        double dX = distance * Mth.sin(yRotRad) * Mth.cos(xRotRad);
-        double dY = -distance * Mth.sin(xRotRad);
-        double dZ = distance * Mth.cos(yRotRad) * Mth.cos(xRotRad);
-
         double x = distance * -Mth.sin(yRotRad);
         double z = distance * Mth.cos(yRotRad);
 

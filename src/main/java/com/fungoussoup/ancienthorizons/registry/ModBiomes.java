@@ -12,10 +12,6 @@ import net.minecraft.world.level.biome.*;
 
 public class ModBiomes {
 
-    // Biome ResourceKeys
-    public static final ResourceKey<Biome> INLAND_LAKE = ResourceKey.create(Registries.BIOME,
-            ResourceLocation.fromNamespaceAndPath("ancienthorizons", "inland_lake"));
-
     public static final ResourceKey<Biome> HORNBEAM_FOREST = ResourceKey.create(Registries.BIOME,
             ResourceLocation.fromNamespaceAndPath("ancienthorizons", "hornbeam_forest"));
 
@@ -25,55 +21,50 @@ public class ModBiomes {
     public static final ResourceKey<Biome> TUNDRA = ResourceKey.create(Registries.BIOME,
             ResourceLocation.fromNamespaceAndPath("ancienthorizons", "tundra"));
 
-    public static final ResourceKey<Biome> PEAT_BOG = ResourceKey.create(Registries.BIOME,
-            ResourceLocation.fromNamespaceAndPath("ancienthorizons", "peat_bog"));
+    public static final ResourceKey<Biome> COLD_DESERT = ResourceKey.create(Registries.BIOME,
+            ResourceLocation.fromNamespaceAndPath("ancienthorizons", "cold_desert"));
 
     // Bootstrap method for biome registration
     public static void bootstrap(BootstrapContext<Biome> context) {
-        context.register(INLAND_LAKE, createInlandLake(context));
         context.register(HORNBEAM_FOREST, createHornbeamForest(context));
         context.register(STEPPE, createSteppe(context));
         context.register(TUNDRA, createTundra(context));
-        context.register(PEAT_BOG, createPeatBog(context));
+        context.register(COLD_DESERT, createColdDesert(context));
     }
 
-    // Inland Lake Biome
-    private static Biome createInlandLake(BootstrapContext<Biome> context) {
+    private static Biome createColdDesert(BootstrapContext<Biome> context) {
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(
+                context.lookup(Registries.PLACED_FEATURE),
+                context.lookup(Registries.CONFIGURED_CARVER)
+        );
 
-        // Add water creatures
-        spawnBuilder.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(EntityType.SALMON, 15, 1, 5));
-        spawnBuilder.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(EntityType.COD, 10, 2, 4));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.RABBIT, 5, 2, 3));
+        spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.HUSK, 80, 2, 4));
+        BiomeDefaultFeatures.commonSpawns(spawnBuilder);
 
-        // Add basic generation features
         BiomeDefaultFeatures.addDefaultCarversAndLakes(biomeBuilder);
         BiomeDefaultFeatures.addDefaultCrystalFormations(biomeBuilder);
         BiomeDefaultFeatures.addDefaultMonsterRoom(biomeBuilder);
         BiomeDefaultFeatures.addDefaultUndergroundVariety(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
-        BiomeDefaultFeatures.addSurfaceFreezing(biomeBuilder);
         BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
         BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
-        BiomeDefaultFeatures.addWaterTrees(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultFlowers(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
+        BiomeDefaultFeatures.addSurfaceFreezing(biomeBuilder);
+        BiomeDefaultFeatures.addDesertVegetation(biomeBuilder);
 
         return new Biome.BiomeBuilder()
-                .hasPrecipitation(true)
-                .downfall(0.4f)
-                .temperature(0.5f)
+                .hasPrecipitation(false)
+                .downfall(0.05f)
+                .temperature(0.2f)
                 .generationSettings(biomeBuilder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects((new BiomeSpecialEffects.Builder())
-                        .waterColor(0x3F76E4)
-                        .waterFogColor(0x050533)
-                        .skyColor(getSkyColor(0.5f))
-                        .grassColorOverride(0x79C05A)
-                        .foliageColorOverride(0x59AE30)
-                        .fogColor(0xC0D8FF)
+                        .waterColor(0xA8A89E)
+                        .waterFogColor(0x909090)
+                        .skyColor(getSkyColor(0.2f))
+                        .grassColorOverride(0xC2B280)
+                        .foliageColorOverride(0xA89E75)
+                        .fogColor(0xDADADA)
                         .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
                         .build())
                 .build();
@@ -199,46 +190,6 @@ public class ModBiomes {
                         .skyColor(getSkyColor(-0.5f))
                         .grassColorOverride(0x338033)
                         .foliageColorOverride(0x206020)
-                        .fogColor(0xC0D8FF)
-                        .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
-                        .build())
-                .build();
-    }
-
-    // Peat Bog Biome
-    private static Biome createPeatBog(BootstrapContext<Biome> context) {
-        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
-
-        // Swamp-like creatures
-        BiomeDefaultFeatures.commonSpawns(spawnBuilder);
-        spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.SLIME, 1, 1, 1));
-        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.FROG, 10, 2, 5));
-
-        // Bog generation
-        BiomeDefaultFeatures.addDefaultCarversAndLakes(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultCrystalFormations(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultMonsterRoom(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultUndergroundVariety(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
-        BiomeDefaultFeatures.addSwampClayDisk(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
-        BiomeDefaultFeatures.addSwampVegetation(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
-        BiomeDefaultFeatures.addSwampExtraVegetation(biomeBuilder);
-
-        return new Biome.BiomeBuilder()
-                .hasPrecipitation(true)
-                .downfall(0.9f)
-                .temperature(0.8f)
-                .generationSettings(biomeBuilder.build())
-                .mobSpawnSettings(spawnBuilder.build())
-                .specialEffects((new BiomeSpecialEffects.Builder())
-                        .waterColor(0x617B64)
-                        .waterFogColor(0x232317)
-                        .skyColor(getSkyColor(0.8f))
-                        .grassColorOverride(0x6A7039)
-                        .foliageColorOverride(0x6A7039)
                         .fogColor(0xC0D8FF)
                         .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
                         .build())

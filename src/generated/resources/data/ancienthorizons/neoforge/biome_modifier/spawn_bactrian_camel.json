@@ -1,0 +1,15 @@
+{
+    "type": "neoforge:add_spawns",
+    "biomes": [
+        "ancienthorizons:steppe",
+        "ancienthorizons:cold_desert"
+    ],
+    "spawners": [
+        {
+            "type": "ancienthorizons:bactrian_camel",
+            "weight": 4,
+            "minCount": 2,
+            "maxCount": 6
+        }
+    ]
+}

@@ -2,17 +2,17 @@ package com.fungoussoup.ancienthorizons.worldgen;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.registry.ModTags;
+import com.fungoussoup.ancienthorizons.registry.ModBiomes;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -44,13 +44,25 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> SPAWN_BELUGA_STURGEON = registerKey("spawn_beluga_sturgeon");
     public static final ResourceKey<BiomeModifier> SPAWN_BROWN_BEAR = registerKey("spawn_brown_bear");
     public static final ResourceKey<BiomeModifier> SPAWN_CHIMP = registerKey("spawn_chimp");
-    public static final ResourceKey<BiomeModifier> SPAWN_GOAT = registerKey("spawn_goat");
     public static final ResourceKey<BiomeModifier> SPAWN_EAGLE = registerKey("spawn_eagle");
     public static final ResourceKey<BiomeModifier> SPAWN_FLAMINGO = registerKey("spawn_flamingo");
     public static final ResourceKey<BiomeModifier> SPAWN_PENGUIN = registerKey("spawn_penguin");
-    public static final ResourceKey<BiomeModifier> SPAWN_PHEASANT = registerKey("spawn_pheasant");
     public static final ResourceKey<BiomeModifier> SPAWN_SAOLA = registerKey("spawn_saola");
     public static final ResourceKey<BiomeModifier> SPAWN_STOAT = registerKey("spawn_stoat");
+    public static final ResourceKey<BiomeModifier> SPAWN_RUFF = registerKey("spawn_ruff");
+    public static final ResourceKey<BiomeModifier> SPAWN_ROE_DEER = registerKey("spawn_roe_deer");
+    public static final ResourceKey<BiomeModifier> SPAWN_PHILIPPINE_EAGLE = registerKey("spawn_philippine_eagle");
+    public static final ResourceKey<BiomeModifier> SPAWN_LION = registerKey("spawn_lion");
+    public static final ResourceKey<BiomeModifier> SPAWN_MONKEY = registerKey("spawn_monkey");
+    public static final ResourceKey<BiomeModifier> SPAWN_HOATZIN = registerKey("spawn_hoatzin");
+    public static final ResourceKey<BiomeModifier> SPAWN_HIPPO = registerKey("spawn_hippo");
+    public static final ResourceKey<BiomeModifier> SPAWN_HARE = registerKey("spawn_hare");
+    public static final ResourceKey<BiomeModifier> SPAWN_FISHER = registerKey("spawn_fisher");
+    public static final ResourceKey<BiomeModifier> SPAWN_WHITE_SHARK = registerKey("spawn_white_shark");
+    public static final ResourceKey<BiomeModifier> SPAWN_ANACONDA = registerKey("spawn_anaconda");
+    public static final ResourceKey<BiomeModifier> SPAWN_DEER = registerKey("spawn_deer");
+    public static final ResourceKey<BiomeModifier> SPAWN_CROC = registerKey("spawn_croc");
+    public static final ResourceKey<BiomeModifier> SPAWN_CICADA = registerKey("spawn_anaconda");
 
     public static final ResourceKey<BiomeModifier> SPAWN_BLACKCAP = registerKey("spawn_passerine");
     public static final ResourceKey<BiomeModifier> SPAWN_BLUETHROAT = registerKey("spawn_passerine");
@@ -145,7 +157,7 @@ public class ModBiomeModifiers {
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.EARTHWORM.get(), 7, 1, 1))));
 
         context.register(SPAWN_RACCOON, new BiomeModifiers.AddSpawnsBiomeModifier(
-                HolderSet.direct(biomes.getOrThrow(Biomes.PLAINS)),
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.RACCOON.get(), 7, 1, 2))));
 
         context.register(SPAWN_PANGOLIN, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -153,11 +165,11 @@ public class ModBiomeModifiers {
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.PANGOLIN.get(), 7, 1, 2))));
 
         context.register(SPAWN_MANTIS, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.MANTIS.get(), 3, 1, 2))));
 
         context.register(SPAWN_BACTRIAN_CAMEL, new BiomeModifiers.AddSpawnsBiomeModifier(
-                HolderSet.direct(biomes.getOrThrow(Biomes.DESERT)),
+                HolderSet.direct(biomes.getOrThrow(ModBiomes.STEPPE), biomes.getOrThrow(ModBiomes.COLD_DESERT)),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.BACTRIAN_CAMEL.get(), 4, 2, 6))));
 
         context.register(SPAWN_BELUGA_STURGEON, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -169,44 +181,177 @@ public class ModBiomeModifiers {
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.BROWN_BEAR.get(), 4, 1, 2))));
 
         context.register(SPAWN_BLACKCAP, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.BLACKCAP.get(), 7, 1, 3))));
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.BLACKCAP.get(), 6, 1, 3))));
+
         context.register(SPAWN_BLUETHROAT, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.BLUETHROAT.get(), 7, 1, 3))));
+                biomes.getOrThrow(BiomeTags.IS_RIVER),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.BLUETHROAT.get(), 6, 1, 3))));
+
         context.register(SPAWN_BULLFINCH, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.BULLFINCH.get(), 7, 1, 3))));
+                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.BULLFINCH.get(), 6, 1, 3))));
+
+        context.register(SPAWN_CANARY, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_SAVANNA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.CANARY.get(), 8, 1, 4))));
+
+        context.register(SPAWN_CARDINAL, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_JUNGLE),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.CARDINAL.get(), 5, 1, 2))));
+
+        context.register(SPAWN_CHAFFINCH, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.CHAFFINCH.get(), 10, 1, 4))));
+
+        context.register(SPAWN_GOLDCREST, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.GOLDCREST.get(), 6, 1, 2))));
+
+        context.register(SPAWN_GOLDFINCH, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.GOLDFINCH.get(), 8, 1, 3))));
+
+        context.register(SPAWN_NIGHTINGALE, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.NIGHTINGALE.get(), 5, 1, 2))));
+
+        context.register(SPAWN_REDSTART, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.REDSTART.get(), 5, 1, 2))));
+
+        context.register(SPAWN_REEDLING, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_RIVER),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.REEDLING.get(), 6, 1, 3))));
+
+        context.register(SPAWN_ROBIN, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.ROBIN.get(), 9, 1, 3))));
+
         context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
-        context.register(SPAWN_SISKIN, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 7, 1, 3))));
+                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SISKIN.get(), 6, 1, 3))));
+
+        context.register(SPAWN_SKYLARK, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SKYLARK.get(), 10, 1, 3))));
+
+        context.register(SPAWN_SPARROW, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SPARROW.get(), 12, 2, 4))));
+
+        context.register(SPAWN_TIT, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.TIT.get(), 9, 1, 3))));
+
+        context.register(SPAWN_WAGTAIL, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_RIVER),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.WAGTAIL.get(), 8, 1, 3))));
+
+        context.register(SPAWN_WAXWING, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_SNOWY),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.WAXWING.get(), 4, 1, 2))));
+
+
+        context.register(SPAWN_FLAMINGO, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BEACH),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.FLAMINGO.get(), 8, 3, 5))));
+
+        context.register(SPAWN_EAGLE, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.EAGLE.get(), 2, 1, 2))));
+
+        context.register(SPAWN_CHIMP, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_JUNGLE),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.CHIMPANZEE.get(), 6, 2, 4))));
+
+        context.register(SPAWN_STOAT, new BiomeModifiers.AddSpawnsBiomeModifier(
+                HolderSet.direct(biomes.getOrThrow(ModBiomes.TUNDRA)),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.STOAT.get(), 8, 2, 3))));
+
+        context.register(SPAWN_PENGUIN, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_SNOWY),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.PENGUIN.get(), 10, 3, 6))));
+
+        context.register(SPAWN_SAOLA, new BiomeModifiers.AddSpawnsBiomeModifier(
+                HolderSet.direct(biomes.getOrThrow(Biomes.BAMBOO_JUNGLE)),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.SAOLA.get(), 1, 2, 3))));
+
+        context.register(SPAWN_ANACONDA, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_SWAMP),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.ANACONDA.get(), 4, 1, 1))
+        ));
+
+        context.register(SPAWN_WHITE_SHARK, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OCEAN),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.WHITE_SHARK.get(), 3, 1, 1))
+        ));
+
+        context.register(SPAWN_CICADA, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.CICADA.get(), 10, 3, 6))
+        ));
+
+        context.register(SPAWN_CROC, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_SWAMP),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.CROCODILE.get(), 5, 1, 2))
+        ));
+
+        context.register(SPAWN_DEER, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.DEER.get(), 8, 2, 4))
+        ));
+
+        context.register(SPAWN_FISHER, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.FISHER.get(), 6, 1, 2))
+        ));
+
+        context.register(SPAWN_HARE, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.HARE.get(), 10, 2, 3))
+        ));
+
+        context.register(SPAWN_HIPPO, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_RIVER),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.HIPPOPOTAMUS.get(), 4, 1, 2))
+        ));
+
+        context.register(SPAWN_HOATZIN, new BiomeModifiers.AddSpawnsBiomeModifier(
+                HolderSet.direct(biomes.getOrThrow(Biomes.MANGROVE_SWAMP)),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.HOATZIN.get(), 5, 2, 4))
+        ));
+
+        context.register(SPAWN_LION, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_SAVANNA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.LION.get(), 3, 1, 3))
+        ));
+
+        context.register(SPAWN_MANTIS, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.MANTIS.get(), 8, 1, 3))
+        ));
+
+        context.register(SPAWN_PHILIPPINE_EAGLE, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_JUNGLE),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.PHILIPPINE_EAGLE.get(), 2, 1, 1))
+        ));
+
+        context.register(SPAWN_ROE_DEER, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.ROE_DEER.get(), 7, 2, 3))
+        ));
+
+        context.register(SPAWN_RUFF, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.RUFF.get(), 6, 1, 3))
+        ));
+
+        context.register(SPAWN_MONKEY, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.MONKEY.get(), 8, 2, 5))
+        ));
+
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

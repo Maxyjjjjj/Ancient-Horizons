@@ -1,0 +1,26 @@
+{
+    "temperature": 0.2,
+    "downfall": 0.05,
+    "has_precipitation": false,
+    "effects": {
+        "sky_color": 7907327,
+        "fog_color": 14342874,
+        "water_color": 11053278,
+        "water_fog_color": 9474192,
+        "grass_color": 12762304,
+        "foliage_color": 11001013
+    },
+    "spawners": {
+        "creature": [
+            { "type": "minecraft:rabbit", "weight": 5, "minCount": 2, "maxCount": 3 }
+        ],
+        "monster": [
+            { "type": "minecraft:husk", "weight": 80, "minCount": 2, "maxCount": 4 }
+        ]
+    },
+    "features": [
+        "minecraft:carvers",
+        "minecraft:underground_ores",
+        "minecraft:desert_vegetation"
+    ]
+}

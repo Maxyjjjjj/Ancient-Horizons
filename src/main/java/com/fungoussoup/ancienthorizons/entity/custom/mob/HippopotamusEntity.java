@@ -51,10 +51,11 @@ public class HippopotamusEntity extends SemiAquaticAnimal implements NeutralMob 
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 60.0D)
+                .add(Attributes.MAX_HEALTH, 40.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.2D)
                 .add(Attributes.ATTACK_DAMAGE, 8.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.8D);
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.8D)
+                .add(Attributes.ATTACK_KNOCKBACK, 1D);
     }
 
     @Override
@@ -217,21 +218,5 @@ public class HippopotamusEntity extends SemiAquaticAnimal implements NeutralMob 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
-    }
-
-    // Combat behavior
-    @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean flag = target.hurt(this.damageSources().mobAttack(this),
-                (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-
-        if (flag) {
-            double knockbackStrength = 0.5D;
-            double dx = target.getX() - this.getX();
-            double dz = target.getZ() - this.getZ();
-            target.push(dx * knockbackStrength, 0.2D, dz * knockbackStrength);
-        }
-
-        return flag;
     }
 }

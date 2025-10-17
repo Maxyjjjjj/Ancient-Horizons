@@ -20,12 +20,6 @@ public class ChimpBarterTrigger extends SimpleCriterionTrigger<ChimpBarterTrigge
         return ChimpBarterTrigger.TriggerInstance.CODEC;
     }
 
-    // Simple trigger - just tracks that bartering happened
-    public void trigger(ServerPlayer player) {
-        this.trigger(player, (instance) -> instance.test(ItemStack.EMPTY));
-    }
-
-    // Advanced trigger - tracks what item was received
     public void trigger(ServerPlayer player, ItemStack receivedItem) {
         this.trigger(player, (instance) -> instance.test(receivedItem));
     }

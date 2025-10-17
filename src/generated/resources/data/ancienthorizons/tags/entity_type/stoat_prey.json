@@ -2,7 +2,6 @@
   "values": [
     "minecraft:rabbit",
     "ancienthorizons:pheasant",
-    "ancienthorizons:hare",
-    "#ancienthorizons:passerines"
+    "ancienthorizons:hare"
   ]
 }

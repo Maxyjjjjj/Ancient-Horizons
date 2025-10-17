@@ -2,6 +2,7 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
+import com.fungoussoup.ancienthorizons.entity.ai.ModFollowOwnerGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
@@ -43,13 +44,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * PhilippineEagleEntity
- * - Tamable, NeutralMob
- * - Semi-flying: swaps navigation and moveControl when flying
- * - Swoop attack, prey grabbing, persistent anger system
- * - Save/load NBT
- */
 public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer {
     // Synched data keys
     private static final EntityDataAccessor<Boolean> DATA_FLYING =
@@ -62,6 +56,7 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
             SynchedEntityData.defineId(PhilippineEagleEntity.class, EntityDataSerializers.BOOLEAN);
 
     private static final UniformInt ANGER_TIME_RANGE = TimeUtil.rangeOfSeconds(20, 39);
+    public AnimationState sitAnimationState;
     @Nullable
     private UUID persistentAngerTarget;
 
@@ -85,9 +80,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         this.moveControl = new SemiFlyingMoveControl(this);
     }
 
-    /* ----------------------
-       Attributes
-       ---------------------- */
     public static AttributeSupplier.Builder createAttributes() {
         return TamableAnimal.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 22.0D)
@@ -99,9 +91,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
                 .add(Attributes.FOLLOW_RANGE, 28.0D);
     }
 
-    /* ----------------------
-       Synched data
-       ---------------------- */
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -111,16 +100,13 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         builder.define(DATA_ATTACKING, false);
     }
 
-    /* ----------------------
-       Goals
-       ---------------------- */
     @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.2, 16.0F, 2.0F));
+        this.goalSelector.addGoal(3, new ModFollowOwnerGoal(this, 1.2, 16.0F, 2.0F));
         this.goalSelector.addGoal(4, new SemiFlyingFlyGoal(this, 1.0));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(6, new SwoopAttackGoal());
@@ -145,9 +131,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         return !this.isOrderedToSit();
     }
 
-    /* ----------------------
-       Tick / AI step
-       ---------------------- */
     @Override
     public void tick() {
         super.tick();
@@ -240,9 +223,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         }
     }
 
-    /* ----------------------
-       NeutralMob (anger) implementation
-       ---------------------- */
     @Override
     public int getRemainingPersistentAngerTime() {
         return this.entityData.get(DATA_REMAINING_ANGER_TIME);
@@ -338,9 +318,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         return super.mobInteract(player, hand);
     }
 
-    /* ----------------------
-       Combat & prey handling
-       ---------------------- */
     @Override
     public boolean doHurtTarget(Entity target) {
         boolean result = super.doHurtTarget(target);
@@ -358,7 +335,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
             this.isCarryingPrey = true;
             prey.setNoGravity(true);
             prey.setSilent(true);
-            // don't startRiding - we manually position prey each tick
             this.playSound(SoundEvents.GENERIC_EAT, 1.0f, 1.2f);
             if (this.random.nextFloat() < 0.3f) {
                 prey.hurt(this.damageSources().mobAttack(this), 1000);
@@ -375,9 +351,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         isCarryingPrey = false;
     }
 
-    /* ----------------------
-       Sounds
-       ---------------------- */
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.PARROT_AMBIENT;
@@ -393,9 +366,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         return SoundEvents.PARROT_DEATH;
     }
 
-    /* ----------------------
-       Flight handling (SemiFlyer)
-       ---------------------- */
     @Override
     public boolean isNoGravity() {
         return this.isFlying() || super.isNoGravity();
@@ -441,7 +411,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
             this.navigation = this.flyingNavigation;
             this.moveControl = new SemiFlyingMoveControl(this, 10, 5);
             this.setNoGravity(true);
-            // slightly adjust ground speed attribute while flying
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2);
         } else {
             this.navigation = this.groundNavigation;
@@ -451,9 +420,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         }
     }
 
-    /* ----------------------
-       Save / Load NBT
-       ---------------------- */
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);

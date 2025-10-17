@@ -29,10 +29,12 @@ import com.fungoussoup.ancienthorizons.entity.client.hypnovenator.HypnovenatorMo
 import com.fungoussoup.ancienthorizons.entity.client.large_azhdarchid.CryodrakonModel;
 import com.fungoussoup.ancienthorizons.entity.client.lion.LionModel;
 import com.fungoussoup.ancienthorizons.entity.client.mantis.MantisModel;
+import com.fungoussoup.ancienthorizons.entity.client.monkey.MonkeyModel;
 import com.fungoussoup.ancienthorizons.entity.client.non_mob.DartModel;
 import com.fungoussoup.ancienthorizons.entity.client.pangolin.PangolinModel;
 import com.fungoussoup.ancienthorizons.entity.client.penguin.PenguinModel;
 import com.fungoussoup.ancienthorizons.entity.client.pheasant.PheasantModel;
+import com.fungoussoup.ancienthorizons.entity.client.philippine_eagle.PhilippineEagleModel;
 import com.fungoussoup.ancienthorizons.entity.client.raccoon.RaccoonModel;
 import com.fungoussoup.ancienthorizons.entity.client.roadrunner.RoadrunnerModel;
 import com.fungoussoup.ancienthorizons.entity.client.roe_deer.RoeDeerModel;
@@ -120,6 +122,8 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(BeipiaosaurusModel.LAYER_LOCATION, BeipiaosaurusModel::createBodyLayer);
         event.registerLayerDefinition(DearcModel.LAYER_LOCATION, DearcModel::createBodyLayer);
         event.registerLayerDefinition(LionModel.LAYER_LOCATION, LionModel::createBodyLayer);
+        event.registerLayerDefinition(PhilippineEagleModel.LAYER_LOCATION, PhilippineEagleModel::createBodyLayer);
+        event.registerLayerDefinition(MonkeyModel.LAYER_LOCATION, MonkeyModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -166,6 +170,7 @@ public class ModEventBusEvents {
         event.put(SAOLA.get(), SaolaEntity.createAttributes().build());
         event.put(CRYODRAKON.get(), AbstractLargeAzhdarchidEntity.createAttributes().build());
         event.put(FLAMINGO.get(), FlamingoEntity.createAttributes().build());
+        event.put(RUFF.get(), RuffEntity.createAttributes().build());
         event.put(ANACONDA.get(), AnacondaEntity.bakeAttributes().build());
         event.put(ANACONDA_PART.get(), AnacondaPartEntity.bakeAttributes().build());
         event.put(FISHER.get(), FisherEntity.createAttributes().build());
@@ -187,6 +192,7 @@ public class ModEventBusEvents {
         event.put(DEARC.get(), DearcEntity.createAttributes().build());
         event.put(PHILIPPINE_EAGLE.get(), PhilippineEagleEntity.createAttributes().build());
         event.put(LION.get(), LionEntity.createAttributes().build());
+        event.put(MONKEY.get(), MonkeyEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -229,6 +235,7 @@ public class ModEventBusEvents {
         event.register(SAOLA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(CRYODRAKON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(FLAMINGO.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FlamingoEntity::checkFlamingoSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(RUFF.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RuffEntity::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(ANACONDA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(FISHER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(HOATZIN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
@@ -248,5 +255,7 @@ public class ModEventBusEvents {
         event.register(BEIPIAOSAURUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(DEARC.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(LION.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(PHILIPPINE_EAGLE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(MONKEY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }

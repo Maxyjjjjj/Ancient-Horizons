@@ -46,6 +46,8 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
     public final float[] ringBuffer = new float[64];
     public int ringBufferIndex = -1;
     private AnacondaPartEntity[] parts;
+    private boolean hasSpawnedParts = false;
+    private boolean initialGrounded = false;
     private boolean isLandNavigator;
     private int swimTimer = -1000;
     private float prevStrangleProgress = 0F;
@@ -197,7 +199,6 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
             float bodyRotDiff = Mth.wrapDegrees(targetBodyYaw - this.yBodyRot);
 
             // Much slower body rotation for realistic snake turning
-            // Snakes can't pivot on a point - their whole body needs to follow
             float turnSpeed = 0.08F; // Very gradual turning (reduced from 0.3F)
 
             // Slow down turning even more when moving fast (momentum)
@@ -254,9 +255,14 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
             final int segments = 10;
             final Entity child = getChild();
 
-            if (child == null) {
+            // Ensure parts array exists to avoid NPEs when iterating below
+            if (this.parts == null) {
+                this.parts = new AnacondaPartEntity[segments];
+            }
+
+            // Only create new part entities if there is no child chain and there are no parts created yet
+            if (child == null && shouldReplaceParts()) {
                 LivingEntity partParent = this;
-                parts = new AnacondaPartEntity[segments];
                 Vec3 prevPos = this.position();
 
                 for (int i = 0; i < segments; i++) {
@@ -287,18 +293,19 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
 
                     partParent = part;
                     level().addFreshEntity(part);
-                    parts[i] = part;
+                    this.parts[i] = part;
 
                     prevPos = part.position();
                 }
             }
 
+            // If parts should be replaced or parts are incomplete, attempt to populate parts[] from existing child chain
             if (shouldReplaceParts() && this.getChild() instanceof AnacondaPartEntity) {
-                parts = new AnacondaPartEntity[segments];
+                this.parts = new AnacondaPartEntity[segments];
                 parts[0] = (AnacondaPartEntity) this.getChild();
                 this.entityData.set(CHILD_ID, parts[0].getId());
                 int i = 1;
-                while (i < parts.length && parts[i - 1].getChild() instanceof AnacondaPartEntity) {
+                while (i < parts.length && parts[i - 1] != null && parts[i - 1].getChild() instanceof AnacondaPartEntity) {
                     parts[i] = (AnacondaPartEntity) parts[i - 1].getChild();
                     i++;
                 }
@@ -336,13 +343,47 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
             if (isInWater()) swimTimer = Math.max(swimTimer + 1, 0);
             else swimTimer = Math.min(swimTimer - 1, 0);
         }
+
+        if (!initialGrounded && onGround()) {
+            setDeltaMovement(0, 0, 0);
+            initialGrounded = true;
+        }
+
+
+        if (!level().isClientSide && !hasSpawnedParts) {
+            spawnParts();
+        }
+    }
+
+    private void spawnParts() {
+        if (level().isClientSide || hasSpawnedParts) return;
+        parts = new AnacondaPartEntity[10];
+        for (int i = 0; i < 10; i++) {
+            AnacondaPartEntity part = new AnacondaPartEntity(ModEntities.ANACONDA_PART.get(), this);
+            double offset = i * 0.8D;
+            double x = getX() - offset * Math.cos(Math.toRadians(getYRot()));
+            double z = getZ() - offset * Math.sin(Math.toRadians(getYRot()));
+            part.moveTo(x, getY(), z, getYRot(), getXRot());
+            level().addFreshEntity(part);
+            parts[i] = part;
+        }
+        hasSpawnedParts = true;
+    }
+
+
+    @Nullable
+    public AnacondaPartEntity getPart(int index) {
+        return (parts != null && index >= 0 && index < parts.length) ? parts[index] : null;
     }
 
     private boolean shouldReplaceParts() {
-        if (parts == null || parts[0] == null)
+        if (parts == null)
             return true;
 
-        for (int i = 0; i < 10; i++) {
+        if (parts.length < 10)
+            return true;
+
+        for (int i = 0; i < parts.length; i++) {
             if (parts[i] == null) {
                 return true;
             }
@@ -386,11 +427,9 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
         final float waveIntensity = 8.0F;
 
         // Adjust phase offset for more natural wave propagation
-        // This controls how the wave travels down the body
         final float segmentPhaseOffset = 0.5F;
 
         // Movement speed factor - controls how fast the wave moves
-        // Uses walkDist which tracks movement animation progress
         final float movementSpeed = 0.3F;
 
         // Reduce waving when strangling (keep this - it's good)
@@ -400,7 +439,6 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
         final float speedFactor = (float) Mth.clamp(this.getDeltaMovement().horizontalDistance() * 2.0F, 0.3F, 1.0F);
 
         // TURNING ENHANCEMENT: Add influence from body rotation changes
-        // This makes the body curve naturally during turns
         float rotationDelta = Mth.wrapDegrees(this.getYRot() - this.yBodyRot);
         float turnInfluence = rotationDelta * 0.3F * (1.0F - (i * 0.08F)); // Decreases toward tail
 

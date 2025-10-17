@@ -568,6 +568,24 @@ public class ModItems {
             () -> new DeferredSpawnEggItem(ModEntities.WHITE_SHARK, 0x868686, 0xf3f3f3,
                     new Item.Properties()));
 
+    // LION
+
+    public static final DeferredItem<Item> LION_SPAWN_EGG = ITEMS.register("lion_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.LION, 0xc0a97a, 0x514733,
+                    new Item.Properties()));
+
+    // PHILIPPINE EAGLE
+
+    public static final DeferredItem<Item> PHILIPPINE_EAGLE_SPAWN_EGG = ITEMS.register("philippine_eagle_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.PHILIPPINE_EAGLE, 0x4a443e, 0x43474e,
+                    new Item.Properties()));
+
+    // MONKEY
+
+    public static final DeferredItem<Item> MONKEY_SPAWN_EGG = ITEMS.register("monkey_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.MONKEY, 0x8b5c3e, 0x69737e,
+                    new Item.Properties()));
+
     // CRYODRAKON and other extinct critters
 
     public static final DeferredItem<Item> CRYODRAKON_SPAWN_EGG = ITEMS.register("cryodrakon_spawn_egg",
@@ -596,6 +614,10 @@ public class ModItems {
 
     public static final DeferredItem<Item> BEIPIAOSAURUS_SPAWN_EGG = ITEMS.register("beipiaosaurus_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.BEIPIAOSAURUS, 0x161616, 0x777777,
+                    new Item.Properties()));
+
+    public static final DeferredItem<Item> DEARC_SPAWN_EGG = ITEMS.register("dearc_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.DEARC, 0xe4e4e4, 0xd2a475,
                     new Item.Properties()));
 
     // FOODSTUFFS

@@ -1,6 +1,9 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -23,11 +26,21 @@ import org.jetbrains.annotations.Nullable;
  * Golden Snub-Nosed Monkey — a complex, social arboreal primate.
  */
 public class MonkeyEntity extends Animal {
+    private static final EntityDataAccessor<Boolean> DATA_SITTING =
+            SynchedEntityData.defineId(MonkeyEntity.class, EntityDataSerializers.BOOLEAN);
+
+
     private int curiosityCooldown = 0; // cooldown to prevent over-interaction with players
     private int groomingTimer = 0;
 
     public MonkeyEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_SITTING, false);
     }
 
     // --- Attributes ---
@@ -48,6 +61,7 @@ public class MonkeyEntity extends Animal {
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, this::isFood, false));
         this.goalSelector.addGoal(5, new FollowMobGoal(this, 1.05D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(6, new RandomSitGoal(this));
         this.goalSelector.addGoal(7, new GroomingGoal(this));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
@@ -112,6 +126,18 @@ public class MonkeyEntity extends Animal {
         return 150;
     }
 
+    public boolean isHoldingItem() {
+        return !this.getMainHandItem().isEmpty();
+    }
+
+    public boolean isSitting() {
+        return this.entityData.get(DATA_SITTING);
+    }
+
+    public void setSitting(boolean sitting) {
+        this.entityData.set(DATA_SITTING, sitting);
+    }
+
     // --- Custom inner goals ---
 
     /**
@@ -134,12 +160,17 @@ public class MonkeyEntity extends Animal {
         public void start() {
             timer = 60 + monkey.random.nextInt(60);
             monkey.getNavigation().stop();
+            monkey.setSitting(true);
+        }
+
+        @Override
+        public void stop() {
+            monkey.setSitting(false);
         }
 
         @Override
         public void tick() {
             if (timer-- > 0) {
-                // Cosmetic — imagine grooming animation
                 if (timer % 20 == 0) {
                     monkey.playSound(SoundEvents.FOX_SNIFF, 0.4F, 1.0F);
                 }
@@ -149,6 +180,37 @@ public class MonkeyEntity extends Animal {
         @Override
         public boolean canContinueToUse() {
             return timer > 0;
+        }
+    }
+
+    private static class RandomSitGoal extends Goal {
+        private final MonkeyEntity monkey;
+        private int timer;
+
+        RandomSitGoal(MonkeyEntity monkey) {
+            this.monkey = monkey;
+        }
+
+        @Override
+        public boolean canUse() {
+            return monkey.onGround() && monkey.random.nextInt(800) == 0;
+        }
+
+        @Override
+        public void start() {
+            timer = 100 + monkey.random.nextInt(100);
+            monkey.getNavigation().stop();
+            monkey.setSitting(true);
+        }
+
+        @Override
+        public void stop() {
+            monkey.setSitting(false);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return timer-- > 0;
         }
     }
 }

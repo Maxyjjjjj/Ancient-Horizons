@@ -1,6 +1,7 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
+import com.fungoussoup.ancienthorizons.entity.ai.ModFollowOwnerGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.DancingAnimal;
@@ -100,7 +101,7 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
         this.goalSelector.addGoal(1, new BreedGoal(this, 1.0));
         this.goalSelector.addGoal(1, new LandOnOwnersShoulderGoal(this));
         this.goalSelector.addGoal(2, new TemptGoal(this, 1.25f, stack -> stack.is(ModTags.Items.PASSERINE_FOOD), true));
-        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.25f, 10.0F, 1.0F));
+        this.goalSelector.addGoal(2, new ModFollowOwnerGoal(this, 1.25f, 10.0F, 1.0F));
         this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.25f));
         this.goalSelector.addGoal(3, new SemiFlyingFlyGoal(this, 1.0F));
         this.goalSelector.addGoal(4, new PasserineHopGoal(this, 1.0, 40));
@@ -566,7 +567,6 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
             }
         }
     }
-
 
     public boolean isDancing() {
         return this.entityData.get(DANCING);

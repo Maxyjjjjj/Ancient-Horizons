@@ -44,16 +44,9 @@ public class EarthwormModel<T extends EarthwormEntity> extends HierarchicalModel
     }
 
     @Override
-    public void setupAnim(T entity, float v, float v1, float ageInTicks, float v3, float v4) {
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
-        applyWalkingAnimation(ageInTicks);
-    }
-
-    private void applyWalkingAnimation(float ageInTicks) {
-        this.ageInTicks = ageInTicks;
-        if (this.currentAnimation == null || !this.currentAnimation.equals(EARTHWORM_CRAWL)) {
-            this.currentAnimation = EARTHWORM_CRAWL;
-        }
+        animateWalk(EARTHWORM_CRAWL, limbSwing, limbSwingAmount, ageInTicks, 0.5f);
     }
 }

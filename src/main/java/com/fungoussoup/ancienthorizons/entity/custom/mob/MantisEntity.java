@@ -10,7 +10,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.DifficultyInstance;
@@ -44,7 +43,6 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
     private static final EntityDataAccessor<Boolean> DATA_IS_GRABBING = SynchedEntityData.defineId(MantisEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_IS_EATING = SynchedEntityData.defineId(MantisEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> DATA_HELD_PREY_ID = SynchedEntityData.defineId(MantisEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> DATA_IS_FEMALE = SynchedEntityData.defineId(MantisEntity.class, EntityDataSerializers.BOOLEAN);
 
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
@@ -53,8 +51,6 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
     private LivingEntity heldPrey;
     private int eatPreyCooldown = 0;
     private int grabCooldown = 0;
-    private int huntingCooldown = 0;
-    private LivingEntity lastMate = null;
 
     public MantisEntity(EntityType<? extends TamableAnimal> type, Level level) {
         super(type, level);
@@ -68,17 +64,10 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
         builder.define(DATA_IS_GRABBING, false);
         builder.define(DATA_IS_EATING, false);
         builder.define(DATA_HELD_PREY_ID, -1);
-        builder.define(DATA_IS_FEMALE, false);
     }
 
     public SpawnGroupData finalizeSpawn(ServerLevel level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
-        this.entityData.set(DATA_IS_FEMALE, this.random.nextBoolean()); // 50/50 female/male
-        return data;
-    }
-
-    public boolean isFemale() {
-        return this.entityData.get(DATA_IS_FEMALE);
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnData);
     }
 
     @Override
@@ -117,7 +106,6 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
         }
 
         if (grabCooldown > 0) grabCooldown--;
-        if (huntingCooldown > 0) huntingCooldown--;
 
         // Handle held prey
         if (heldPrey != null && heldPrey.isAlive()) {
@@ -171,9 +159,7 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
         heldPrey = null;
         setAggressive(false);
         setEating(false);
-        huntingCooldown = 1200; // 1 minute hunting cooldown
         this.entityData.set(DATA_HELD_PREY_ID, -1);
-        this.lastMate = null;
     }
 
     private void triggerEatAnimation() {
@@ -189,7 +175,6 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
     public boolean canAttackAsPrey(LivingEntity entity) {
         if (entity == null || !entity.isAlive()) return false;
         if (entity instanceof MantisEntity) return false;
-        if (huntingCooldown > 0) return false;
 
         // Spiders are valid prey
         if (entity instanceof Spider) return true;
@@ -283,10 +268,7 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
 
     @Override
     public boolean canMate(@NotNull Animal other) {
-        if (!(other instanceof MantisEntity mantis)) return false;
-        if (this == mantis) return false;
-        if (this.isEating() || this.isInSittingPose()) return false;
-        return this.isInLove() && mantis.isInLove() && this.isFemale() != mantis.isFemale();
+        return !(this.isEating() || this.isInSittingPose());
     }
 
     @Override
@@ -296,15 +278,6 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
 
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel level, AgeableMob partner) {
-        this.lastMate = partner;
-
-        if (this.isFemale() && partner instanceof MantisEntity) {
-            this.setHeldPrey(partner);
-            this.setAggressive(true);
-            this.huntingCooldown = 600; // Wait before hunting again
-            this.playSound(this.getMantisEatingSound(), 1.0F, 1.0F);
-        }
-
         return ModEntities.MANTIS.get().create(level);
     }
 
@@ -360,7 +333,6 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
         compound.putInt("AngerTime", this.persistentAngerTime);
         compound.putInt("EatPreyCooldown", this.eatPreyCooldown);
         compound.putInt("GrabCooldown", this.grabCooldown);
-        compound.putInt("HuntingCooldown", this.huntingCooldown);
 
         if (this.angerTarget != null) {
             compound.putUUID("AngerTarget", this.angerTarget);
@@ -373,7 +345,6 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
         this.persistentAngerTime = compound.getInt("AngerTime");
         this.eatPreyCooldown = compound.getInt("EatPreyCooldown");
         this.grabCooldown = compound.getInt("GrabCooldown");
-        this.huntingCooldown = compound.getInt("HuntingCooldown");
 
         if (compound.hasUUID("AngerTarget")) {
             this.angerTarget = compound.getUUID("AngerTarget");
@@ -392,7 +363,7 @@ public class MantisEntity extends TamableAnimal implements NeutralMob {
 
         @Override
         public boolean canUse() {
-            if (mantis.hasPrey() || mantis.huntingCooldown > 0) return false;
+            if (mantis.hasPrey()) return false;
             this.target = mantis.getTarget();
             return target != null && target.isAlive() && mantis.canAttackAsPrey(target);
         }

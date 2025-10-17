@@ -3,10 +3,12 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BigCatSleepGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.BigCatYawnGoal;
+import com.fungoussoup.ancienthorizons.entity.interfaces.DancingAnimal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SleepingAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -31,6 +33,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.BusBuilder;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +42,7 @@ import java.util.*;
 
 import static com.fungoussoup.ancienthorizons.entity.client.tiger.TigerAnimations.*;
 
-public class LionEntity extends TamableAnimal implements NeutralMob, VariantHolder<LionEntity.LionVariant>, SleepingAnimal {
+public class LionEntity extends TamableAnimal implements NeutralMob, VariantHolder<LionEntity.LionVariant>, SleepingAnimal, DancingAnimal {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> LION_MALE = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LION_SLEEPING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
@@ -46,6 +50,15 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
     private static final EntityDataAccessor<Boolean> IS_PLAYING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LION_SITTING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> LION_COLLAR_COLOR_ID = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> LION_DANCING = SynchedEntityData.defineId(LionEntity.class, EntityDataSerializers.BOOLEAN);
+
+    public final AnimationState danceAnimationState = new AnimationState();
+    private int danceAnimationTimeout = 0;
+    private AnimationDefinition currentAnimation = null;
+    private boolean isJukeboxing;
+    private BlockPos jukeboxPosition;
+    public float prevDanceProgress;
+    public float danceProgress;
 
     private UUID prideLeaderUUID;
     private final List<UUID> prideMembers = new ArrayList<>();
@@ -71,7 +84,6 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
 
     public final AnimationState angryAnimationState = new AnimationState();
     private int angryAnimationTimeout = 0;
-    private AnimationDefinition currentAnimation = null;
 
     public LionEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -127,6 +139,20 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
     @Override
     public void tick() {
         super.tick();
+
+        prevDanceProgress = danceProgress;
+        boolean dance = isDancing();
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+            this.isJukeboxing = false;
+            this.setDancing(false);
+            this.jukeboxPosition = null;
+        }
+        if (dance && danceProgress < 5F) {
+            danceProgress++;
+        }
+        if (!dance && danceProgress > 0F) {
+            danceProgress--;
+        }
 
         if (!level().isClientSide && !this.isBaby()) {
             if (prideCheckCooldown-- <= 0) {
@@ -381,6 +407,30 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
 
     @Override public void setVariant(LionVariant lionVariant) { this.entityData.set(VARIANT, lionVariant.getId()); }
     @Override public LionVariant getVariant() { return LionVariant.byIdMale(this.entityData.get(VARIANT)); }
+
+    public void travel(Vec3 vec3d) {
+        if (this.isDancing() || danceProgress > 0) {
+            if (this.getNavigation().getPath() != null) {
+                this.getNavigation().stop();
+            }
+            vec3d = Vec3.ZERO;
+        }
+        super.travel(vec3d);
+    }
+
+    public boolean isDancing() {
+        return this.entityData.get(LION_DANCING);
+    }
+
+    public void setDancing(boolean dancing) {
+        this.entityData.set(LION_DANCING, dancing);
+        this.isJukeboxing = dancing;
+    }
+
+    @Override
+    public void setJukeboxPos(BlockPos pos) {
+
+    }
 
     private static class LionSleepGoal extends BigCatSleepGoal<LionEntity> {
         private final LionEntity lion;

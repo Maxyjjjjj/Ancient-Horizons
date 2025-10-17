@@ -1,0 +1,13 @@
+{
+    "values": [
+        "minecraft:chicken",
+        "minecraft:cow",
+        "minecraft:pig",
+        "minecraft:sheep",
+        "minecraft:rabbit",
+        "minecraft:goat",
+        "ancienthorizons:pheasant",
+        "ancienthorizons:hare",
+        "ancienthorizons:domestic_goat"
+    ]
+}

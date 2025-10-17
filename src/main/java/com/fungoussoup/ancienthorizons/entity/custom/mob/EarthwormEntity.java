@@ -265,7 +265,7 @@ public class EarthwormEntity extends AbstractUndergroundAnimal {
         }
     }
 
-    public class SeekUndergroundGoal extends Goal {
+    public static class SeekUndergroundGoal extends Goal {
         private final EarthwormEntity earthworm;
         private final double speed;
         private Vec3 targetPosition;
@@ -314,14 +314,12 @@ public class EarthwormEntity extends AbstractUndergroundAnimal {
             // Find a position underground
             for (int i = 0; i < 10; i++) {
                 Vec3 randomPos = Vec3.atLowerCornerOf(RandomPos.generateRandomDirection(this.earthworm.getRandom(), 10, 5));
-                if (randomPos != null) {
-                    BlockPos targetPos = new BlockPos((int)randomPos.x,
-                            Math.min((int)randomPos.y, this.earthworm.level().getSeaLevel() - 15),
-                            (int)randomPos.z);
-
-                    if (this.earthworm.level().getBlockState(targetPos).isSolid()) {
-                        return Vec3.atCenterOf(targetPos);
-                    }
+                BlockPos targetPos = new BlockPos((int) randomPos.x,
+                        Math.min((int) randomPos.y, this.earthworm.level().getSeaLevel() - 15),
+                        (int) randomPos.z);
+                Level level = this.earthworm.level();
+                if (level.getBlockState(targetPos).isCollisionShapeFullBlock(level, targetPos)) {
+                    return Vec3.atCenterOf(targetPos);
                 }
             }
             return null;

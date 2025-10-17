@@ -97,7 +97,7 @@ public class PenguinEntity extends SemiAquaticAnimal {
 
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, AbstractSchoolingFish.class, false, false) {
             public boolean canUse() {
-                return !isHungry() && super.canUse();
+                return isHungry() && super.canUse();
             }
         });
     }

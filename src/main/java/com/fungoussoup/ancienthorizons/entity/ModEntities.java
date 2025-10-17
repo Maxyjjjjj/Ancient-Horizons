@@ -196,7 +196,7 @@ public class ModEntities {
 
     public static final Supplier<EntityType<MonkeyEntity>> MONKEY =
             ENTITY_TYPES.register("monkey", () -> EntityType.Builder.of(MonkeyEntity::new, MobCategory.CREATURE)
-                    .sized(0.5f, 0.8f).build("monkey"));
+                    .sized(0.4325f, 1.25f).build("monkey"));
 
     public static final Supplier<EntityType<BactrianCamel>> BACTRIAN_CAMEL =
             ENTITY_TYPES.register("bactrian_camel", () -> EntityType.Builder.of(BactrianCamel::new, MobCategory.CREATURE)

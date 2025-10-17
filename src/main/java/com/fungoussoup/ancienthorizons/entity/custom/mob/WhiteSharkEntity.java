@@ -137,6 +137,14 @@ public class WhiteSharkEntity extends TrulyWaterAnimal implements NeutralMob {
         return SoundEvents.COD_DEATH;
     }
 
+    public int getCuriousityTimer() {
+        return curiousityTimer;
+    }
+
+    public void setCuriousityTimer(int curiousityTimer) {
+        this.curiousityTimer = curiousityTimer;
+    }
+
     // Custom AI Goals
 
     static class CuriousApproachPlayerGoal extends Goal {

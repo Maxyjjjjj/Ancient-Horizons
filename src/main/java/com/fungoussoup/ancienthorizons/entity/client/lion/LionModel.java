@@ -127,9 +127,9 @@ public class LionModel<T extends LionEntity> extends HierarchicalModel<T> {
         this.animate(entity.sleepAnimationState, TigerAnimations.TIGER_SLEEP, ageInTicks, 1f);
         this.animate(entity.yawnAnimationState, TigerAnimations.TIGER_YAWN, ageInTicks, 1f);
         this.animate(entity.sitAnimationState, TigerAnimations.TIGER_SIT, ageInTicks, 1f);
+        this.animate(entity.danceAnimationState, TigerAnimations.TIGER_DANCE, ageInTicks, 1f);
 
         if (entity.isSleeping()) {
-            // Example sleeping pose adjustments — tweak as needed for your model
             this.body.y = 14.0F;
             this.body.zRot = -42.5F * Mth.DEG_TO_RAD;
         }

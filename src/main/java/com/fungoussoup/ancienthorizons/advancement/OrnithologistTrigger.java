@@ -1,5 +1,6 @@
 package com.fungoussoup.ancienthorizons.advancement;
 
+import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractPasserineEntity;
 import com.fungoussoup.ancienthorizons.registry.ModAdvancements;
@@ -27,11 +28,6 @@ public class OrnithologistTrigger extends SimpleCriterionTrigger<OrnithologistTr
         return OrnithologistTrigger.TriggerInstance.CODEC;
     }
 
-    /**
-     * Triggers the advancement check when a bird is tamed
-     * @param player The player who tamed the bird
-     * @param bird The bird that was tamed
-     */
     public void trigger(ServerPlayer player, AbstractPasserineEntity bird) {
         this.trigger(player, (instance) -> instance.test(player, bird));
     }
@@ -71,7 +67,7 @@ public class OrnithologistTrigger extends SimpleCriterionTrigger<OrnithologistTr
         );
 
         // NBT key for persistent player data
-        private static final String ROOT_TAG = "ancient_horizons";
+        private static final String ROOT_TAG = AncientHorizons.MOD_ID;
         private static final String TAMED_BIRDS_TAG = "TamedBirds";
 
         public static Criterion<OrnithologistTrigger.TriggerInstance> simple() {
@@ -101,7 +97,7 @@ public class OrnithologistTrigger extends SimpleCriterionTrigger<OrnithologistTr
 
         /**
          * Gets or creates the set of tamed bird types for a player
-         * Stored under "ancient_horizons" -> "TamedBirds"
+         * Stored under "ancienthorizons" -> "TamedBirds"
          */
         private Set<EntityType<?>> getOrCreateTamedBirds(ServerPlayer player) {
             CompoundTag playerData = player.getPersistentData();
