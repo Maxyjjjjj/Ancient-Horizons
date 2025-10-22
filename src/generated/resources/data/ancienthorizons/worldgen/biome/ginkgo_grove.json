@@ -1,0 +1,25 @@
+{
+    "temperature": 0.75,
+    "downfall": 0.8,
+    "has_precipitation": true,
+    "effects": {
+        "sky_color": 7972607,
+        "fog_color": 12509439,
+        "water_color": 5086965,
+        "water_fog_color": 532536,
+        "grass_color": 12048748,
+        "foliage_color": 14211164
+    },
+    "spawners": {
+        "creature": [
+            { "type": "minecraft:sheep", "weight": 4, "minCount": 2, "maxCount": 4 }
+        ]
+    },
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:forest_flowers",
+        "minecraft:forest_grass",
+        "minecraft:underground_ores"
+    ]
+}

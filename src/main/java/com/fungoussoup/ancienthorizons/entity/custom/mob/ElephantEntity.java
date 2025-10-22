@@ -1,11 +1,7 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.compat.Mods;
-import com.fungoussoup.ancienthorizons.compat.automobility.CarTargetingEntity;
-import com.fungoussoup.ancienthorizons.compat.automobility.LargeAnimalTurnAutomobileOver;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
-import io.github.foundationgames.automobility.entity.AutomobileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -26,8 +22,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -88,10 +82,6 @@ public class ElephantEntity extends TamableAnimal implements NeutralMob {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::shouldAttackPlayer));
         this.targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, true));
         this.targetSelector.addGoal(4, new DefendFriendlyPlayerGoal(this));
-
-        if (Mods.AUTOMOBILITY.isLoaded()){
-            this.targetSelector.addGoal(1, new LargeAnimalTurnAutomobileOver(this, 1.0D, true));
-        }
     }
 
     public static AttributeSupplier.Builder createAttributes() {

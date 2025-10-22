@@ -50,7 +50,7 @@ public class HippopotamusEntity extends SemiAquaticAnimal implements NeutralMob 
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 40.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.2D)
                 .add(Attributes.ATTACK_DAMAGE, 8.0D)

@@ -191,7 +191,8 @@
         "sounds": [
             "ancienthorizons:entity/passerine_chirp_0",
             "ancienthorizons:entity/passerine_chirp_1",
-            "ancienthorizons:entity/passerine_chirp_2"
+            "ancienthorizons:entity/passerine_chirp_2",
+            "ancienthorizons:entity/passerine_chirp_3"
         ],
         "subtitle": "ancienthorizons.subtitles.entity.passerine.chirp"
     },
@@ -411,5 +412,135 @@
             "ancienthorizons:entity/saola_hurt_2"
         ],
         "subtitle": "ancienthorizons.subtitles.entity.saola.death"
+    },
+    "entity.lion.idle": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_idle_0",
+            "ancienthorizons:entity/tiger_idle_1",
+            "ancienthorizons:entity/tiger_idle_2",
+            "ancienthorizons:entity/tiger_idle_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.idle"
+    },
+    "entity.lion.roar": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_roar"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.roar"
+    },
+    "entity.lion.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_hurt_0",
+            "ancienthorizons:entity/tiger_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.hurt"
+    },
+    "entity.lion.death": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_death"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.death"
+    },
+    "entity.lion.attack": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_attack"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.attack"
+    },
+    "entity.lion.angry": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_angry_2",
+            "ancienthorizons:entity/tiger_angry_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.angry"
+    },
+    "entity.lion.roar_aggro": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_roar_aggro_1",
+            "ancienthorizons:entity/tiger_roar_aggro_2",
+            "ancienthorizons:entity/tiger_roar_aggro_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.roar_aggro"
+    },
+    "entity.lion.yawn": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_yawn_1",
+            "ancienthorizons:entity/tiger_yawn_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.yawn"
+    },
+    "entity.lion.warning": {
+        "sounds": [
+            "ancienthorizons:entity/tiger_warning"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.warning"
+    },
+    "entity.lion.idle_baby": {
+        "sounds": [
+            "ancienthorizons:entity/lion_idle_baby"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.lion.idle_baby"
+    },
+    "entity.wolverine.idle": {
+        "sounds": [
+            "ancienthorizons:entity/wolverine_idle_0",
+            "ancienthorizons:entity/wolverine_idle_1",
+            "ancienthorizons:entity/wolverine_idle_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.wolverine.idle"
+    },
+    "entity.wolverine.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/wolverine_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.wolverine.hurt"
+    },
+    "entity.wolverine.death": {
+        "sounds": [
+            "ancienthorizons:entity/wolverine_hurt"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.wolverine.death"
+    },
+    "entity.merganser.idle": {
+        "sounds": [
+            "ancienthorizons:entity/merganser_idle_0",
+            "ancienthorizons:entity/merganser_idle_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.merganser.idle"
+    },
+    "entity.merganser.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/merganser_idle_0",
+            "ancienthorizons:entity/merganser_idle_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.merganser.hurt"
+    },
+    "entity.merganser.death": {
+        "sounds": [
+            "ancienthorizons:entity/merganser_idle_0",
+            "ancienthorizons:entity/merganser_idle_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.merganser.death"
+    },
+    "entity.diplodocus.idle": {
+        "sounds": [
+            "ancienthorizons:entity/diplodocus_idle_0",
+            "ancienthorizons:entity/diplodocus_idle_1",
+            "ancienthorizons:entity/diplodocus_idle_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.diplodocus.idle"
+    },
+    "entity.diplodocus.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/diplodocus_hurt_0",
+            "ancienthorizons:entity/diplodocus_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.diplodocus.hurt"
+    },
+    "entity.diplodocus.death": {
+        "sounds": [
+            "ancienthorizons:entity/diplodocus_death"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.diplodocus.death"
     }
 }

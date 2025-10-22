@@ -76,8 +76,8 @@ public class RoadrunnerEntity extends TamableAnimal implements DancingAnimal {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(3, new PanicGoal(this, 2.5D));
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.8D, 10.0F, 2.0F));
-        this.goalSelector.addGoal(5, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.8D, 10.0F, 2.0F));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -144,6 +144,8 @@ public class RoadrunnerEntity extends TamableAnimal implements DancingAnimal {
             this.onStopRunning();
         }
         wasRunningLastTick = isRunningNow;
+
+        tickAnimations();
     }
 
     @Override
@@ -278,7 +280,6 @@ public class RoadrunnerEntity extends TamableAnimal implements DancingAnimal {
     }
 
     private void onStopRunning() {
-        // Reset to normal speed
         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.35D);
     }
 
@@ -378,5 +379,18 @@ public class RoadrunnerEntity extends TamableAnimal implements DancingAnimal {
             vec3d = Vec3.ZERO;
         }
         super.travel(vec3d);
+    }
+
+    private void tickAnimations() {
+        // Dance state: active if the entity is flagged as dancing
+        if (this.isDancing()) {
+            this.danceAnimationState.start(tickCount);
+        } else {
+            this.danceAnimationState.stop();
+        }
+    }
+
+    public AnimationState getDanceAnimationState() {
+        return this.danceAnimationState;
     }
 }

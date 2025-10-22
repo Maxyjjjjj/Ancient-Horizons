@@ -54,7 +54,7 @@ public class PangolinEntity extends Animal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 16.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.2)
                 .add(Attributes.ARMOR, 4.0)

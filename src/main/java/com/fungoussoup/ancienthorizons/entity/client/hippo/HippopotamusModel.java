@@ -68,8 +68,14 @@ public class HippopotamusModel<T extends HippopotamusEntity> extends Hierarchica
     }
 
     @Override
-    public void setupAnim(HippopotamusEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(HippopotamusEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        headYaw = Mth.clamp(headYaw, -30f, 30f);
+        headPitch = Mth.clamp(headPitch, -25f, 45);
+
+        this.head.yRot = headYaw * ((float) Math.PI / 180f);
+        this.head.xRot = headPitch * ((float) Math.PI / 180f);
 
         float walkSpeed = 1.0F;
         float walkDegree = 1.0F;

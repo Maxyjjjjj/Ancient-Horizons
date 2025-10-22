@@ -71,7 +71,6 @@ public class MonkeyModel<T extends MonkeyEntity> extends HierarchicalModel<T> im
         this.armright.xRot = 0.0F;
         this.legleft.xRot = 0.0F;
         this.legright.xRot = 0.0F;
-        this.tail.xRot = -2.2689F;
 
         if (!entity.isSitting()) {
             // Walking
@@ -101,8 +100,6 @@ public class MonkeyModel<T extends MonkeyEntity> extends HierarchicalModel<T> im
             this.armright.yRot = -0.2F;
         }
     }
-
-
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {

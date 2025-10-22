@@ -1,6 +1,5 @@
 package com.fungoussoup.ancienthorizons;
 
-import com.fungoussoup.ancienthorizons.compat.sereneseasons.SereneSeasonsBreedingSeason;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.client.abstract_passerine.*;
 import com.fungoussoup.ancienthorizons.entity.client.anaconda.AnacondaPartRenderer;
@@ -31,6 +30,7 @@ import com.fungoussoup.ancienthorizons.entity.client.hypnovenator.HypnovenatorRe
 import com.fungoussoup.ancienthorizons.entity.client.large_azhdarchid.CryodrakonRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.lion.LionRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.mantis.MantisRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.merganser.MerganserRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.monkey.MonkeyRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.non_mob.DartRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.pangolin.PangolinRenderer;
@@ -49,6 +49,7 @@ import com.fungoussoup.ancienthorizons.entity.client.tiger.TigerRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.snow_leopard.SnowLeopardRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.velociraptor.VelociraptorOnHeadLayer;
 import com.fungoussoup.ancienthorizons.entity.client.velociraptor.VelociraptorRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.wolverine.WolverineRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZebraRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZonkeyRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZorseRenderer;
@@ -102,8 +103,6 @@ public class AncientHorizons {
         ModAdvancements.TRIGGERS.register(modEventBus);
 
         ModSoundEvents.init();
-
-        NeoForge.EVENT_BUS.register(SereneSeasonsBreedingSeason.class);
 
         modEventBus.addListener(this::addCreative);
     }
@@ -190,6 +189,8 @@ public class AncientHorizons {
             EntityRenderers.register(ModEntities.LION.get(), LionRenderer::new);
             EntityRenderers.register(ModEntities.PHILIPPINE_EAGLE.get(), PhilippineEagleRenderer::new);
             EntityRenderers.register(ModEntities.MONKEY.get(), MonkeyRenderer::new);
+            EntityRenderers.register(ModEntities.WOLVERINE.get(), WolverineRenderer::new);
+            EntityRenderers.register(ModEntities.MERGANSER.get(), MerganserRenderer::new);
         }
     }
 }

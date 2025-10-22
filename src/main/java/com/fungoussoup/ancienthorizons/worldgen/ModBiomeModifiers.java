@@ -62,26 +62,28 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> SPAWN_ANACONDA = registerKey("spawn_anaconda");
     public static final ResourceKey<BiomeModifier> SPAWN_DEER = registerKey("spawn_deer");
     public static final ResourceKey<BiomeModifier> SPAWN_CROC = registerKey("spawn_croc");
-    public static final ResourceKey<BiomeModifier> SPAWN_CICADA = registerKey("spawn_anaconda");
+    public static final ResourceKey<BiomeModifier> SPAWN_CICADA = registerKey("spawn_cicada");
+    public static final ResourceKey<BiomeModifier> SPAWN_WOLVERINE = registerKey("spawn_wolverine");
+    public static final ResourceKey<BiomeModifier> SPAWN_MERGANSER = registerKey("spawn_merganser");
 
-    public static final ResourceKey<BiomeModifier> SPAWN_BLACKCAP = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_BLUETHROAT = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_BULLFINCH = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_CANARY = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_CARDINAL = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_CHAFFINCH = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_GOLDCREST = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_GOLDFINCH = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_NIGHTINGALE = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_REDSTART = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_REEDLING = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_ROBIN = registerKey("spawn_passerine");
+    public static final ResourceKey<BiomeModifier> SPAWN_BLACKCAP = registerKey("spawn_blackcap");
+    public static final ResourceKey<BiomeModifier> SPAWN_BLUETHROAT = registerKey("spawn_bluethroat");
+    public static final ResourceKey<BiomeModifier> SPAWN_BULLFINCH = registerKey("spawn_bullfinch");
+    public static final ResourceKey<BiomeModifier> SPAWN_CANARY = registerKey("spawn_canary");
+    public static final ResourceKey<BiomeModifier> SPAWN_CARDINAL = registerKey("spawn_cardinal");
+    public static final ResourceKey<BiomeModifier> SPAWN_CHAFFINCH = registerKey("spawn_chaffinch");
+    public static final ResourceKey<BiomeModifier> SPAWN_GOLDCREST = registerKey("spawn_goldcrest");
+    public static final ResourceKey<BiomeModifier> SPAWN_GOLDFINCH = registerKey("spawn_goldfinch");
+    public static final ResourceKey<BiomeModifier> SPAWN_NIGHTINGALE = registerKey("spawn_nightingale");
+    public static final ResourceKey<BiomeModifier> SPAWN_REDSTART = registerKey("spawn_redstart");
+    public static final ResourceKey<BiomeModifier> SPAWN_REEDLING = registerKey("spawn_reedling");
+    public static final ResourceKey<BiomeModifier> SPAWN_ROBIN = registerKey("spawn_robin");
     public static final ResourceKey<BiomeModifier> SPAWN_SISKIN = registerKey("spawn_siskin");
     public static final ResourceKey<BiomeModifier> SPAWN_SKYLARK = registerKey("spawn_skylark");
-    public static final ResourceKey<BiomeModifier> SPAWN_SPARROW = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_TIT = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_WAGTAIL = registerKey("spawn_passerine");
-    public static final ResourceKey<BiomeModifier> SPAWN_WAXWING = registerKey("spawn_passerine");
+    public static final ResourceKey<BiomeModifier> SPAWN_SPARROW = registerKey("spawn_sparrow");
+    public static final ResourceKey<BiomeModifier> SPAWN_TIT = registerKey("spawn_tit");
+    public static final ResourceKey<BiomeModifier> SPAWN_WAGTAIL = registerKey("spawn_wagtail");
+    public static final ResourceKey<BiomeModifier> SPAWN_WAXWING = registerKey("spawn_waxwing");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -352,6 +354,15 @@ public class ModBiomeModifiers {
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.MONKEY.get(), 8, 2, 5))
         ));
 
+        context.register(SPAWN_WOLVERINE, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.WOLVERINE.get(), 6, 1, 3))
+        ));
+
+        context.register(SPAWN_MERGANSER, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_RIVER),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.MERGANSER.get(), 6, 1, 2))
+        ));
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

@@ -85,7 +85,7 @@ public class RoadrunnerModel<T extends RoadrunnerEntity> extends HierarchicalMod
         this.applyWalkingAnimation(limbSwing, limbSwingAmount, ageInTicks);
 
         if (entity.isDancing()) {
-            this.applyDancingAnimation(ageInTicks);
+            animate(entity.getDanceAnimationState(), ROADRUNNER_DANCE, ageInTicks);
         }
     }
 
@@ -95,12 +95,7 @@ public class RoadrunnerModel<T extends RoadrunnerEntity> extends HierarchicalMod
         this.legleft.xRot = Mth.cos(limbSwing * walkSpeed) * walkDegree * limbSwingAmount;
         this.legright.xRot = Mth.cos(limbSwing * walkSpeed + (float)Math.PI) * walkDegree * limbSwingAmount;
         this.ageInTicks = ageInTicks;
-        this.currentAnimation = ROADRUNNER_WALK;
-    }
-
-    private void applyDancingAnimation(float ageInTicks) {
-        this.ageInTicks = ageInTicks;
-        this.currentAnimation = ROADRUNNER_DANCE;
+        animateWalk(ROADRUNNER_WALK, limbSwing, limbSwingAmount, 1, 2.5f);
     }
 
     private void applyHeadRotation(float headYaw, float headPitch) {

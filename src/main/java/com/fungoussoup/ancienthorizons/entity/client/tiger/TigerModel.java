@@ -95,7 +95,7 @@ public class TigerModel<T extends TigerEntity> extends HierarchicalModel<T> {
 
         this.applyHeadRotation(netHeadYaw, headPitch);
 
-        if (!entity.isRunning() && !entity.isSleeping()) {
+        if (!entity.isSleeping() && !entity.isSitting()) {
             float walkSpeed = 1.0F;
             float walkDegree = 1.0F;
             this.pawleftfront.xRot = Mth.cos(limbSwing * walkSpeed) * walkDegree * limbSwingAmount;
@@ -110,7 +110,6 @@ public class TigerModel<T extends TigerEntity> extends HierarchicalModel<T> {
         this.animate(entity.sitAnimationState, TigerAnimations.TIGER_SIT, ageInTicks, 1f);
 
         if (entity.isSleeping()) {
-            // Example sleeping pose adjustments — tweak as needed for your model
             this.body.y = 14.0F;
             this.body.zRot = -42.5F * Mth.DEG_TO_RAD;
         }

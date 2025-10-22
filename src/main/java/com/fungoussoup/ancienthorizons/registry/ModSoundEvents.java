@@ -122,14 +122,38 @@ public class ModSoundEvents {
     public static final SoundEvent LION_AMBIENT = registerSoundEvent("lion_idle", createSoundEvent("entity.lion.idle"));
     public static final SoundEvent LION_HURT = registerSoundEvent("lion_hurt", createSoundEvent("entity.lion.hurt"));
     public static final SoundEvent LION_DEATH = registerSoundEvent("lion_death", createSoundEvent("entity.lion.death"));
-    public static final SoundEvent LION_ROAR = registerSoundEvent("lion_roar", createSoundEvent("entity.lion.roar"));
     public static final SoundEvent LION_YAWN = registerSoundEvent("lion_yawn", createSoundEvent("entity.lion.yawn"));
+    public static final SoundEvent LION_WARNING = registerSoundEvent("lion_warning", createSoundEvent("entity.lion.warning"));
+    public static final SoundEvent LION_ROAR = registerSoundEvent("lion_roar", createSoundEvent("entity.lion.roar"));
+    public static final SoundEvent LION_ROAR_AGGRO = registerSoundEvent("lion_roar_aggro", createSoundEvent("entity.lion.roar_aggro"));
+    public static final SoundEvent LION_AMBIENT_BABY = registerSoundEvent("lion_idle_baby", createSoundEvent("entity.lion.idle_baby"));
+    public static final SoundEvent LION_ANGRY = registerSoundEvent("lion_angry", createSoundEvent("entity.lion.angry"));
+    public static final SoundEvent LION_ATTACK = registerSoundEvent("lion_attack", createSoundEvent("entity.lion.attack"));
 
     // SAOLA
 
     public static final SoundEvent SAOLA_AMBIENT = registerSoundEvent("saola_idle", createSoundEvent("entity.saola.idle"));
     public static final SoundEvent SAOLA_HURT = registerSoundEvent("saola_hurt", createSoundEvent("entity.saola.hurt"));
     public static final SoundEvent SAOLA_DEATH = registerSoundEvent("saola_death", createSoundEvent("entity.saola.death"));
+
+    // WOLVERINE
+
+    public static final SoundEvent WOLVERINE_AMBIENT = registerSoundEvent("wolverine_idle", createSoundEvent("entity.wolverine.idle"));
+    public static final SoundEvent WOLVERINE_HURT = registerSoundEvent("wolverine_hurt", createSoundEvent("entity.wolverine.hurt"));
+    public static final SoundEvent WOLVERINE_DEATH = registerSoundEvent("wolverine_death", createSoundEvent("entity.wolverine.death"));
+
+    // DIPLODOCUS
+
+    public static final SoundEvent DIPLODOCUS_AMBIENT = registerSoundEvent("diplodocus_idle", createSoundEvent("entity.diplodocus.idle"));
+    public static final SoundEvent DIPLODOCUS_HURT = registerSoundEvent("diplodocus_hurt", createSoundEvent("entity.diplodocus.hurt"));
+    public static final SoundEvent DIPLODOCUS_DEATH = registerSoundEvent("diplodocus_death", createSoundEvent("entity.diplodocus.death"));
+
+    // MERGANSER
+
+    public static final SoundEvent MERGANSER_AMBIENT = registerSoundEvent("merganser_idle", createSoundEvent("entity.merganser.idle"));
+    public static final SoundEvent MERGANSER_HURT = registerSoundEvent("merganser_hurt", createSoundEvent("entity.merganser.hurt"));
+    public static final SoundEvent MERGANSER_DEATH = registerSoundEvent("merganser_death", createSoundEvent("entity.merganser.death"));
+
 
     private static SoundEvent createSoundEvent(String path) {
         ResourceLocation rl = ResourceLocation.fromNamespaceAndPath("ancienthorizons", path);

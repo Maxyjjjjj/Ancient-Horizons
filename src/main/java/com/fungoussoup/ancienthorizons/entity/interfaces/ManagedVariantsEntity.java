@@ -5,17 +5,12 @@ import com.fungoussoup.ancienthorizons.entity.interfaces.InterchangeableVariants
 
 interface ManagedVariantsEntity extends InterchangeableVariantsEntity {
 
-    /**
-     * Get the variant manager for this entity
-     * @return the variant manager
-     */
     VariantManager getVariantManager();
 
     /**
      * Initialize default variant conditions for this entity type
      */
     default void initializeVariantConditions() {
-        // Override in implementations to add default conditions
     }
 
     /**

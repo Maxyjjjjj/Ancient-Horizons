@@ -66,7 +66,7 @@ public class SeagullEntity extends Animal implements SemiFlyer {
     public SeagullEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
         this.groundNavigation = new GroundPathNavigation(this, level);
-        this.flyingNavigation = new BirdNavigation(this, level, 32);
+        this.flyingNavigation = new BirdNavigation(this, level);
         this.moveControl = new SemiFlyingMoveControl(this, 6, 4);
     }
 

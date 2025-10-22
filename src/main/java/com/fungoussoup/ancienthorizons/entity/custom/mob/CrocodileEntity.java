@@ -69,12 +69,11 @@ public class CrocodileEntity extends SemiAquaticAnimal implements BaskingAnimal,
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.ATTACK_DAMAGE, 8.0D)
-                .add(Attributes.ARMOR, 4.0D)
-                .add(Attributes.FOLLOW_RANGE, 16.0D);
+                .add(Attributes.ARMOR, 4.0D);
     }
 
     @Override

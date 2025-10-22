@@ -14,6 +14,7 @@ public class LionRenderer extends MobRenderer<LionEntity, LionModel<LionEntity>>
 
     public LionRenderer(EntityRendererProvider.Context context) {
         super(context, new LionModel<>(context.bakeLayer(LionModel.LAYER_LOCATION)), 0.5f);
+        this.addLayer(new LionCollarLayer(this, context.getModelSet()));
     }
 
     @Override

@@ -61,8 +61,8 @@ public class FisherEntity extends TamableAnimal {
         this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(3, new FisherFishingGoal(this));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0, true));
-        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f));
-        this.goalSelector.addGoal(6, new BreedGoal(this, 1.0));
+        this.goalSelector.addGoal(5, new BreedGoal(this, 1.0));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f));
         this.goalSelector.addGoal(7, new TemptGoal(this, 1.25, TAMING_INGREDIENTS, false));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 8.0f));

@@ -1,6 +1,6 @@
 {
     "type": "neoforge:add_spawns",
-    "biomes": "#neoforge:is_plains",
+    "biomes": "#c:is_plains",
     "spawners": [
         {
             "type": "ancienthorizons:mantis",

@@ -18,8 +18,9 @@
             { "type": "minecraft:husk", "weight": 80, "minCount": 2, "maxCount": 4 }
         ]
     },
+    "spawn_costs": {},
+    "carvers": {},
     "features": [
-        "minecraft:carvers",
         "minecraft:underground_ores",
         "minecraft:desert_vegetation"
     ]

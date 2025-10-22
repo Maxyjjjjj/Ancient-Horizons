@@ -22,9 +22,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Golden Snub-Nosed Monkey — a complex, social arboreal primate.
- */
 public class MonkeyEntity extends Animal {
     private static final EntityDataAccessor<Boolean> DATA_SITTING =
             SynchedEntityData.defineId(MonkeyEntity.class, EntityDataSerializers.BOOLEAN);

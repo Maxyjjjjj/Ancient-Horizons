@@ -8,6 +8,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import org.jetbrains.annotations.Nullable;
 
 public class EromangasaurusEntity extends AirBreathingWaterAnimal {
@@ -30,6 +32,7 @@ public class EromangasaurusEntity extends AirBreathingWaterAnimal {
         this.goalSelector.addGoal(0, new SurfaceForAirGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.1D, true));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D,
                 stack -> stack.is(ItemTags.FISHES), false));
@@ -40,27 +43,19 @@ public class EromangasaurusEntity extends AirBreathingWaterAnimal {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, AbstractSchoolingFish.class, false));
     }
 
-    /**
-     * Define entity attributes
-     */
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 30.0D)  // Decent health for a large aquatic reptile
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)  // Moderate swimming speed
-                .add(Attributes.ARMOR, 2.0D);  // Some natural armor
+                .add(Attributes.ARMOR, 2.0D)  // Some natural armor
+                .add(NeoForgeMod.SWIM_SPEED, 0.3);
     }
 
-    /**
-     * Check if the item is food for breeding
-     */
     @Override
     public boolean isFood(ItemStack itemStack) {
         return itemStack.is(ItemTags.FISHES);
     }
 
-    /**
-     * Create offspring when breeding
-     */
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         return ModEntities.EROMANGASAURUS.get().create(serverLevel);
@@ -75,8 +70,6 @@ public class EromangasaurusEntity extends AirBreathingWaterAnimal {
     protected int getAirSupplyThreshold() {
         return 1800;
     }
-
-    // Sound events - replace with your custom sounds if available
 
     @Nullable
     @Override
@@ -103,7 +96,7 @@ public class EromangasaurusEntity extends AirBreathingWaterAnimal {
 
     @Override
     public int getAmbientSoundInterval() {
-        return 200; // Play ambient sound every 10 seconds
+        return 200;
     }
 
     @Override

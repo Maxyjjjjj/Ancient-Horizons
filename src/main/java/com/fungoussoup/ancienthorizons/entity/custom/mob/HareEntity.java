@@ -15,10 +15,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.VariantHolder;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -66,7 +63,7 @@ public class HareEntity extends Animal implements VariantHolder<HareEntity.Type>
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 6.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0D);

@@ -1,7 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.entity.interfaces.Rutting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -31,11 +30,9 @@ import net.minecraft.core.BlockPos;
 
 import javax.annotation.Nullable;
 
-public class DomesticGoatEntity extends Animal implements Rutting {
+public class DomesticGoatEntity extends Animal {
     // Data parameters for syncing with client
     private static final EntityDataAccessor<Boolean> IS_MALE = SynchedEntityData.defineId(DomesticGoatEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> GOAT_IN_RUT = SynchedEntityData.defineId(DomesticGoatEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> RUT_INTENSITY = SynchedEntityData.defineId(DomesticGoatEntity.class, EntityDataSerializers.INT);
 
     private int eatAnimationTick;
     private EatBlockGoal eatBlockGoal;
@@ -47,9 +44,7 @@ public class DomesticGoatEntity extends Animal implements Rutting {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(IS_MALE, false);
-        builder.define(GOAT_IN_RUT, false);
-        builder.define(RUT_INTENSITY, 0);
+        builder.define(IS_MALE, random.nextBoolean());
     }
 
     @Override
@@ -129,26 +124,6 @@ public class DomesticGoatEntity extends Animal implements Rutting {
 
     public boolean canBeMilked() {
         return !this.isMale() && !this.isBaby();
-    }
-
-    @Override
-    public boolean ancient_Horizons$isInRut() {
-        return false;
-    }
-
-    @Override
-    public void ancient_Horizons$setInRut(boolean rutting) {
-
-    }
-
-    @Override
-    public int ancient_Horizons$getRutIntensity() {
-        return 0;
-    }
-
-    @Override
-    public void ancient_Horizons$setRutIntensity(int value) {
-
     }
 
     @Override

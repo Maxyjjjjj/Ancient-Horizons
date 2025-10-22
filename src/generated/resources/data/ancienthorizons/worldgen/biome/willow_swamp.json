@@ -1,0 +1,25 @@
+{
+    "temperature": 0.8,
+    "downfall": 1.0,
+    "has_precipitation": true,
+    "effects": {
+        "sky_color": 8892267,
+        "fog_color": 10879952,
+        "water_color": 6387556,
+        "water_fog_color": 2895423,
+        "grass_color": 7325163,
+        "foliage_color": 5583053
+    },
+    "spawners": {
+        "creature": [
+            { "type": "minecraft:frog", "weight": 6, "minCount": 2, "maxCount": 5 },
+            { "type": "minecraft:slime", "weight": 1, "minCount": 1, "maxCount": 1 }
+        ]
+    },
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:swamp_vegetation",
+        "minecraft:underground_ores"
+    ]
+}

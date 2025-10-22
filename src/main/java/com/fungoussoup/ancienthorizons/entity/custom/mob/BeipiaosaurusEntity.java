@@ -1,11 +1,8 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.compat.Mods;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.interfaces.ILootsChests;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
-import immersive_aircraft.entity.AircraftEntity;
-import io.github.foundationgames.automobility.entity.AutomobileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,9 +18,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.AbstractChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,9 +48,6 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
 
     private int hijackAttemptCooldown = 0;
     private static final int HIJACK_COOLDOWN = 200; // 10 seconds
-
-    private static final boolean HAS_AUTOMOBILITY = Mods.AUTOMOBILITY.isLoaded();
-    private static final boolean HAS_IMMERSIVE_AIRCRAFT = Mods.IMMERSIVE_AIRCRAFT.isLoaded();
 
     public BeipiaosaurusEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
@@ -144,8 +140,6 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
     }
 
     public boolean hasVehicleNearby() {
-        if (!HAS_AUTOMOBILITY && !HAS_IMMERSIVE_AIRCRAFT) return false;
-
         AABB searchBox = this.getBoundingBox().inflate(8.0D);
         List<Entity> nearby = this.level().getEntities(this, searchBox);
         for (Entity e : nearby) {
@@ -155,8 +149,7 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
     }
 
     private boolean isHijackableVehicle(Entity entity) {
-        return (HAS_AUTOMOBILITY && entity instanceof AutomobileEntity)
-                || (HAS_IMMERSIVE_AIRCRAFT && entity instanceof AircraftEntity);
+        return entity instanceof Boat || entity instanceof Minecart;
     }
 
     public void attemptHijack() {
@@ -288,7 +281,7 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
             for (BlockPos pos : BlockPos.betweenClosed(mobPos.offset(-range, -range, -range),
                     mobPos.offset(range, range, range))) {
                 BlockState state = mob.level().getBlockState(pos);
-                if (state.getBlock() instanceof ChestBlock) {
+                if (state.getBlock() instanceof AbstractChestBlock<?>) {
                     return pos.immutable();
                 }
             }

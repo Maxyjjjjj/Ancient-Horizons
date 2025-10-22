@@ -70,9 +70,12 @@ public class HareModel<T extends HareEntity> extends AgeableListModel<T> {
     }
 
     @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.xRot += (float) (headPitch * (Math.PI / 180F));
-        this.head.yRot += (float) (netHeadYaw * (Math.PI / 180F));
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch) {
+        headYaw = Mth.clamp(headYaw, -30f, 30f);
+        headPitch = Mth.clamp(headPitch, -25f, 45);
+
+        this.head.yRot = headYaw * ((float) Math.PI / 180f);
+        this.head.xRot = headPitch * ((float) Math.PI / 180f);
 
         float maxLimbRotation = 0.5F;
 
@@ -80,9 +83,6 @@ public class HareModel<T extends HareEntity> extends AgeableListModel<T> {
         this.frontLegRight.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.0F * limbSwingAmount * maxLimbRotation;
         this.backLegRight.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * maxLimbRotation;
         this.backLegRight2.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * maxLimbRotation;
-
-        this.tail.yRot += Mth.cos(ageInTicks * 0.5F) * 0.1F;
-        this.tail.xRot += Mth.cos(ageInTicks * 0.25F) * 0.05F;
     }
 
     @Override

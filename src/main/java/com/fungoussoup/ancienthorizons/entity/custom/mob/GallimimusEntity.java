@@ -193,8 +193,6 @@ public class GallimimusEntity extends AbstractHorse {
         return false;
     }
 
-
-
     @Override
     public void onPlayerJump(int jumpPower) {
         // Disabled - sprint is handled via the sprint key now

@@ -586,6 +586,18 @@ public class ModItems {
             () -> new DeferredSpawnEggItem(ModEntities.MONKEY, 0x8b5c3e, 0x69737e,
                     new Item.Properties()));
 
+    // MONKEY
+
+    public static final DeferredItem<Item> WOLVERINE_SPAWN_EGG = ITEMS.register("wolverine_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.WOLVERINE, 0x3e3730, 0x88735d,
+                    new Item.Properties()));
+
+    // MONKEY
+
+    public static final DeferredItem<Item> MERGANSER_SPAWN_EGG = ITEMS.register("merganser_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.MERGANSER, 0x1b1b1b, 0x856456,
+                    new Item.Properties()));
+
     // CRYODRAKON and other extinct critters
 
     public static final DeferredItem<Item> CRYODRAKON_SPAWN_EGG = ITEMS.register("cryodrakon_spawn_egg",

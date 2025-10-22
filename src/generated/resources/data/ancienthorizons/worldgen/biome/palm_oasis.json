@@ -1,0 +1,24 @@
+{
+    "temperature": 1.2,
+    "downfall": 0.3,
+    "has_precipitation": true,
+    "effects": {
+        "sky_color": 11592655,
+        "fog_color": 14940641,
+        "water_color": 3655712,
+        "water_fog_color": 541116,
+        "grass_color": 12882487,
+        "foliage_color": 10640862
+    },
+    "spawners": {
+        "creature": [
+            { "type": "minecraft:camel", "weight": 6, "minCount": 2, "maxCount": 4 }
+        ]
+    },
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:desert_vegetation",
+        "minecraft:underground_ores"
+    ]
+}

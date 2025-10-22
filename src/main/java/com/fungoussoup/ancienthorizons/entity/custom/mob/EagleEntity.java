@@ -75,7 +75,7 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
         super(entityType, level);
         this.setCanPickUpLoot(true);
         this.groundNavigation = new GroundPathNavigation(this, level);
-        this.flyingNavigation = new BirdNavigation(this, level, 32);
+        this.flyingNavigation = new BirdNavigation(this, level);
         this.moveControl = new SemiFlyingMoveControl(this);
     }
 
@@ -138,7 +138,7 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 24.0) // Golden eagles are robust
                 .add(Attributes.FLYING_SPEED, 0.8) // Fast fliers
                 .add(Attributes.MOVEMENT_SPEED, 0.25) // Slower on the ground

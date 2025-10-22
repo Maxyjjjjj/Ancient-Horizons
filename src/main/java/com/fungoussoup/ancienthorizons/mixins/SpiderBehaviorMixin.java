@@ -18,9 +18,6 @@ public class SpiderBehaviorMixin {
     private void addCustomGoals(CallbackInfo ci) {
         Spider spider = (Spider) (Object) this;
 
-        // Attack mantises (spider-mantis war)
-        spider.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(spider, MantisEntity.class, true));
-
         // Flee from ruffs
         spider.goalSelector.addGoal(1, new AvoidEntityGoal<>(spider, RuffEntity.class,
                 8.0F, 1.8D, 1.4D,

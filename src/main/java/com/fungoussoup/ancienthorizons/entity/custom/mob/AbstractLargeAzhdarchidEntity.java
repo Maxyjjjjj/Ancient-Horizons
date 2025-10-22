@@ -100,7 +100,7 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
         this.moveControl = new SemiFlyingMoveControl(this);
         this.lookControl = new SemiFlyingLookControl(this);
         this.groundNavigation = new GroundPathNavigation(this, level);
-        this.flyingNavigation = new BirdNavigation(this, level, 64);
+        this.flyingNavigation = new BirdNavigation(this, level);
         this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
         this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
         this.setPathfindingMalus(PathType.COCOA, -1.0F);

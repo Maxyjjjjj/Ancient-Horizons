@@ -83,7 +83,7 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
     public AbstractPasserineEntity(EntityType<? extends ShoulderRidingEntity> entityType, Level level) {
         super(entityType, level);
         this.groundNavigation = new GroundPathNavigation(this, level);
-        this.flyingNavigation = new BirdNavigation(this, level, 32);
+        this.flyingNavigation = new BirdNavigation(this, level);
     }
 
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -143,7 +143,7 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
     @Override
     public void tick() {
         super.tick();
-
+        this.getNavigation().tick();
         if (this.isFlying()) {
             handleFlying();
             // Auto-landing if near ground
@@ -620,7 +620,6 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
             }
         }
 
-        // Sitting/standing toggle for tamed tigers
         if (this.isOwnedBy(player) && !this.isFood(itemstack)) {
             this.setOrderedToSit(!this.isOrderedToSit());
             this.jumping = false;

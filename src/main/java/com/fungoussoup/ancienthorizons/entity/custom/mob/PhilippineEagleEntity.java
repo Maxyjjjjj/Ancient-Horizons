@@ -76,13 +76,13 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         super(type, level);
         this.setCanPickUpLoot(true);
         this.groundNavigation = new GroundPathNavigation(this, level);
-        this.flyingNavigation = new BirdNavigation(this, level, 32);
+        this.flyingNavigation = new BirdNavigation(this, level);
         this.moveControl = new SemiFlyingMoveControl(this);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return TamableAnimal.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 22.0D)
+                .add(Attributes.MAX_HEALTH, 26.0D) // BIGGER than Golden Eagle
                 .add(Attributes.FLYING_SPEED, 0.8D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.ATTACK_DAMAGE, 5.0D)

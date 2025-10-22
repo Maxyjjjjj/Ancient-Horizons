@@ -1,0 +1,21 @@
+{
+    "temperature": 1.0,
+    "downfall": 0.4,
+    "has_precipitation": false,
+    "effects": {
+        "sky_color": 7842047,
+        "fog_color": 13168868,
+        "water_color": 5158530,
+        "water_fog_color": 539459,
+        "grass_color": 10172826,
+        "foliage_color": 8605632
+    },
+    "spawners": {},
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:desert_vegetation",
+        "minecraft:savanna_grass",
+        "minecraft:underground_ores"
+    ]
+}

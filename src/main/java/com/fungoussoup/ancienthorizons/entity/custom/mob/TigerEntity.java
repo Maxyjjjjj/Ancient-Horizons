@@ -101,6 +101,22 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
     }
 
     @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (isInvulnerableTo(source)) return false;
+        if (!level().isClientSide) setOrderedToSit(false);
+        return super.hurt(source, amount);
+    }
+
+    public boolean isAngry() { return persistentAngerTarget != null; }
+
+
+    @Override public void startPersistentAngerTimer() { setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random)); }
+    @Override public void setRemainingPersistentAngerTime(int time) { remainingPersistentAngerTime = time; }
+    @Override public int getRemainingPersistentAngerTime() { return remainingPersistentAngerTime; }
+    @Override public void setPersistentAngerTarget(@Nullable UUID target) { persistentAngerTarget = target; }
+    @Nullable @Override public UUID getPersistentAngerTarget() { return persistentAngerTarget; }
+
+    @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(ItemTags.MEAT) || stack.is(ROTTEN_FLESH);
     }
@@ -108,41 +124,28 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        goalSelector.addGoal(0, new FloatGoal(this));
+        goalSelector.addGoal(1, new TigerSleepGoal(this));
+        goalSelector.addGoal(2, new TigerYawnGoal(this));
+        goalSelector.addGoal(3, new SitWhenOrderedToGoal(this));
+        goalSelector.addGoal(4, new BreedGoal(this, 1.1D));
+        goalSelector.addGoal(5, new TigerRoarGoal(this, 1.0f, 40, 80));
+        goalSelector.addGoal(6, new TigerMeleeAttackGoal());
+        goalSelector.addGoal(7, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        goalSelector.addGoal(8, new FollowParentGoal(this, 1.0D));
+        goalSelector.addGoal(9, new WaterAvoidingRandomStrollGoal(this, 0.8D));
+        goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        goalSelector.addGoal(11, new RandomLookAroundGoal(this));
 
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new TigerSleepGoal(this));
-        this.goalSelector.addGoal(2, new TigerYawnGoal(this));
-        this.goalSelector.addGoal(3, new SitWhenOrderedToGoal(this));
-
-        this.goalSelector.addGoal(5, new TigerRoarGoal(this, 1.0f, 40, 80));
-        this.goalSelector.addGoal(6, new TigerMeleeAttackGoal());
-        this.goalSelector.addGoal(6, new TigerHuntAndPounceGoal(this));
-        this.goalSelector.addGoal(7, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-        this.goalSelector.addGoal(8, new FollowParentGoal(this, 1.0D));
-        this.goalSelector.addGoal(9, new WaterAvoidingRandomStrollGoal(this, 0.8D));
-        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(11, new RandomLookAroundGoal(this));
-
-        // Target selectors — combat priorities
-        this.targetSelector.addGoal(1, new TigerHurtByTargetGoal());
-
-        this.targetSelector.addGoal(2, new TigerRoarAggroGoal(this, 1.0F, 20, 40) {
-            @Override
-            public boolean canUse() {
-                return !TigerEntity.this.isBaby() && super.canUse();
-            }
-        });
-
-        this.targetSelector.addGoal(2, new NonTameRandomTargetGoal<>(this, Animal.class, false, target -> target.getType().is(ModTags.EntityTypes.TIGER_PREY)));
-        this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new TigerAttackPlayersGoal());
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false,
-                entity -> entity.getType().is(ModTags.EntityTypes.TIGER_ENEMIES)));
-
-        this.targetSelector.addGoal(4, new NonTameRandomTargetGoal<>(this, LivingEntity.class, true, this::isAngryAt));
-
-        this.targetSelector.addGoal(7, new ResetUniversalAngerTargetGoal<>(this, false));
+        targetSelector.addGoal(1, new TigerHurtByTargetGoal());
+        targetSelector.addGoal(2, new TigerRoarAggroGoal(this, 1.0F, 20, 40));
+        targetSelector.addGoal(2, new NonTameRandomTargetGoal<>(this, Animal.class, false, target -> target.getType().is(ModTags.EntityTypes.TIGER_PREY)));
+        targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
+        targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        targetSelector.addGoal(3, new TigerAttackPlayersGoal());
+        targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false, e -> e.getType().is(ModTags.EntityTypes.TIGER_ENEMIES)));
+        targetSelector.addGoal(4, new NonTameRandomTargetGoal<>(this, LivingEntity.class, true, this::isAngryAt));
+        targetSelector.addGoal(7, new ResetUniversalAngerTargetGoal<>(this, false));
     }
 
 
@@ -159,23 +162,27 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
      */
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.readPersistentAngerSaveData(this.level(), compound);
-        this.entityData.set(VARIANT, compound.getInt("Variant"));
-        this.setSitting(compound.getBoolean("Sitting"));
-        if (compound.contains("CollarColor", 99)) {
-            this.setCollarColor(DyeColor.byId(compound.getInt("CollarColor")));
-        }
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("TigerVariant", getVariant().getId());
+        tag.putBoolean("Sleeping", isSleeping());
+        tag.putBoolean("Yawning", isYawning());
+        tag.putBoolean("Sitting", isSitting());
+        tag.putInt("CollarColor", getCollarColor().getId());
+        if (persistentAngerTarget != null) tag.putUUID("AngerTarget", persistentAngerTarget);
+        tag.putInt("AngerTime", remainingPersistentAngerTime);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        this.addPersistentAngerSaveData(compound);
-        compound.putInt("Variant", this.getTypeVariant());
-        compound.putBoolean("Sitting", this.isSitting());
-        compound.putInt("CollarColor", this.getCollarColor().getId());
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        setVariant(TigerVariant.byID(tag.getInt("TigerVariant")));
+        setSleeping(tag.getBoolean("Sleeping"));
+        setYawning(tag.getBoolean("Yawning"));
+        setOrderedToSit(tag.getBoolean("Sitting"));
+        setCollarColor(DyeColor.byId(tag.getInt("CollarColor")));
+        if (tag.hasUUID("AngerTarget")) persistentAngerTarget = tag.getUUID("AngerTarget");
+        remainingPersistentAngerTime = tag.getInt("AngerTime");
     }
 
     @Override
@@ -200,58 +207,18 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
     }
 
     @Override
-    public void startPersistentAngerTimer() {
-        this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
-    }
-
-    @Override
-    public void setRemainingPersistentAngerTime(int time) {
-        this.remainingPersistentAngerTime = time;
-    }
-
-    @Override
-    public int getRemainingPersistentAngerTime() {
-        return this.remainingPersistentAngerTime;
-    }
-
-    @Override
-    public void setPersistentAngerTarget(@Nullable UUID target) {
-        this.persistentAngerTarget = target;
-    }
-
-    @Nullable
-    @Override
-    public UUID getPersistentAngerTarget() {
-        return this.persistentAngerTarget;
-    }
-
-    @Override
     protected SoundEvent getAmbientSound() {
-        if (this.isAngry() && !this.isBaby()) {
-            return getAngrySound();
-        } else {
-            return this.isBaby() ? ModSoundEvents.TIGER_AMBIENT_BABY : ModSoundEvents.TIGER_AMBIENT;
-        }
-    }
-
-    private SoundEvent getAngrySound() {
-        return ModSoundEvents.TIGER_ANGRY;
+        if (isAngry() && !isBaby()) return ModSoundEvents.TIGER_ANGRY;
+        return isBaby() ? ModSoundEvents.TIGER_AMBIENT_BABY : ModSoundEvents.TIGER_AMBIENT;
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return ModSoundEvents.TIGER_HURT;
-    }
-
+    protected SoundEvent getHurtSound(DamageSource source) { return ModSoundEvents.TIGER_HURT; }
     @Override
-    protected SoundEvent getDeathSound() {
-        return ModSoundEvents.TIGER_DEATH;
-    }
-
+    protected SoundEvent getDeathSound() { return ModSoundEvents.TIGER_DEATH; }
     @Override
-    protected void playStepSound(BlockPos pos, BlockState block) {
-        this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
-    }
+    protected void playStepSound(BlockPos pos, BlockState block) { playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F); }
+
 
     protected void playWarningSound() {
         if (this.warningSoundTicks <= 0) {
@@ -260,89 +227,61 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         }
     }
 
-    public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            if (!this.level().isClientSide) {
-                this.setOrderedToSit(false);
-            }
-
-            return super.hurt(source, amount);
-        }
-    }
-
-    public boolean isAngry() {
-        return this.persistentAngerTarget != null;
-    }
-
+    @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
+        ItemStack stack = player.getItemInHand(hand);
 
-        if (this.level().isClientSide) {
-            boolean flag = this.isOwnedBy(player) || this.isTame() ||
-                    (itemstack.is(ItemTags.MEAT) && !this.isTame() && !this.isAngry());
+        if (level().isClientSide) {
+            boolean flag = isOwnedBy(player) || isTame() || (stack.is(ItemTags.MEAT) && !isTame() && !isAngry());
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
-        } else {
-            // Taming with meat
-            if (itemstack.is(ItemTags.MEAT) && !this.isTame()) {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-
-                // 20% chance to tame
-                if (this.random.nextInt(5) == 0) {
-                    this.tame(player);
-                    this.navigation.stop();
-                    this.setTarget(null);
-                    this.setSleeping(false);
-                    this.setOrderedToSit(true);
-                    this.level().broadcastEntityEvent(this, (byte) 7);
-                } else {
-                    this.level().broadcastEntityEvent(this, (byte) 6);
-                }
-                return InteractionResult.SUCCESS;
-            }
-
-            if (this.isTame()) {
-                if (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
-                    FoodProperties foodproperties = itemstack.getFoodProperties(this);
-                    float f = foodproperties != null ? (float) foodproperties.nutrition() : 1.0F;
-                    if (!itemstack.is(ROTTEN_FLESH)){
-                        this.heal(3.0F * f);
-                    } else {
-                        this.heal(f);
-                    }
-                    itemstack.consume(1, player);
-                    this.gameEvent(GameEvent.EAT);
-                    return InteractionResult.sidedSuccess(this.level().isClientSide());
-                } else {
-                    if (itemstack.getItem() instanceof DyeItem dyeitem) {
-                        if (this.isOwnedBy(player)) {
-                            DyeColor dyecolor = dyeitem.getDyeColor();
-                            if (dyecolor != this.getCollarColor()) {
-                                this.setCollarColor(dyecolor);
-                                itemstack.consume(1, player);
-                                return InteractionResult.SUCCESS;
-                            }
-
-                            return super.mobInteract(player, hand);
-                        }
-                    }
-                }
-            }
-
-            // Sitting/standing toggle for tamed tigers
-            if (this.isOwnedBy(player) && !this.isFood(itemstack)) {
-                this.setOrderedToSit(!this.isOrderedToSit());
-                this.jumping = false;
-                this.navigation.stop();
-                this.setTarget(null);
-                return InteractionResult.SUCCESS;
-            }
-
-            return super.mobInteract(player, hand);
         }
+
+        // Taming
+        if (stack.is(ItemTags.MEAT) && !isTame()) {
+            if (!player.getAbilities().instabuild) stack.shrink(1);
+            if (random.nextInt(5) == 0) {
+                tame(player);
+                navigation.stop();
+                setTarget(null);
+                setSleeping(false);
+                setOrderedToSit(true);
+                level().broadcastEntityEvent(this, (byte) 7);
+            } else {
+                level().broadcastEntityEvent(this, (byte) 6);
+            }
+            return InteractionResult.SUCCESS;
+        }
+
+        // Feeding
+        if (isTame() && isFood(stack) && getHealth() < getMaxHealth()) {
+            FoodProperties food = stack.getFoodProperties(this);
+            float heal = (food != null ? food.nutrition() : 1.0F);
+            if (!stack.is(Items.ROTTEN_FLESH)) heal *= 3.0F;
+            heal(heal);
+            stack.consume(1, player);
+            gameEvent(GameEvent.EAT);
+            return InteractionResult.sidedSuccess(level().isClientSide);
+        }
+
+        // Collar dyeing
+        if (isTame() && stack.getItem() instanceof DyeItem dye) {
+            if (isOwnedBy(player) && dye.getDyeColor() != getCollarColor()) {
+                setCollarColor(dye.getDyeColor());
+                stack.consume(1, player);
+                return InteractionResult.SUCCESS;
+            }
+        }
+
+        // Sitting toggle
+        if (isOwnedBy(player) && !isFood(stack)) {
+            setOrderedToSit(!isOrderedToSit());
+            jumping = false;
+            navigation.stop();
+            setTarget(null);
+            return InteractionResult.SUCCESS;
+        }
+
+        return super.mobInteract(player, hand);
     }
 
     @Override
@@ -386,32 +325,22 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         }
     }
 
+    private void tickAnimationTimeouts() {
+        if (angryAnimationTimeout > 0) angryAnimationTimeout--;
+        if (sleepAnimationTimeout > 0) sleepAnimationTimeout--;
+        if (yawnAnimationTimeout > 0) yawnAnimationTimeout--;
+    }
 
     private void setupAnimationStates() {
+        if (isAggressive()) angryAnimationState.start(tickCount); else angryAnimationState.stop();
 
-        // Handle angry animation
-        if (this.isAngry() && this.angryAnimationTimeout <= 0) {
-            this.angryAnimationState.start(this.tickCount);
-            this.angryAnimationTimeout = 40;
+        if (isSleeping() && sleepAnimationTimeout <= 0) {
+            sleepAnimationState.start(tickCount); sleepAnimationTimeout = 200 + random.nextInt(200);
         }
-
-        // Handle sleep animation
-        if (this.isSleeping() && this.sleepAnimationTimeout <= 0) {
-            this.sleepAnimationState.start(this.tickCount);
-            this.sleepAnimationTimeout = 200 + this.random.nextInt(200);
+        if (isYawning() && yawnAnimationTimeout <= 0) {
+            yawnAnimationState.start(tickCount); yawnAnimationTimeout = 60;
         }
-
-        // Handle yawn animation
-        if (this.isYawning() && this.yawnAnimationTimeout <= 0) {
-            this.yawnAnimationState.start(this.tickCount);
-            this.yawnAnimationTimeout = 60;
-        }
-
-        if (this.isSitting() && this.sitAnimationTimeout <= 0){
-            this.sitAnimationState.start(this.tickCount);
-        } else {
-            this.sitAnimationState.stop();
-        }
+        if (isSitting()) sitAnimationState.start(tickCount); else sitAnimationState.stop();
     }
 
     private AnimationDefinition getAnimation() {
@@ -444,69 +373,18 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
     @Override
     public void aiStep() {
         super.aiStep();
-
-        if (this.isInWater() && !this.isSwimming() && !this.onGround()) {
-            this.setSwimming(true);
-        }
-
-        if (this.isTame() && this.isOrderedToSit()) {
-            this.navigation.stop();
-        }
+        if (isTame() && isOrderedToSit()) navigation.stop();
     }
-
 
     @Override
     public void tick() {
         super.tick();
-
-        // Handle warning sound cooldown
-        if (this.warningSoundTicks > 0) {
-            this.warningSoundTicks--;
-        }
-
-        // Animation timeouts
-        if (this.angryAnimationTimeout > 0) {
-            this.angryAnimationTimeout--;
-            if (this.angryAnimationTimeout == 0) {
-                this.angryAnimationState.stop(); // Stop animation if using AnimationState
-            }
-        }
-
-        if (this.sleepAnimationTimeout > 0) {
-            this.sleepAnimationTimeout--;
-            if (this.sleepAnimationTimeout == 0) {
-                this.setSleeping(false);
-                this.sleepAnimationState.stop();
-            }
-        }
-
-        if (this.yawnAnimationTimeout > 0) {
-            this.yawnAnimationTimeout--;
-            if (this.yawnAnimationTimeout == 0) {
-                this.setYawning(false);
-            }
-        }
-
-        // Heal if tame
-        if (this.isTame() && this.getHealth() < this.getMaxHealth() && this.tickCount % 100 == 0) {
-            this.heal(1.0F);
-        }
-
-        // Server-side anger updates
-        if (!this.level().isClientSide) {
-            this.updatePersistentAnger((ServerLevel) this.level(), true);
-        }
+        if (warningSoundTicks > 0) warningSoundTicks--;
+        tickAnimationTimeouts();
+        if (isTame() && getHealth() < getMaxHealth() && tickCount % 100 == 0) heal(1.0F);
+        if (!level().isClientSide) updatePersistentAnger((ServerLevel) level(), true);
+        setupAnimationStates();
     }
-
-    @Override
-    public void travel(Vec3 travelVector) {
-        if (!this.isSleeping() && !this.isYawning()) {
-            super.travel(travelVector);
-        } else {
-            this.setDeltaMovement(Vec3.ZERO);
-        }
-    }
-
 
     @Override
     protected float getWaterSlowDown() {
@@ -636,32 +514,6 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         this.roarAnimationTimeout = playAnimationTimeout;
     }
 
-    public boolean isSleeping() {
-        return this.entityData.get(TIGER_SLEEPING);
-    }
-
-    public void setSleeping(boolean sleeping) {
-        this.entityData.set(TIGER_SLEEPING, sleeping);
-        if (sleeping) {
-            this.setAnimation(TIGER_SLEEP);
-        } else {
-            this.setAnimation(null);
-        }
-    }
-
-    public boolean isYawning() {
-        return this.entityData.get(TIGER_YAWNING);
-    }
-
-    public void setYawning(boolean yawning) {
-        this.entityData.set(TIGER_YAWNING, yawning);
-        if (yawning) {
-            this.setAnimation(TIGER_YAWN);
-        } else {
-            this.setAnimation(null);
-        }
-    }
-
     public AnimationState getAttackAnimationState() {
         return attackAnimationState;
     }
@@ -723,109 +575,10 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         }
     }
 
-    public static class TigerHuntAndPounceGoal extends Goal {
-        private final TigerEntity tiger;
-        private LivingEntity prey;
-        private int pounceCooldown;
-        private static final double DETECTION_RANGE = 16.0D;
-        private static final double POUNCE_RANGE = 6.0D;
+    public boolean isRunning() { return currentAnimation == TIGER_RUN || currentAnimation == TIGER_RUN_ANGRY; }
 
-        public TigerHuntAndPounceGoal(TigerEntity tiger) {
-            this.tiger = tiger;
-            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
-        }
-
-        @Override
-        public boolean canUse() {
-            if (tiger.isBaby() || tiger.isTame() || tiger.isRunning() || tiger.isSleeping() || tiger.isYawning())
-                return false;
-
-            LivingEntity potentialPrey = tiger.level().getNearestEntity(
-                    LivingEntity.class,
-                    TargetingConditions.forCombat().range(DETECTION_RANGE).selector(this::isValidPrey),
-                    tiger,
-                    tiger.getX(), tiger.getEyeY(), tiger.getZ(),
-                    tiger.getBoundingBox().inflate(DETECTION_RANGE)
-            );
-
-            if (potentialPrey != null) {
-                prey = potentialPrey;
-                return true;
-            }
-
-            return false;
-        }
-
-        private boolean isValidPrey(LivingEntity entity) {
-            return entity.getType().is(ModTags.EntityTypes.TIGER_PREY);
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return prey != null && prey.isAlive() && tiger.distanceToSqr(prey) < 256.0D && !tiger.isTame();
-        }
-
-        @Override
-        public void start() {
-            tiger.setStealth(true);
-            pounceCooldown = 0;
-        }
-
-        @Override
-        public void stop() {
-            tiger.setStealth(false);
-            prey = null;
-            pounceCooldown = 0;
-        }
-
-        @Override
-        public void tick() {
-            if (prey == null || !prey.isAlive()) {
-                stop();
-                return;
-            }
-
-            double distanceSq = tiger.distanceToSqr(prey);
-            tiger.getLookControl().setLookAt(prey, 30.0F, 30.0F);
-
-            // Approach slowly if far away
-            if (distanceSq > (POUNCE_RANGE * POUNCE_RANGE)) {
-                tiger.getNavigation().moveTo(prey, 0.6F);
-            } else {
-                tiger.getNavigation().stop();
-
-                if (pounceCooldown <= 0) {
-                    performPounce();
-                    pounceCooldown = 100 + tiger.getRandom().nextInt(60);
-                }
-            }
-
-            if (pounceCooldown > 0) {
-                pounceCooldown--;
-            }
-        }
-
-        private void performPounce() {
-            if (prey == null || !prey.isAlive()) return;
-
-            Vec3 look = new Vec3(
-                    prey.getX() - tiger.getX(),
-                    prey.getY(0.5D) - tiger.getY(0.5D),
-                    prey.getZ() - tiger.getZ()
-            ).normalize();
-
-            double leapStrength = 1.0D + tiger.getRandom().nextDouble() * 0.3D;
-            tiger.setStealth(false);
-            tiger.setRunning(true);
-            tiger.setAnimation(TIGER_POUNCE);
-            tiger.setDeltaMovement(look.scale(leapStrength));
-            tiger.playSound(ModSoundEvents.TIGER_ATTACK, 1.0F, 1.0F);
-
-            // Small delay before applying damage on contact
-            tiger.level().addParticle(ParticleTypes.CLOUD, tiger.getX(), tiger.getY() + 0.5D, tiger.getZ(), 0, 0, 0);
-        }
-    }
-
+    public boolean isStealth() { return entityData.get(IS_STEALTH); }
+    public void setStealth(boolean stealth) { entityData.set(IS_STEALTH, stealth); }
 
     class TigerMeleeAttackGoal extends MeleeAttackGoal {
         public TigerMeleeAttackGoal() {
@@ -1099,13 +852,6 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         }
     }
 
-    // --- Fixes added: isRunning and getAnimationTick implementations + swimming accessors ---
-
-    public boolean isRunning() {
-        // Use the current animation state to decide if running
-        return this.currentAnimation == TIGER_RUN || this.currentAnimation == TIGER_RUN_ANGRY;
-    }
-
     @Override
     public boolean isSprinting() {
         return isRunning();
@@ -1151,10 +897,6 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
         }
     }
 
-    public boolean isStealth() {
-        return this.entityData.get(IS_STEALTH);
-    }
-
     public void setRunning(boolean running) {
         if (running) {
             this.setStealth(false);
@@ -1174,15 +916,6 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
 
     public void setJumping(boolean jumping) {
         this.setAnimation(TIGER_POUNCE);
-    }
-
-    private void setStealth(boolean stealth) {
-        if (stealth) {
-            this.setAnimation(AMBUSH);
-        } else if (this.currentAnimation == AMBUSH) {
-            setAnimation(null);
-        }
-        updateSpeedAttributes();
     }
 
     @Override
@@ -1221,4 +954,11 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
             return !tiger.isTame() || tiger.getOwner() != owner;
         }
     }
+
+    @Override public boolean isSleeping() { return entityData.get(TIGER_SLEEPING); }
+    public void setSleeping(boolean sleeping) { entityData.set(TIGER_SLEEPING, sleeping); }
+
+    public boolean isYawning() { return entityData.get(TIGER_YAWNING); }
+    public void setYawning(boolean yawning) { entityData.set(TIGER_YAWNING, yawning); }
+
 }

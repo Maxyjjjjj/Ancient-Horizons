@@ -81,8 +81,10 @@ public class DeerModel<T extends DeerEntity> extends HierarchicalModel<T> {
 
         float partialTick = 0;
 
-        this.head.y = 6.0F + entity.getHeadEatPositionScale(partialTick) * 9.0F;
-        this.head.xRot = entity.getHeadEatAngleScale(partialTick);
+        if (entity.getEatAnimationTick() > 0){
+            this.head.y = 6.0F + entity.getHeadEatPositionScale(partialTick) * 9.0F;
+            this.head.xRot = entity.getHeadEatAngleScale(partialTick);
+        }
     }
 
     private void applyHeadRotation(float headYaw, float headPitch) {

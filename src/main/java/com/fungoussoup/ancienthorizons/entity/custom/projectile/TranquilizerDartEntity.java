@@ -52,7 +52,7 @@ public class TranquilizerDartEntity extends AbstractArrow {
         super.onHitEntity(result);
         Entity target = result.getEntity();
         if (target instanceof LivingEntity living) {
-            living.addEffect(new MobEffectInstance(ModEffects.TRANQUILIZED, 20 * 20, 0)); // 20 seconds
+            living.addEffect(new MobEffectInstance(ModEffects.TRANQUILIZED, 400, 0)); // 20 seconds
         }
 
         if (!this.level().isClientSide()) {

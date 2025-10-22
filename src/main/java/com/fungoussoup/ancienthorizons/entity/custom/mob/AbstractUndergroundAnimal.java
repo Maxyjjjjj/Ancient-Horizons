@@ -1,6 +1,8 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -105,6 +108,8 @@ public abstract class AbstractUndergroundAnimal extends Animal {
         if (!this.level().isClientSide) {
             this.handleUndergroundBehavior();
             this.updateCooldowns();
+        } else if (this.isUnderground()) {
+            this.spawnUndergroundParticles();
         }
 
         this.handleDiggingEffects();
@@ -182,6 +187,34 @@ public abstract class AbstractUndergroundAnimal extends Animal {
         }
     }
 
+    private void spawnUndergroundParticles() {
+        if (!this.level().isClientSide) return;
+
+        BlockPos pos = this.blockPosition();
+        BlockState state = this.level().getBlockState(pos.below());
+
+        if (!state.isAir() && this.random.nextInt(5) == 0) {
+            double x = this.getX() + (this.random.nextDouble() - 0.5) * this.getBbWidth();
+            double y = this.getY() + 0.05;
+            double z = this.getZ() + (this.random.nextDouble() - 0.5) * this.getBbWidth();
+
+            this.level().addParticle(
+                    (ParticleOptions) BlockParticleOption.codec(ParticleTypes.BLOCK),
+                    false, x, y, z,
+                    (this.random.nextDouble() - 0.5) * 0.05,
+                    0.02,
+                    (this.random.nextDouble() - 0.5) * 0.05);
+        }
+
+        if (this.random.nextInt(40) == 0) {
+            double x = this.getX() + (this.random.nextDouble() - 0.5) * this.getBbWidth();
+            double y = this.getY() + 0.1;
+            double z = this.getZ() + (this.random.nextDouble() - 0.5) * this.getBbWidth();
+
+            this.level().addParticle(ParticleTypes.POOF, x, y, z, 0.0, 0.02, 0.0);
+        }
+    }
+
     private void updateUndergroundMovement() {
         // Simple underground movement - move towards last surface position or randomly
         if (this.lastSurfacePos != null) {
@@ -206,10 +239,30 @@ public abstract class AbstractUndergroundAnimal extends Animal {
         if (underground) {
             this.lastSurfacePos = this.blockPosition();
             this.playSound(this.getDigSound(), 1.0F, 1.0F);
+
+            if (this.level().isClientSide) {
+                for (int i = 0; i < 12; i++) {
+                    double x = this.getX() + (this.random.nextDouble() - 0.5) * 0.8;
+                    double y = this.getY() + 0.1;
+                    double z = this.getZ() + (this.random.nextDouble() - 0.5) * 0.8;
+                    this.level().addParticle(ParticleTypes.POOF, x, y, z, 0.0, 0.05, 0.0);
+                }
+            }
+
         } else {
             this.playSound(this.getEmergeSound(), 1.0F, 1.0F);
+
+            if (this.level().isClientSide) {
+                for (int i = 0; i < 12; i++) {
+                    double x = this.getX() + (this.random.nextDouble() - 0.5) * 0.8;
+                    double y = this.getY() + 0.1;
+                    double z = this.getZ() + (this.random.nextDouble() - 0.5) * 0.8;
+                    this.level().addParticle(ParticleTypes.CLOUD, x, y, z, 0.0, 0.05, 0.0);
+                }
+            }
         }
     }
+
 
     public void startDigging() {
         if (this.canDig()) {
@@ -327,7 +380,7 @@ public abstract class AbstractUndergroundAnimal extends Animal {
     }
 
     @Override
-    public boolean isFood(net.minecraft.world.item.ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         // Override this method in subclasses to define what food this animal eats
         return false;
     }

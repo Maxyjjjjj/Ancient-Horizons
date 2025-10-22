@@ -31,8 +31,6 @@ public class GiraffeEntity extends Animal implements PlayerRideable {
     private static final EntityDataAccessor<Integer> BOOST_TIME = SynchedEntityData.defineId(GiraffeEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> SNEEZING = SynchedEntityData.defineId(GiraffeEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private boolean isVehicle;
-
     public GiraffeEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
     }
@@ -88,6 +86,24 @@ public class GiraffeEntity extends Animal implements PlayerRideable {
         return ModEntities.GIRAFFE.get().create(serverLevel);
     }
 
+    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
+        // Base on the entity's current bounding-box height so it scales if you tweak dimensions elsewhere
+        float baseHeight = dimensions.height();
+
+        if (this.isBaby()) {
+            return baseHeight * 0.6F;
+        }
+
+        float eye = baseHeight * 0.85F;
+
+        if (this.isSneezing()) {
+            eye += 0.4F;
+        }
+
+        return eye;
+    }
+
+
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
@@ -130,7 +146,7 @@ public class GiraffeEntity extends Animal implements PlayerRideable {
     @Override
     @Nullable
     protected SoundEvent getAmbientSound() {
-        return this.isVehicle ? ModSoundEvents.GIRAFFE_SNORT : ModSoundEvents.GIRAFFE_AMBIENT;
+        return this.isVehicle() ? ModSoundEvents.GIRAFFE_SNORT : ModSoundEvents.GIRAFFE_AMBIENT;
     }
 
     @Override

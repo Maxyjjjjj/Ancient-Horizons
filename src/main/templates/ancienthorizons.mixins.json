@@ -13,7 +13,6 @@
     "FoxHuntNewPrey",
     "PolarBearMixin",
     "WolfHuntNewPrey",
-    "CowRutMixin",
     "ParrotMixin"
   ],
   "client": [

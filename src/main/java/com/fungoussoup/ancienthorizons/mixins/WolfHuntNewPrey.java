@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Fox;
+import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.animal.Wolf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,5 +38,6 @@ public class WolfHuntNewPrey {
                 return !wolf.isBaby() && super.canUse();
             }
         });
+        wolf.targetSelector.addGoal(6, new NonTameRandomTargetGoal<>(wolf, Turtle.class, false, Turtle.BABY_ON_LAND_SELECTOR));
     }
 }

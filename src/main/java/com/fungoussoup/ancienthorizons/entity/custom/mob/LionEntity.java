@@ -101,12 +101,13 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(VARIANT, 0);
-        builder.define(LION_MALE, this.random.nextBoolean());
+        builder.define(LION_MALE, random.nextBoolean());
         builder.define(LION_SLEEPING, false);
         builder.define(LION_YAWNING, false);
         builder.define(IS_PLAYING, false);
         builder.define(LION_SITTING, false);
         builder.define(LION_COLLAR_COLOR_ID, DyeColor.RED.getId());
+        builder.define(LION_DANCING, false);
     }
 
     @Override
@@ -115,16 +116,16 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
         this.goalSelector.addGoal(1, new LionSleepGoal(this));
         this.goalSelector.addGoal(2, new LionYawnGoal(this));
         this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.2D, 5.0F, 2.0F));
-        this.goalSelector.addGoal(3, new LionProtectCubGoal(this));
-        this.goalSelector.addGoal(4, new LionPrideFollowGoal(this, 1.2D));
-        this.goalSelector.addGoal(5, new LionHuntGoal(this));
-        this.goalSelector.addGoal(6, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LionCubPlayGoal(this));
-        this.goalSelector.addGoal(7, new TemptGoal(this, 1.1D, this::isFood, false));
-        this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.8D));
-        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.2D, 5.0F, 2.0F));
+        this.goalSelector.addGoal(5, new LionProtectCubGoal(this));
+        this.goalSelector.addGoal(6, new LionPrideFollowGoal(this, 1.2D));
+        this.goalSelector.addGoal(7, new LionHuntGoal(this));
+        this.goalSelector.addGoal(8, new LionCubPlayGoal(this));
+        this.goalSelector.addGoal(9, new TemptGoal(this, 1.1D, this::isFood, false));
+        this.goalSelector.addGoal(10, new RandomStrollGoal(this, 0.8D));
+        this.goalSelector.addGoal(11, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(12, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
@@ -335,6 +336,7 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
         this.sleepAnimationState.stop();
         this.yawnAnimationState.stop();
         this.angryAnimationState.stop();
+        this.danceAnimationState.stop();
 
         // Start the appropriate animation state
         if (anim == TIGER_ROAR || anim == TIGER_ROAR2) {
@@ -345,8 +347,9 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
             this.sleepAnimationState.start(this.tickCount);
         } else if (anim == TIGER_YAWN) {
             this.yawnAnimationState.start(this.tickCount);
+        } else if (anim == TIGER_DANCE) {
+            this.danceAnimationState.start(this.tickCount);
         }
-
     }
 
     public boolean isRunning() {
@@ -429,7 +432,7 @@ public class LionEntity extends TamableAnimal implements NeutralMob, VariantHold
 
     @Override
     public void setJukeboxPos(BlockPos pos) {
-
+        this.jukeboxPosition = pos;
     }
 
     private static class LionSleepGoal extends BigCatSleepGoal<LionEntity> {

@@ -2,9 +2,9 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob.anaconda;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.misc.SemiAquaticAnimal;
-import com.fungoussoup.ancienthorizons.entity.navigations.AnimalSwimMoveControllerSink;
-import com.fungoussoup.ancienthorizons.entity.navigations.GroundPathNavigatorWide;
-import com.fungoussoup.ancienthorizons.entity.navigations.SemiAquaticPathNavigator;
+import com.fungoussoup.ancienthorizons.entity.ai.AnimalSwimMoveControllerSink;
+import com.fungoussoup.ancienthorizons.entity.ai.GroundPathNavigationWide;
+import com.fungoussoup.ancienthorizons.entity.ai.SemiAquaticPathNavigation;
 import com.fungoussoup.ancienthorizons.entity.util.AnacondaPartIndex;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import com.fungoussoup.ancienthorizons.util.Maths;
@@ -33,6 +33,7 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -90,11 +91,11 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
     private void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = new GroundPathNavigatorWide(this, level());
+            this.navigation = new GroundPathNavigationWide(this, level());
             this.isLandNavigator = true;
         } else {
             this.moveControl = new AnimalSwimMoveControllerSink(this, 1.3F, 1F);
-            this.navigation = new SemiAquaticPathNavigator(this, level());
+            this.navigation = new SemiAquaticPathNavigation(this, level());
             this.isLandNavigator = false;
         }
     }
@@ -241,9 +242,7 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
             this.setNoGravity(false);
         }
         if (this.ringBufferIndex < 0) {
-            for (int i = 0; i < this.ringBuffer.length; ++i) {
-                this.ringBuffer[i] = this.getYRot();
-            }
+            Arrays.fill(this.ringBuffer, this.getYRot());
         }
         this.ringBufferIndex++;
         if (this.ringBufferIndex == this.ringBuffer.length) {
@@ -383,8 +382,8 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
         if (parts.length < 10)
             return true;
 
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i] == null) {
+        for (AnacondaPartEntity part : parts) {
+            if (part == null) {
                 return true;
             }
         }
@@ -573,7 +572,6 @@ public class AnacondaEntity extends SemiAquaticAnimal implements NeutralMob {
                 }
             }
         }
-
         public void stop() {
             anaconda.setStrangling(false);
         }

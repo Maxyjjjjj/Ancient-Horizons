@@ -4,6 +4,7 @@ import com.fungoussoup.ancienthorizons.entity.interfaces.InterchangeableVariants
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -79,12 +80,11 @@ public class FlamingoEntity extends Animal implements InterchangeableVariantsEnt
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
-        // Target Goals
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 15.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.2D)
                 .add(Attributes.FLYING_SPEED, 0.4D);
@@ -103,7 +103,7 @@ public class FlamingoEntity extends Animal implements InterchangeableVariantsEnt
     // Sound Events
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.PARROT_AMBIENT; // You can replace with custom sound
+        return SoundEvents.PARROT_AMBIENT;
     }
 
     @Override
@@ -265,7 +265,7 @@ public class FlamingoEntity extends Animal implements InterchangeableVariantsEnt
                     double d0 = this.random.nextGaussian() * 0.02D;
                     double d1 = this.random.nextGaussian() * 0.02D;
                     double d2 = this.random.nextGaussian() * 0.02D;
-                    this.level().addParticle(net.minecraft.core.particles.ParticleTypes.HEART,
+                    this.level().addParticle(ParticleTypes.HEART,
                             this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D),
                             d0, d1, d2);
                 }

@@ -1,0 +1,20 @@
+{
+    "temperature": 0.4,
+    "downfall": 0.6,
+    "has_precipitation": true,
+    "effects": {
+        "sky_color": 7909881,
+        "fog_color": 10944447,
+        "water_color": 3491837,
+        "water_fog_color": 338545,
+        "grass_color": 8838765,
+        "foliage_color": 6112330
+    },
+    "spawners": {},
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:taiga_grass",
+        "minecraft:underground_ores"
+    ]
+}

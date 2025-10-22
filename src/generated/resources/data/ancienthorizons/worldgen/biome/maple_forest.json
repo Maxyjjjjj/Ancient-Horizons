@@ -1,0 +1,25 @@
+{
+    "temperature": 0.65,
+    "downfall": 0.8,
+    "has_precipitation": true,
+    "effects": {
+        "sky_color": 8473564,
+        "fog_color": 10871807,
+        "water_color": 4159204,
+        "water_fog_color": 530042,
+        "grass_color": 12627039,
+        "foliage_color": 15000074
+    },
+    "spawners": {
+        "creature": [
+            { "type": "minecraft:fox", "weight": 5, "minCount": 1, "maxCount": 3 }
+        ]
+    },
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:forest_flowers",
+        "minecraft:forest_grass",
+        "minecraft:underground_ores"
+    ]
+}

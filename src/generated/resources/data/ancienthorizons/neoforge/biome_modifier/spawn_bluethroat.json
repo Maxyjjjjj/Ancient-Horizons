@@ -1,6 +1,6 @@
 {
     "type": "neoforge:add_spawns",
-    "biomes": "#minecraft:is_river",
+    "biomes": "#c:is_river",
     "spawners": [
         {
             "type": "ancienthorizons:bluethroat",

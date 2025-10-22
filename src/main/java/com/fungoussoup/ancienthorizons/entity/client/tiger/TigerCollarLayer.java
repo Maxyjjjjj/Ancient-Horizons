@@ -26,7 +26,7 @@ public class TigerCollarLayer extends RenderLayer<TigerEntity, TigerModel<TigerE
         if (livingEntity.isTame() && !livingEntity.isInvisible()) {
             int i = livingEntity.getCollarColor().getTextureDiffuseColor();
             VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(TIGER_COLLAR_LOCATION));
-            ((TigerModel<?>)this.getParentModel()).renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, i);
+            this.getParentModel().renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, i);
         }
     }
 }

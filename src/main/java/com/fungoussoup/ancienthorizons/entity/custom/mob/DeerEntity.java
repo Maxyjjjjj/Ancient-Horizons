@@ -43,7 +43,7 @@ public class DeerEntity extends Animal implements Stampedeable {
     private static final int ALERT_DURATION = 60; // 3 seconds
 
     // Antler growth for males (visual variants could be added)
-    private boolean hasAntlers = false;
+    private boolean hasAntlers = random.nextBoolean();
 
     public DeerEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -71,7 +71,7 @@ public class DeerEntity extends Animal implements Stampedeable {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 10D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.JUMP_STRENGTH, 0.5D);
@@ -98,16 +98,14 @@ public class DeerEntity extends Animal implements Stampedeable {
     public void aiStep() {
         super.aiStep();
 
-        // Enhanced movement in water - deer are good swimmers
-        if (this.isInWater()) {
-            this.moveRelative(0.02F, new Vec3(this.xxa, this.yya, this.zza));
-        }
-
         if (this.level().isClientSide) {
             this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
         }
+    }
 
-        super.aiStep();
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.9f;
     }
 
     public float getHeadEatPositionScale(float partialTick) {
@@ -228,22 +226,8 @@ public class DeerEntity extends Animal implements Stampedeable {
         return this.isBaby() ? 0.5F : 1.0F;
     }
 
-    // Eye height for proper camera positioning
     protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
         return this.isBaby() ? dimensions.height() * 0.8F : dimensions.height() * 0.9F;
-    }
-
-    @Override
-    public void jumpFromGround() {
-        Vec3 movement = this.getDeltaMovement();
-        this.setDeltaMovement(movement.x, this.getJumpPower() * 1.2, movement.z);
-        this.hasImpulse = true;
-    }
-
-    // Enhanced swimming
-    @Override
-    public boolean canStandOnFluid(FluidState fluidState) {
-        return false; // Deer swim, don't walk on water
     }
 
     // NBT Data persistence
@@ -295,5 +279,9 @@ public class DeerEntity extends Animal implements Stampedeable {
 
     public boolean isAlert() {
         return this.alertTimer > 0;
+    }
+
+    public int getEatAnimationTick() {
+        return eatAnimationTick;
     }
 }

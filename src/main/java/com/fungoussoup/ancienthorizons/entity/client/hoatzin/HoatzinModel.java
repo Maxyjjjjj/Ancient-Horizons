@@ -64,11 +64,14 @@ public class HoatzinModel<T extends HoatzinEntity> extends HierarchicalModel<T> 
     }
 
     @Override
-    public void setupAnim(HoatzinEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(HoatzinEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
-        this.head.xRot = headPitch * ((float)Math.PI / 180F);
-        this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
+        headYaw = Mth.clamp(headYaw, -30f, 30f);
+        headPitch = Mth.clamp(headPitch, -25f, 45);
+
+        this.head.yRot = headYaw * ((float) Math.PI / 180f);
+        this.head.xRot = headPitch * ((float) Math.PI / 180f);
 
         // Crest follows head movement slightly
         this.crest.xRot = this.head.xRot * 0.3F;

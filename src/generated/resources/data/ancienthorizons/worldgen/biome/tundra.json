@@ -16,8 +16,9 @@
             { "type": "minecraft:polar_bear", "weight": 1, "minCount": 1, "maxCount": 2 }
         ]
     },
+    "spawn_costs": {},
+    "carvers": {},
     "features": [
-        "minecraft:carvers",
         "minecraft:underground_ores",
         "minecraft:ice_spikes"
     ]

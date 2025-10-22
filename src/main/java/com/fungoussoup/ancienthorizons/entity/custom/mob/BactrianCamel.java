@@ -94,7 +94,6 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        // bump MOVEMENT_SPEED to a typical mount baseline
         return createBaseHorseAttributes()
                 .add(Attributes.MAX_HEALTH, 32.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.225D)
@@ -569,10 +568,6 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         return new BactrianCamel.CamelBodyRotationControl(this);
     }
 
-    /**
-     * The new method required by the RangedAttackMob interface.
-     * This is called by the SpitAttack AI behavior.
-     */
     @Override
     public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
         BactrianCamelSpit spit = new BactrianCamelSpit(this.level(), this);

@@ -8,6 +8,7 @@ import com.fungoussoup.ancienthorizons.entity.ai.troop.TroopRank;
 import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.DefendTroopGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.FollowTroopGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.PatrolTerritoryGoal;
+import com.fungoussoup.ancienthorizons.entity.interfaces.CuriousAndIntelligentAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -29,7 +30,7 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public class ChimpanzeeEntity extends Animal implements TroopMember {
+public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndIntelligentAnimal {
 
     private UUID troopId = null;
     private TroopRank troopRank = TroopRank.ADULT;
@@ -95,7 +96,7 @@ public class ChimpanzeeEntity extends Animal implements TroopMember {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0D);

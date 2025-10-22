@@ -1,0 +1,25 @@
+{
+    "temperature": 0.8,
+    "downfall": 0.9,
+    "has_precipitation": true,
+    "effects": {
+        "sky_color": 8892267,
+        "fog_color": 11075583,
+        "water_color": 4159204,
+        "water_fog_color": 534835,
+        "grass_color": 8684647,
+        "foliage_color": 8221526
+    },
+    "spawners": {
+        "creature": [
+            { "type": "minecraft:bee", "weight": 10, "minCount": 2, "maxCount": 4 }
+        ]
+    },
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:forest_flowers",
+        "minecraft:forest_grass",
+        "minecraft:underground_ores"
+    ]
+}

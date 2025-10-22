@@ -20,7 +20,6 @@ public class CryodrakonRenderer extends MobRenderer<CryodrakonEntity, Cryodrakon
         } else {
             poseStack.scale(1f,1f,1f);
         }
-
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 

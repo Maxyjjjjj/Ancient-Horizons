@@ -38,8 +38,7 @@ public class WhiteSharkModel<T extends WhiteSharkEntity> extends HierarchicalMod
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-
-        PartDefinition base = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0), PartPose.offset(0.0F, 12.0F, 0.0F));
+        PartDefinition base = partdefinition.addOrReplaceChild("base", CubeListBuilder.create().texOffs(0, 0), PartPose.offset(0.0F, 12.0F, 0.0F));
 
         PartDefinition body = base.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -10.0F, -21.0F, 16.0F, 18.0F, 40.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 

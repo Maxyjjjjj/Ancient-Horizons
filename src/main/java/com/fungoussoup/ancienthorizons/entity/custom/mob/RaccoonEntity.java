@@ -1,7 +1,5 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.compat.sereneseasons.SereneSeasonHibernation;
-import com.fungoussoup.ancienthorizons.entity.interfaces.Hibernatable;
 import com.fungoussoup.ancienthorizons.entity.interfaces.ILootsChests;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
@@ -33,11 +31,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
-public class RaccoonEntity extends Animal implements ILootsChests, Hibernatable {
+public class RaccoonEntity extends Animal implements ILootsChests {
     private static final EntityDataAccessor<Boolean> IS_WASHING = SynchedEntityData.defineId(RaccoonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_SITTING = SynchedEntityData.defineId(RaccoonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> WASH_TIMER = SynchedEntityData.defineId(RaccoonEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> RACCOON_HIBERNATING = SynchedEntityData.defineId(RaccoonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<ItemStack> HELD_ITEM = SynchedEntityData.defineId(RaccoonEntity.class, EntityDataSerializers.ITEM_STACK);
     public AnimationState sleepAnimationState = new AnimationState();
 
@@ -56,7 +53,6 @@ public class RaccoonEntity extends Animal implements ILootsChests, Hibernatable 
         builder.define(IS_WASHING, false);
         builder.define(IS_SITTING, false);
         builder.define(WASH_TIMER, 0);
-        builder.define(RACCOON_HIBERNATING, false);
         builder.define(HELD_ITEM, ItemStack.EMPTY);
     }
 
@@ -64,7 +60,6 @@ public class RaccoonEntity extends Animal implements ILootsChests, Hibernatable 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
-        this.goalSelector.addGoal(1, new SereneSeasonHibernation.HibernationGoal(this, this));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, this::isFood, false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
@@ -280,14 +275,6 @@ public class RaccoonEntity extends Animal implements ILootsChests, Hibernatable 
 
     public void setLastWaterPos(BlockPos pos) {
         this.lastWaterPos = pos;
-    }
-
-    public boolean isHibernating() {
-        return this.entityData.get(RACCOON_HIBERNATING);
-    }
-
-    public void setHibernating(boolean value) {
-        this.entityData.set(RACCOON_HIBERNATING, value);
     }
 
     // Custom AI Goals

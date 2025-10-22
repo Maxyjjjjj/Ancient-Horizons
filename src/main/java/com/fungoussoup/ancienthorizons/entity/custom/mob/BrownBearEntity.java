@@ -1,7 +1,5 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.compat.sereneseasons.SereneSeasonHibernation;
-import com.fungoussoup.ancienthorizons.entity.interfaces.Hibernatable;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BearBreakBeeNestGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.FollowPlayerGoal;
@@ -48,7 +46,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.IntFunction;
 
-public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable {
+public class BrownBearEntity extends Animal implements NeutralMob {
 
     // Data accessors for synching data between client and server
     private static final EntityDataAccessor<Integer> DATA_MAIN_GENE = SynchedEntityData.defineId(BrownBearEntity.class, EntityDataSerializers.INT);
@@ -58,7 +56,6 @@ public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable 
     private static final EntityDataAccessor<Boolean> DATA_SLEEPING = SynchedEntityData.defineId(BrownBearEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_PLAYING = SynchedEntityData.defineId(BrownBearEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_COWERING = SynchedEntityData.defineId(BrownBearEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> BROWN_BEAR_HIBERNATING  = SynchedEntityData.defineId(BrownBearEntity.class, EntityDataSerializers.BOOLEAN);
 
     private UUID persistentAngerTarget;
     private int ticksSinceLastHoneyEaten = 0;
@@ -96,7 +93,6 @@ public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable 
         builder.define(DATA_SLEEPING, false);
         builder.define(DATA_PLAYING, false);
         builder.define(DATA_COWERING, false);
-        builder.define(BROWN_BEAR_HIBERNATING , false);
     }
 
     public enum Gene implements StringRepresentable {
@@ -168,7 +164,7 @@ public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable 
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.ATTACK_DAMAGE, 6.0D)
@@ -205,7 +201,6 @@ public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new SereneSeasonHibernation.HibernationGoal(this, this));
         this.goalSelector.addGoal(1, new BearAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, this::isFood, false));
@@ -595,14 +590,6 @@ public class BrownBearEntity extends Animal implements NeutralMob, Hibernatable 
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockState) {
         this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
-    }
-
-    public boolean isHibernating() {
-        return this.entityData.get(BROWN_BEAR_HIBERNATING);
-    }
-
-    public void setHibernating(boolean value) {
-        this.entityData.set(BROWN_BEAR_HIBERNATING, value);
     }
 
     // NBT save/load

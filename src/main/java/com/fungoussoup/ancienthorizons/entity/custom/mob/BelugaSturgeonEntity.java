@@ -29,6 +29,7 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,7 +69,8 @@ public class BelugaSturgeonEntity extends TrulyWaterAnimal implements Caviarable
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.6);
+                .add(Attributes.MOVEMENT_SPEED, 0.6)
+                .add(NeoForgeMod.SWIM_SPEED, 0.3);
     }
 
     @Override
@@ -248,19 +250,6 @@ public class BelugaSturgeonEntity extends TrulyWaterAnimal implements Caviarable
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.COD_FLOP;
-    }
-
-    // ===== Spawning =====
-
-    public static boolean checkBelugaSturgeonSpawnRules(
-            EntityType<BelugaSturgeonEntity> type,
-            LevelAccessor level,
-            MobSpawnType spawnType,
-            BlockPos pos,
-            RandomSource random) {
-        return pos.getY() <= 50
-                && level.getFluidState(pos).is(FluidTags.WATER)
-                && level.getBlockState(pos.above()).is(Blocks.WATER);
     }
 
     // ===== NBT Persistence =====

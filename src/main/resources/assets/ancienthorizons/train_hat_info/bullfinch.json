@@ -1,9 +1,0 @@
-{
-    "model_part": "body/headbase/head",
-    "offset": [
-        0.0,
-        -4.0,
-        -0.25
-    ],
-    "scale": 0.5
-}

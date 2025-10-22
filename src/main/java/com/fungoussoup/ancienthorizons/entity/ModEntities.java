@@ -310,6 +310,14 @@ public class ModEntities {
             ENTITY_TYPES.register("beipiaosaurus", () -> EntityType.Builder.of(BeipiaosaurusEntity::new, MobCategory.CREATURE)
                 .sized(0.875f, 0.875f).build("beipiaosaurus"));
 
+    public static final Supplier<EntityType<WolverineEntity>> WOLVERINE =
+            ENTITY_TYPES.register("wolverine", () -> EntityType.Builder.of(WolverineEntity::new, MobCategory.CREATURE)
+                    .sized(0.5f, 0.75f).build("wolverine"));
+
+    public static final Supplier<EntityType<MerganserEntity>> MERGANSER =
+            ENTITY_TYPES.register("merganser", () -> EntityType.Builder.of(MerganserEntity::new, MobCategory.CREATURE)
+                    .sized(0.25f, 0.53f).build("merganser"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

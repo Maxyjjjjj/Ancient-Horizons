@@ -49,7 +49,7 @@ public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
         this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
 
         this.groundNavigation = this.getNavigation();
-        this.airNavigation = new BirdNavigation(this, level, 128);
+        this.airNavigation = new BirdNavigation(this, level);
     }
 
     /**
@@ -71,9 +71,9 @@ public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(1, new LandOnOwnersShoulderGoal(this));
-        this.goalSelector.addGoal(2, new ModFollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, this::isFood, false));
-        this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new ModFollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.1D, this::isFood, false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new SemiFlyingFlyGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));

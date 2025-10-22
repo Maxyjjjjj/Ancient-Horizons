@@ -40,10 +40,9 @@ public class RoeDeerEntity extends Animal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
-                .add(Attributes.FOLLOW_RANGE, 16.0D)
                 .add(Attributes.JUMP_STRENGTH, 0.6D);
     }
 

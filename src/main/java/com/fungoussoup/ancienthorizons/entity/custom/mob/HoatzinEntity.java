@@ -51,7 +51,7 @@ public class HoatzinEntity extends Animal implements SemiFlyer {
     public HoatzinEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
         this.groundNavigation = new GroundPathNavigation(this, level);
-        this.flyingNavigation = new BirdNavigation(this, level, 64);
+        this.flyingNavigation = new BirdNavigation(this, level);
     }
 
     @Override

@@ -170,8 +170,6 @@ public class DiplodocusModel<T extends DiplodocusEntity> extends HierarchicalMod
         base.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
-
-
     @Override
     public ModelPart root() {
         return base;

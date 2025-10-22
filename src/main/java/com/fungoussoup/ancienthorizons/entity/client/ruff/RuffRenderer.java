@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class RuffRenderer extends MobRenderer<RuffEntity, RuffModel<RuffEntity>> {
     private static final ResourceLocation INDEPENDENT = ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "textures/entity/ruff/ruff_independent.png");
     private static final ResourceLocation SATELLITE = ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "textures/entity/ruff/ruff_satellite.png");
-    private static final ResourceLocation NON_BREEDING = ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "textures/entity/ruff/ruff_non_breeding.png");
+    private static final ResourceLocation NON_BREEDING = ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "textures/entity/ruff/ruff_nonbreeding.png");
 
     public RuffRenderer(EntityRendererProvider.Context context) {
         super(context, new RuffModel<>(context.bakeLayer(RuffModel.LAYER_LOCATION)), 0.5f);

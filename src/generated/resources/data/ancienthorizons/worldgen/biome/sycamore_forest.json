@@ -1,0 +1,20 @@
+{
+    "temperature": 0.65,
+    "downfall": 0.8,
+    "has_precipitation": true,
+    "effects": {
+        "sky_color": 8469903,
+        "fog_color": 11717887,
+        "water_color": 4159204,
+        "water_fog_color": 339507,
+        "grass_color": 9931641,
+        "foliage_color": 7831641
+    },
+    "spawners": {},
+    "spawn_costs": {},
+    "carvers": {},
+    "features": [
+        "minecraft:forest_flowers",
+        "minecraft:underground_ores"
+    ]
+}

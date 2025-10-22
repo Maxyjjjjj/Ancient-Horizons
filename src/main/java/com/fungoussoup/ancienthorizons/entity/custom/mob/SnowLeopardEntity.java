@@ -50,10 +50,10 @@ public class SnowLeopardEntity extends TamableAnimal {
         // climbing powder snow is a nicety but lower priority than panic/sit
         this.goalSelector.addGoal(3, new ClimbOnTopOfPowderSnowGoal(this, this.level()));
         // combat / taming behaviors
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.2D, true));
-        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2D, true));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
         // basic behaviors
-        this.goalSelector.addGoal(6, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
