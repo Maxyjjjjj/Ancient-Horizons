@@ -2,7 +2,6 @@ package com.fungoussoup.ancienthorizons.worldgen;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.registry.ModBiomes;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -171,7 +170,7 @@ public class ModBiomeModifiers {
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.MANTIS.get(), 3, 1, 2))));
 
         context.register(SPAWN_BACTRIAN_CAMEL, new BiomeModifiers.AddSpawnsBiomeModifier(
-                HolderSet.direct(biomes.getOrThrow(ModBiomes.STEPPE), biomes.getOrThrow(ModBiomes.COLD_DESERT)),
+                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.BACTRIAN_CAMEL.get(), 4, 2, 6))));
 
         context.register(SPAWN_BELUGA_STURGEON, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -268,7 +267,7 @@ public class ModBiomeModifiers {
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.CHIMPANZEE.get(), 6, 2, 4))));
 
         context.register(SPAWN_STOAT, new BiomeModifiers.AddSpawnsBiomeModifier(
-                HolderSet.direct(biomes.getOrThrow(ModBiomes.TUNDRA)),
+                biomes.getOrThrow(Tags.Biomes.IS_COLD),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.STOAT.get(), 8, 2, 3))));
 
         context.register(SPAWN_PENGUIN, new BiomeModifiers.AddSpawnsBiomeModifier(

@@ -198,6 +198,7 @@ public class ModEventBusEvents {
         event.put(LION.get(), LionEntity.createAttributes().build());
         event.put(MONKEY.get(), MonkeyEntity.createAttributes().build());
         event.put(WOLVERINE.get(), WolverineEntity.createAttributes().build());
+        event.put(MERGANSER.get(), MerganserEntity.createAttributes().build());
     }
 
     @SubscribeEvent

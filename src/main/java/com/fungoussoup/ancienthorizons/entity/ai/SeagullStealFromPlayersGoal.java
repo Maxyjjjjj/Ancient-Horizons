@@ -15,6 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 
 public class SeagullStealFromPlayersGoal extends Goal {
 
@@ -85,7 +86,7 @@ public class SeagullStealFromPlayersGoal extends Goal {
 
             // Occasionally call to intimidate
             if (stalkTime % 40 == 0 && entity.getRandom().nextInt(3) == 0) {
-                entity.playSound(entity.getAmbientSound(), 1.0F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
+                entity.playSound(Objects.requireNonNull(entity.getAmbientSound()), 1.0F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
             }
 
             if (stalkTime >= STALK_DURATION) {
@@ -135,7 +136,7 @@ public class SeagullStealFromPlayersGoal extends Goal {
 
             // Taunt the player while fleeing
             if (fleeTime % 30 == 0 && entity.getRandom().nextInt(2) == 0) {
-                entity.playSound(entity.getAmbientSound(), 1.2F, 1.2F + entity.getRandom().nextFloat() * 0.3F);
+                entity.playSound(Objects.requireNonNull(entity.getAmbientSound()), 1.2F, 1.2F + entity.getRandom().nextFloat() * 0.3F);
             }
         }
     }

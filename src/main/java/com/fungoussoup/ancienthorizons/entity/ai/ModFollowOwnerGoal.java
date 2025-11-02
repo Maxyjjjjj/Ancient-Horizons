@@ -47,7 +47,9 @@ public class ModFollowOwnerGoal extends Goal {
         if (this.navigation.isDone()) {
             return false;
         } else {
-            return !this.tamable.unableToMoveToOwner() && !(this.tamable.distanceToSqr(this.owner) <= (double) (this.stopDistance * this.stopDistance));
+            if (this.tamable.unableToMoveToOwner()) return false;
+            assert this.owner != null;
+            return !(this.tamable.distanceToSqr(this.owner) <= (double) (this.stopDistance * this.stopDistance));
         }
     }
 
@@ -66,6 +68,7 @@ public class ModFollowOwnerGoal extends Goal {
     public void tick() {
         boolean flag = this.tamable.shouldTryTeleportToOwner();
         if (!flag) {
+            assert this.owner != null;
             this.tamable.getLookControl().setLookAt(this.owner, 10.0F, (float)this.tamable.getMaxHeadXRot());
         }
 

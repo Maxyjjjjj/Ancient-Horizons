@@ -54,9 +54,6 @@ public class SemiAquaticSwimGoal extends RandomStrollGoal {
         }
         Vec3 vector3d = DefaultRandomPos.getPos(this.mob, 7, 3);
 
-        for(int i = 0; vector3d != null && !this.mob.level().getFluidState(AHBlockPos.fromVec3(vector3d)).is(FluidTags.LAVA) && !this.mob.level().getBlockState(AHBlockPos.fromVec3(vector3d)).isPathfindable(PathComputationType.WATER) && i++ < 15; vector3d = DefaultRandomPos.getPos(this.mob, 10, 7)) {
-        }
-
         return vector3d;
     }
 

@@ -52,6 +52,7 @@ public class WaterbirdNavigation extends GroundPathNavigation {
     @Override
     protected void followThePath() {
         // Smooth movement on water — no steep path corrections
+        assert this.path != null;
         Vec3 nextPos = this.path.getNextEntityPos(this.mob);
         this.mob.getMoveControl().setWantedPosition(nextPos.x, nextPos.y, nextPos.z, this.speedModifier);
     }

@@ -1,12 +1,9 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.entity.ai.LandOnOwnersHeadGoal;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.misc.HeadRidingEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
@@ -28,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class VelociraptorEntity extends HeadRidingEntity implements NeutralMob {
+public class VelociraptorEntity extends TamableAnimal implements NeutralMob {
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @Nullable
@@ -50,7 +47,6 @@ public class VelociraptorEntity extends HeadRidingEntity implements NeutralMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(1, new LandOnOwnersHeadGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.4D, true));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D,
@@ -80,13 +76,7 @@ public class VelociraptorEntity extends HeadRidingEntity implements NeutralMob {
                     }
                     this.heal(2.0F);
                     return InteractionResult.SUCCESS;
-                } else if (this.isOwnedBy(player) && !this.isOrderedToSit() && this.canSitOnHead()) {
-                    // Try to sit on player's head
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        if (this.setEntityOnHead(serverPlayer)) {
-                            return InteractionResult.SUCCESS;
-                        }
-                    }
+                } else if (this.isOwnedBy(player) && !this.isOrderedToSit()) {
                     this.setOrderedToSit(!this.isOrderedToSit());
                     this.jumping = false;
                     this.navigation.stop();

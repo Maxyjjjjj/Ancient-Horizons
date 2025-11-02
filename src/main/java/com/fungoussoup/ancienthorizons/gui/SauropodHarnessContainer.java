@@ -122,7 +122,7 @@ public class SauropodHarnessContainer extends AbstractContainerMenu implements M
         ItemStack result = ItemStack.EMPTY;
         Slot slot = this.slots.get(slotIndex);
 
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack stackInSlot = slot.getItem();
             result = stackInSlot.copy();
 

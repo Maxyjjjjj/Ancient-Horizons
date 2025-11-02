@@ -153,7 +153,7 @@ public class MantisModel<T extends MantisEntity> extends HierarchicalModel<T> {
         if (this.currentAnimation != CATCH) {
             float idleRaptorSway = Mth.cos(ageInTicks * 0.2F) * 0.05F;
             this.raptorbaseleft.xRot += idleRaptorSway;
-            this.raptorbaseleft2.xRot += -idleRaptorSway;
+            this.raptorbaseleft2.xRot -= idleRaptorSway;
         }
     }
 

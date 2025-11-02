@@ -226,7 +226,6 @@ public class DiplodocusEntity extends AbstractSauropodEntity {
             List<ItemEntity> items = this.level().getEntitiesOfClass(ItemEntity.class, this.getBoundingBox().inflate(2.0));
             for (ItemEntity item : items) {
                 if (this.isFood(item.getItem())) {
-                    item.playerTouch(null);
                     this.heal(0.5f);
                 }
             }

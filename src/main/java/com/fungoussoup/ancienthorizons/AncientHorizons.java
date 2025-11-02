@@ -47,7 +47,6 @@ import com.fungoussoup.ancienthorizons.entity.client.seagull.SeagullRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.stoat.StoatRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.tiger.TigerRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.snow_leopard.SnowLeopardRenderer;
-import com.fungoussoup.ancienthorizons.entity.client.velociraptor.VelociraptorOnHeadLayer;
 import com.fungoussoup.ancienthorizons.entity.client.velociraptor.VelociraptorRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.wolverine.WolverineRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZebraRenderer;

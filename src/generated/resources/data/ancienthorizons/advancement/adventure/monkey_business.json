@@ -18,12 +18,12 @@
     },
     "criteria": {
         "bartered_with_chimp": {
-            "trigger": "ancienthorizons:barter_with_chimp"
+            "trigger": "ancienthorizons:monkey_business"
         }
     },
     "requirements": [
         [
-            "bartered_with_chimp"
+            "monkey_business"
         ]
     ]
 }

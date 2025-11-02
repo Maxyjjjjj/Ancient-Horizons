@@ -2,7 +2,7 @@
   "parent": "minecraft:husbandry/tame_an_animal",
   "criteria": {
     "tame_all_passerines": {
-      "trigger": "ancienthorizons:ornithologist"
+      "trigger": "ancienthorizons:tame_all_birds"
     }
   },
   "display": {

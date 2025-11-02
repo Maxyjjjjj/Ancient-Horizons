@@ -185,9 +185,6 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
         // Handle sound effects
         handleSounds();
 
-        // Update ground state
-        this.onGround();
-
         // Sync data to client
         syncEntityData();
     }

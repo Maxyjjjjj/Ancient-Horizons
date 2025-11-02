@@ -1,9 +1,6 @@
 {
     "type": "neoforge:add_spawns",
-    "biomes": [
-        "ancienthorizons:steppe",
-        "ancienthorizons:cold_desert"
-    ],
+    "biomes": "#c:is_plains",
     "spawners": [
         {
             "type": "ancienthorizons:bactrian_camel",

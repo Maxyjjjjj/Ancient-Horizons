@@ -3,7 +3,6 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.interfaces.Caviarable;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,9 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -27,8 +24,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
@@ -69,42 +64,13 @@ public class BelugaSturgeonEntity extends TrulyWaterAnimal implements Caviarable
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.6)
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(NeoForgeMod.SWIM_SPEED, 0.3);
     }
 
     @Override
     public void aiStep() {
         super.aiStep();
-
-        // Apply buoyancy in water to prevent sinking
-        if (!this.level().isClientSide && this.isInWater()) {
-            this.applyBuoyancy();
-        }
-    }
-
-    /**
-     * Applies buoyancy force to maintain neutral depth in water.
-     * Simulates swim bladder behavior.
-     */
-    private void applyBuoyancy() {
-        if (this.getDeltaMovement().y < -0.02) {
-            this.setDeltaMovement(
-                    this.getDeltaMovement().x,
-                    this.getDeltaMovement().y + 0.03,
-                    this.getDeltaMovement().z
-            );
-        }
-
-        // Add occasional random vertical movement for natural swimming
-        if (this.random.nextInt(40) == 0) {
-            double randomVertical = (this.random.nextDouble() - 0.5) * 0.02;
-            this.setDeltaMovement(
-                    this.getDeltaMovement().x,
-                    this.getDeltaMovement().y + randomVertical,
-                    this.getDeltaMovement().z
-            );
-        }
     }
 
     @Override
@@ -119,7 +85,7 @@ public class BelugaSturgeonEntity extends TrulyWaterAnimal implements Caviarable
 
     @Override
     public boolean canMate(Animal other) {
-        if (!(other instanceof BelugaSturgeonEntity otherSturgeon)) {
+        if (!(other instanceof BelugaSturgeonEntity)) {
             return false;
         }
 

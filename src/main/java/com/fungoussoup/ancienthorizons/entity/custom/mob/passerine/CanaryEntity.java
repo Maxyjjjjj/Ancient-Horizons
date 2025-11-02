@@ -28,7 +28,7 @@ public class CanaryEntity extends AbstractPasserineEntity {
         return null;
     }
 
-    private class AlertOwnerGoal extends Goal {
+    private static class AlertOwnerGoal extends Goal {
         private final CanaryEntity canary;
         private LivingEntity threat;
 

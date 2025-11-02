@@ -312,6 +312,7 @@ public abstract class AbstractSauropodEntity extends TamableAnimal implements Pl
     private void fireCannon(Vec3 shootPos, @Nullable LivingEntity target, boolean heavy) {
         // Create explosive fireball projectile
         Vec3 vec3 = this.getViewVector(1.0F);
+        assert target != null;
         double d2 = target.getX() - (this.getX() + vec3.x * (double)4.0F);
         double d3 = target.getY(0.5F) - ((double)0.5F + this.getY((double)0.5F));
         double d4 = target.getZ() - (this.getZ() + vec3.z * (double)4.0F);

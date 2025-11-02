@@ -26,10 +26,6 @@ public class KhopeshItem extends Item {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!(attacker instanceof Player player)) {
-            return super.hurtEnemy(stack, target, attacker);
-        }
-
         return super.hurtEnemy(stack, target, attacker);
     }
 }

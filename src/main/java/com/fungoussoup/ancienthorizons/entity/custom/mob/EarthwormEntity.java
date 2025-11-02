@@ -267,13 +267,10 @@ public class EarthwormEntity extends AbstractUndergroundAnimal {
 
         private Vec3 findUndergroundPosition() {
             Vec3 origin = worm.position();
-            for (int i = 0; i < 10; i++) {
-                double x = origin.x + (worm.getRandom().nextDouble() - 0.5) * 8;
-                double z = origin.z + (worm.getRandom().nextDouble() - 0.5) * 8;
-                double y = Math.max(origin.y - 10, worm.level().getMinBuildHeight());
-                return new Vec3(x, y, z);
-            }
-            return null;
+            double x = origin.x + (worm.getRandom().nextDouble() - 0.5) * 8;
+            double z = origin.z + (worm.getRandom().nextDouble() - 0.5) * 8;
+            double y = Math.max(origin.y - 10, worm.level().getMinBuildHeight());
+            return new Vec3(x, y, z);
         }
     }
 }

@@ -37,9 +37,8 @@ public class ZebraArmorLayer extends RenderLayer<ZebraEntity, HorseModel<ZebraEn
             return GOLDEN_ARMOR_TEXTURE;
         } else if (entity.isBodyArmorItem(Items.DIAMOND_HORSE_ARMOR.getDefaultInstance())){
             return DIAMOND_ARMOR_TEXTURE;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override

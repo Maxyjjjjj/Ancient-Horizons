@@ -90,6 +90,6 @@ public class MerganserModel<T extends MerganserEntity> extends HierarchicalModel
 
     @Override
     public ModelPart root() {
-        return null;
+        return body;
     }
 }

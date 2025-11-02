@@ -1,6 +1,6 @@
 {
     "type": "neoforge:add_spawns",
-    "biomes": "ancienthorizons:tundra",
+    "biomes": "#c:is_cold",
     "spawners": [
         {
             "type": "ancienthorizons:stoat",

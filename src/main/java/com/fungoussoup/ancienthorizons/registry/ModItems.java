@@ -2,7 +2,6 @@ package com.fungoussoup.ancienthorizons.registry;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.entity.custom.vehicle.ModBoat;
 import com.fungoussoup.ancienthorizons.item.*;
 import com.fungoussoup.ancienthorizons.item.weapon.ChakramItem;
 import com.fungoussoup.ancienthorizons.item.weapon.HammerItem;
@@ -654,87 +653,6 @@ public class ModItems {
 
     public static final DeferredItem<Item> TRANQ_DART = ITEMS.register("dart",
             () -> new Item(new Item.Properties()));
-
-    // BOATS
-    public static final DeferredItem<ModBoatItem> WILLOW_BOAT = ITEMS.register("willow_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.WILLOW, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> WILLOW_CHEST_BOAT = ITEMS.register("willow_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.WILLOW, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> HORNBEAM_BOAT = ITEMS.register("hornbeam_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.HORNBEAM, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> HORNBEAM_CHEST_BOAT = ITEMS.register("hornbeam_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.HORNBEAM, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> LINDEN_BOAT = ITEMS.register("linden_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.LINDEN, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> LINDEN_CHEST_BOAT = ITEMS.register("linden_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.LINDEN, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> ASPEN_BOAT = ITEMS.register("aspen_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.ASPEN, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> ASPEN_CHEST_BOAT = ITEMS.register("aspen_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.ASPEN, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> SYCAMORE_BOAT = ITEMS.register("sycamore_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.SYCAMORE, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> SYCAMORE_CHEST_BOAT = ITEMS.register("sycamore_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.SYCAMORE, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> BAOBAB_BOAT = ITEMS.register("baobab_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.BAOBAB, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> BAOBAB_CHEST_BOAT = ITEMS.register("baobab_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.BAOBAB, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> GINKGO_BOAT = ITEMS.register("ginkgo_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.GINKGO, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> GINKGO_CHEST_BOAT = ITEMS.register("ginkgo_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.GINKGO, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> POPLAR_BOAT = ITEMS.register("poplar_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.POPLAR, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> POPLAR_CHEST_BOAT = ITEMS.register("poplar_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.POPLAR, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> MAPLE_BOAT = ITEMS.register("maple_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.MAPLE, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> MAPLE_CHEST_BOAT = ITEMS.register("maple_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.MAPLE, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> PALM_BOAT = ITEMS.register("palm_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.PALM, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> PALM_CHEST_BOAT = ITEMS.register("palm_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.PALM, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> BEECH_BOAT = ITEMS.register("beech_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.BEECH, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> BEECH_CHEST_BOAT = ITEMS.register("beech_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.BEECH, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> ASH_BOAT = ITEMS.register("ash_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.ASH, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> ASH_CHEST_BOAT = ITEMS.register("ash_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.ASH, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> EUCALYPTUS_BOAT = ITEMS.register("eucalyptus_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.EUCALYPTUS, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> EUCALYPTUS_CHEST_BOAT = ITEMS.register("eucalyptus_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.EUCALYPTUS, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> REDWOOD_BOAT = ITEMS.register("redwood_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.REDWOOD, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> REDWOOD_CHEST_BOAT = ITEMS.register("redwood_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.REDWOOD, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> MONKEY_PUZZLE_BOAT = ITEMS.register("monkey_puzzle_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.MONKEY_PUZZLE, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> MONKEY_PUZZLE_CHEST_BOAT = ITEMS.register("monkey_puzzle_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.MONKEY_PUZZLE, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<ModBoatItem> YEW_BOAT = ITEMS.register("yew_boat",
-            () -> new ModBoatItem(false, ModBoat.Type.YEW, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<ModBoatItem> YEW_CHEST_BOAT = ITEMS.register("yew_chest_boat",
-            () -> new ModBoatItem(true, ModBoat.Type.YEW, new Item.Properties().stacksTo(1)));
 
     // FOSSILS, PALAEONTOLOGY AND REVIVAL
     public static final DeferredItem<Item> FOSSIL = ITEMS.register("fossil",

@@ -33,6 +33,7 @@ public class SeagullAvoidEntityGoal<T extends LivingEntity> extends AvoidEntityG
     }
 
     protected Vec3 getFindHiddenPos() {
+        assert this.toAvoid != null;
         Vec3 pos = DefaultRandomPos.getPosAway(this.mob, 16, 7, this.toAvoid.position());
         if (pos != null) {
             // Ensure we fly upward when avoiding

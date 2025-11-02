@@ -88,10 +88,6 @@ public class HareEntity extends Animal implements VariantHolder<HareEntity.Type>
             return entity.getBbHeight() <= 1.0F && entity.getBbWidth() <= 1.0F;
         }
 
-        if (entity instanceof AnacondaEntity){
-            return false;
-        }
-
         return false;
     }
 
@@ -112,6 +108,7 @@ public class HareEntity extends Animal implements VariantHolder<HareEntity.Type>
             }
         }
 
+        assert target != null;
         super.doHurtTarget(target);
     }
 

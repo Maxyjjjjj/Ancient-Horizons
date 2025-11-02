@@ -21,6 +21,7 @@ public class GroundPathNavigationWide extends GroundPathNavigation {
     protected void followThePath() {
         Vec3 vector3d = this.getTempMobPos();
         this.maxDistanceToWaypoint = this.mob.getBbWidth() * distancemodifier;
+        assert this.path != null;
         Vec3i vector3i = this.path.getNextNodePos();
         double d0 = Math.abs(this.mob.getX() - ((double)vector3i.getX() + 0.5D));
         double d1 = Math.abs(this.mob.getY() - (double)vector3i.getY());
@@ -34,6 +35,7 @@ public class GroundPathNavigationWide extends GroundPathNavigation {
     }
 
     private boolean shouldTargetNextNodeInDirection(Vec3 currentPosition) {
+        assert this.path != null;
         if (this.path.getNextNodeIndex() + 1 >= this.path.getNodeCount()) {
             return false;
         } else {

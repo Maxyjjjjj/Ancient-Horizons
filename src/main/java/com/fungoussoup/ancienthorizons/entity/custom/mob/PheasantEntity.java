@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 
 public class PheasantEntity extends Animal {
 
@@ -175,7 +176,7 @@ public class PheasantEntity extends Animal {
 
                 // Optional: play a flapping or squawk sound
                 if (pheasant.level().random.nextInt(20) == 0) {
-                    pheasant.playSound(pheasant.getAmbientSound(), 1.0F, 1.2F + pheasant.getRandom().nextFloat() * 0.4F);
+                    pheasant.playSound(Objects.requireNonNull(pheasant.getAmbientSound()), 1.0F, 1.2F + pheasant.getRandom().nextFloat() * 0.4F);
                 }
             }
             jostleTime--;
