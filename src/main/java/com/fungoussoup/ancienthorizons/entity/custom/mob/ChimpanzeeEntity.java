@@ -10,6 +10,7 @@ import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.FollowTroopGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.PatrolTerritoryGoal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.CuriousAndIntelligentAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -27,6 +28,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 import java.util.UUID;
 
@@ -39,10 +41,6 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
             SynchedEntityData.defineId(ChimpanzeeEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(ChimpanzeeEntity.class, EntityDataSerializers.BYTE);
-
-    private boolean isExaminingItem = false;
-    private int examineTicks = 0;
-    private int barterCooldown = 0;
 
     public ChimpanzeeEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
@@ -73,6 +71,7 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
 
     @Nullable
     @Override
+    @javax.annotation.ParametersAreNonnullByDefault
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob entity) {
         ChimpanzeeEntity baby = ModEntities.CHIMPANZEE.get().create(level);
         if (baby != null && entity instanceof ChimpanzeeEntity parent) {
@@ -89,6 +88,7 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(SITTING, false);
@@ -103,6 +103,7 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
@@ -112,12 +113,16 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
             return InteractionResult.SUCCESS;
         }
 
-        if (!this.isBaby() && isBarterCurrency(stack) && barterCooldown <= 0) {
+        if (!this.isBaby() && isBarterCurrency(stack)) {
             if (!this.level().isClientSide) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
-                isExaminingItem = true;
-                examineTicks = 40;
                 this.getNavigation().stop();
+
+                // Create a new troop if none exists
+                if (this.getTroopId() == null) {
+                    Troop newTroop = TroopManager.createTroop(this);
+                    this.setTroopId(newTroop.getId());
+                }
             }
             return InteractionResult.SUCCESS;
         }
@@ -138,9 +143,6 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
     @Override
     public void tick() {
         super.tick();
-        if (!this.level().isClientSide) {
-            if (barterCooldown > 0) barterCooldown--;
-        }
     }
 
     @Override

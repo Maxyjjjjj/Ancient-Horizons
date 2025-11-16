@@ -68,9 +68,12 @@ public class SemiAquaticSwimGoal extends RandomStrollGoal {
 
     protected Vec3 findSurfaceTarget(PathfinderMob creature, int i, int i1) {
         BlockPos upPos = creature.blockPosition();
-        while (creature.level().getFluidState(upPos).is(FluidTags.WATER) || creature.level().getFluidState(upPos).is(FluidTags.LAVA)) {
+        // Safety: avoid unbounded ascent if something went wrong in the world (bubble columns, top-of-world)
+        int safety = 0;
+        while ((creature.level().getFluidState(upPos).is(FluidTags.WATER) || creature.level().getFluidState(upPos).is(FluidTags.LAVA)) && safety++ < 128) {
             upPos = upPos.above();
         }
+        if (safety >= 128) return null;
         if (isAirAbove(upPos.below(), 0, 0, 0) && canJumpTo(upPos.below(), 0, 0, 0)) {
             return new Vec3(upPos.getX() + 0.5F, upPos.getY() - 1F, upPos.getZ() + 0.5F);
         }

@@ -11,5 +11,9 @@ public class ModTickHandler {
     public static void onServerTick(ServerTickEvent.Pre event) {
         TroopManager.tickAllTroops();
     }
-}
 
+    @SubscribeEvent
+    public static void onServerStop(ServerTickEvent.Post event) {
+        TroopManager.clearAll();
+    }
+}
