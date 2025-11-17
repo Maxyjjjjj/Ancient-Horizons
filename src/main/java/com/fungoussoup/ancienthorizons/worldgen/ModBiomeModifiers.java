@@ -2,6 +2,7 @@ package com.fungoussoup.ancienthorizons.worldgen;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -83,6 +84,7 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> SPAWN_TIT = registerKey("spawn_tit");
     public static final ResourceKey<BiomeModifier> SPAWN_WAGTAIL = registerKey("spawn_wagtail");
     public static final ResourceKey<BiomeModifier> SPAWN_WAXWING = registerKey("spawn_waxwing");
+    public static final ResourceKey<BiomeModifier> SPAWN_WORM = registerKey("spawn_worm");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -278,11 +280,6 @@ public class ModBiomeModifiers {
                 HolderSet.direct(biomes.getOrThrow(Biomes.BAMBOO_JUNGLE)),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.SAOLA.get(), 1, 2, 3))));
 
-        context.register(SPAWN_ANACONDA, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(Tags.Biomes.IS_SWAMP),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.ANACONDA.get(), 4, 1, 1))
-        ));
-
         context.register(SPAWN_WHITE_SHARK, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OCEAN),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.WHITE_SHARK.get(), 3, 1, 1))
@@ -361,6 +358,11 @@ public class ModBiomeModifiers {
         context.register(SPAWN_MERGANSER, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_RIVER),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.MERGANSER.get(), 6, 1, 2))
+        ));
+
+        context.register(SPAWN_WORM, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(ModTags.Biomes.HAS_RAIN),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.EARTHWORM.get(), 10, 1, 2))
         ));
     }
 

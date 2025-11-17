@@ -106,4 +106,12 @@ public class ModTags {
             return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, name));
         }
     }
+
+    public static class Biomes {
+        public static final TagKey<Biome> HAS_RAIN = createTag("has_rain");
+
+        private static TagKey<Biome> createTag(String name) {
+            return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, name));
+        }
+    }
 }

@@ -492,12 +492,6 @@ public class ModItems {
             () -> new DeferredSpawnEggItem(ModEntities.CHIMPANZEE, 0x362f28, 0xc4a88a,
                     new Item.Properties()));
 
-    // ANACONDA
-
-    public static final DeferredItem<Item> ANACONDA_SPAWN_EGG = ITEMS.register("anaconda_spawn_egg",
-            () -> new DeferredSpawnEggItem(ModEntities.ANACONDA, 0x38432a, 0x8f4732,
-                    new Item.Properties()));
-
     // CICADA
 
     public static final DeferredItem<Item> CICADA_SPAWN_EGG = ITEMS.register("cicada_spawn_egg",

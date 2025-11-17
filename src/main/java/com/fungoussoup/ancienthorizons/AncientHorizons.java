@@ -2,8 +2,6 @@ package com.fungoussoup.ancienthorizons;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.client.abstract_passerine.*;
-import com.fungoussoup.ancienthorizons.entity.client.anaconda.AnacondaPartRenderer;
-import com.fungoussoup.ancienthorizons.entity.client.anaconda.AnacondaRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.bactrian_camel.BactrianCamelRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.beipiaosaurus.BeipiaosaurusRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.beluga_sturgeon.BelugaSturgeonRenderer;
@@ -164,8 +162,6 @@ public class AncientHorizons {
             EntityRenderers.register(ModEntities.SAOLA.get(), SaolaRenderer::new);
             EntityRenderers.register(ModEntities.CRYODRAKON.get(), CryodrakonRenderer::new);
             EntityRenderers.register(ModEntities.FLAMINGO.get(), FlamingoRenderer::new);
-            EntityRenderers.register(ModEntities.ANACONDA.get(), AnacondaRenderer::new);
-            EntityRenderers.register(ModEntities.ANACONDA_PART.get(), AnacondaPartRenderer::new);
             EntityRenderers.register(ModEntities.FISHER.get(), FisherRenderer::new);
             EntityRenderers.register(ModEntities.ROADRUNNER.get(), RoadrunnerRenderer::new);
             EntityRenderers.register(ModEntities.CICADA.get(), CicadaRenderer::new);

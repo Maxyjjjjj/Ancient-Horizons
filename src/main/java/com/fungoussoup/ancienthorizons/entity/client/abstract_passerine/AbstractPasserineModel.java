@@ -46,7 +46,7 @@ public class AbstractPasserineModel<T extends AbstractPasserineEntity> extends H
 
         PartDefinition head = headbase.addOrReplaceChild("head", CubeListBuilder.create().texOffs(16, 0).addBox(-1.5F, -1.75F, -1.75F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(15, -1).addBox(0.0F, -3.75F, -0.75F, 0.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(20, 6).addBox(-0.5F, -0.25F, -2.75F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, -2.0F, 0.1745F, 0.0F, 0.0F));
+                .texOffs(20, 6).addBox(-0.5F, -0.25F, -2.75F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0F, 0F, 0.1745F, 0.0F, 0.0F));
 
         PartDefinition wingleft = body.addOrReplaceChild("wingleft", CubeListBuilder.create(), PartPose.offset(-2.05F, -0.5F, -1.0F));
 

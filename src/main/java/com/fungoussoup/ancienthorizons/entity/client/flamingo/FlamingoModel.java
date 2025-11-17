@@ -2,7 +2,6 @@ package com.fungoussoup.ancienthorizons.entity.client.flamingo;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.FlamingoEntity;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.anaconda.AnacondaEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HierarchicalModel;

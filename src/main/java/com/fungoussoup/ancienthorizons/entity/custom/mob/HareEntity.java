@@ -1,7 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.anaconda.AnacondaEntity;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.Holder;
 import net.minecraft.network.syncher.EntityDataAccessor;

@@ -2,7 +2,6 @@ package com.fungoussoup.ancienthorizons.event;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.client.abstract_passerine.AbstractPasserineModel;
-import com.fungoussoup.ancienthorizons.entity.client.anaconda.AnacondaModel;
 import com.fungoussoup.ancienthorizons.entity.client.bactrian_camel.BactrianCamelModel;
 import com.fungoussoup.ancienthorizons.entity.client.beipiaosaurus.BeipiaosaurusModel;
 import com.fungoussoup.ancienthorizons.entity.client.beluga_sturgeon.BelugaSturgeonModel;
@@ -52,10 +51,7 @@ import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZebraMode
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZonkeyModel;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZorseModel;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.*;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.anaconda.AnacondaEntity;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.anaconda.AnacondaPartEntity;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.sauropoda.DiplodocusEntity;
-import com.fungoussoup.ancienthorizons.entity.util.AnacondaPartIndex;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -100,10 +96,6 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(SaolaModel.LAYER_LOCATION, SaolaModel::createBodyLayer);
         event.registerLayerDefinition(CryodrakonModel.LAYER_LOCATION, CryodrakonModel::createBodyLayer);
         event.registerLayerDefinition(FlamingoModel.LAYER_LOCATION, FlamingoModel::createBodyLayer);
-        event.registerLayerDefinition(AnacondaModel.LAYER_LOCATION, AnacondaModel::createBodyLayer);
-        event.registerLayerDefinition(AnacondaModel.HEAD_LAYER_LOCATION, () -> AnacondaModel.createPartLayer(AnacondaPartIndex.HEAD));
-        event.registerLayerDefinition(AnacondaModel.BODY_LAYER_LOCATION, () -> AnacondaModel.createPartLayer(AnacondaPartIndex.BODY));
-        event.registerLayerDefinition(AnacondaModel.TAIL_LAYER_LOCATION, () -> AnacondaModel.createPartLayer(AnacondaPartIndex.TAIL));
         event.registerLayerDefinition(FisherModel.LAYER_LOCATION, FisherModel::createBodyLayer);
         event.registerLayerDefinition(RuffModel.LAYER_LOCATION, RuffModel::createBodyLayer);
         event.registerLayerDefinition(HoatzinModel.LAYER_LOCATION, HoatzinModel::createBodyLayer);
@@ -175,8 +167,6 @@ public class ModEventBusEvents {
         event.put(CRYODRAKON.get(), AbstractLargeAzhdarchidEntity.createAttributes().build());
         event.put(FLAMINGO.get(), FlamingoEntity.createAttributes().build());
         event.put(RUFF.get(), RuffEntity.createAttributes().build());
-        event.put(ANACONDA.get(), AnacondaEntity.bakeAttributes().build());
-        event.put(ANACONDA_PART.get(), AnacondaPartEntity.bakeAttributes().build());
         event.put(FISHER.get(), FisherEntity.createAttributes().build());
         event.put(HOATZIN.get(), HoatzinEntity.createAttributes().build());
         event.put(DIPLODOCUS.get(), DiplodocusEntity.createAttributes().build());
@@ -242,7 +232,6 @@ public class ModEventBusEvents {
         event.register(CRYODRAKON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(FLAMINGO.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FlamingoEntity::checkFlamingoSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(RUFF.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RuffEntity::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(ANACONDA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(FISHER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(HOATZIN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(DIPLODOCUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);

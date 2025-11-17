@@ -1,13 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.entity.ai.troop.Troop;
-import com.fungoussoup.ancienthorizons.entity.ai.troop.TroopManager;
-import com.fungoussoup.ancienthorizons.entity.ai.troop.TroopMember;
-import com.fungoussoup.ancienthorizons.entity.ai.troop.TroopRank;
-import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.DefendTroopGoal;
-import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.FollowTroopGoal;
-import com.fungoussoup.ancienthorizons.entity.ai.troop.goals.PatrolTerritoryGoal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.CuriousAndIntelligentAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -32,10 +25,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndIntelligentAnimal {
-
-    private UUID troopId = null;
-    private TroopRank troopRank = TroopRank.ADULT;
+public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAnimal {
 
     private static final EntityDataAccessor<Boolean> SITTING =
             SynchedEntityData.defineId(ChimpanzeeEntity.class, EntityDataSerializers.BOOLEAN);
@@ -54,11 +44,8 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
         this.goalSelector.addGoal(1, new ClimbGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new DefendTroopGoal<>(this));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.15D, Ingredient.of(ModItems.BANANA), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(5, new FollowTroopGoal<>(this, 1.0D, 5.0F, 15.0F));
-        this.goalSelector.addGoal(6, new PatrolTerritoryGoal<>(this, 1.0D));
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
@@ -71,20 +58,8 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
 
     @Nullable
     @Override
-    @javax.annotation.ParametersAreNonnullByDefault
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob entity) {
-        ChimpanzeeEntity baby = ModEntities.CHIMPANZEE.get().create(level);
-        if (baby != null && entity instanceof ChimpanzeeEntity parent) {
-            if (this.troopId != null) {
-                troopId = this.getTroopId();
-            } else if (parent.troopId != null) {
-                troopId = parent.getTroopId();
-            } else {
-                troopId = UUID.randomUUID();
-            }
-            baby.setTroopRank(TroopRank.JUVENILE);
-        }
-        return baby;
+        return ModEntities.CHIMPANZEE.get().create(level);
     }
 
     @Override
@@ -117,12 +92,6 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
             if (!this.level().isClientSide) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
                 this.getNavigation().stop();
-
-                // Create a new troop if none exists
-                if (this.getTroopId() == null) {
-                    Troop newTroop = TroopManager.createTroop(this);
-                    this.setTroopId(newTroop.getId());
-                }
             }
             return InteractionResult.SUCCESS;
         }
@@ -143,36 +112,6 @@ public class ChimpanzeeEntity extends Animal implements TroopMember, CuriousAndI
     @Override
     public void tick() {
         super.tick();
-    }
-
-    @Override
-    public UUID getTroopId() {
-        return troopId;
-    }
-
-    @Override
-    public void setTroopId(UUID id) {
-        troopId = id;
-    }
-
-    @Override
-    public TroopRank getTroopRank() {
-        return troopRank;
-    }
-
-    @Override
-    public void setTroopRank(TroopRank rank) {
-        troopRank = rank;
-    }
-
-    @Override
-    public Troop getTroop() {
-        return TroopManager.getTroop(troopId).orElse(null);
-    }
-
-    @Override
-    public LivingEntity getEntity() {
-        return this;
     }
 
     public static class SitGoal extends Goal {

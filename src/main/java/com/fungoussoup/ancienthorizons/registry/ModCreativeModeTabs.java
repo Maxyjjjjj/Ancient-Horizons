@@ -502,7 +502,6 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ancienthorizons.ancient_horizons_spawn_eggs"))
                     .displayItems((itemDisplayParameters, output) -> {
 
-                        output.accept(ModItems.ANACONDA_SPAWN_EGG);
                         output.accept(ModItems.BACTRIAN_CAMEL_SPAWN_EGG);
                         output.accept(ModItems.BEIPIAOSAURUS_SPAWN_EGG);
                         output.accept(ModItems.BELUGA_STURGEON_SPAWN_EGG);

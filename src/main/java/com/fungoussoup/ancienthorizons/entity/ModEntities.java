@@ -2,8 +2,6 @@ package com.fungoussoup.ancienthorizons.entity;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.*;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.anaconda.AnacondaEntity;
-import com.fungoussoup.ancienthorizons.entity.custom.mob.anaconda.AnacondaPartEntity;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.azhdarchidae.CryodrakonEntity;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.sauropoda.DiplodocusEntity;
 import com.fungoussoup.ancienthorizons.entity.custom.projectile.BactrianCamelSpit;
@@ -15,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -39,11 +36,6 @@ public class ModEntities {
                     .clientTrackingRange(4)
                     .updateInterval(10)
                     .build("bactrian_camel_spit"));
-
-    public static final DeferredHolder<EntityType<?>, EntityType<AnacondaPartEntity>> ANACONDA_PART =
-            ENTITY_TYPES.register("anaconda_part", () -> EntityType.Builder.<AnacondaPartEntity>of(AnacondaPartEntity::new, MobCategory.CREATURE)
-                    .sized(0.5F, 0.5F)
-                    .build("anaconda_part"));
 
     public static final Supplier<EntityType<ChakramProjectileEntity>> CHAKRAM =
             ENTITY_TYPES.register("chakram",
@@ -229,10 +221,6 @@ public class ModEntities {
     public static final Supplier<EntityType<FlamingoEntity>> FLAMINGO =
             ENTITY_TYPES.register("flamingo", () -> EntityType.Builder.of(FlamingoEntity::new, MobCategory.CREATURE)
                     .sized(0.6f, 1f).build("flamingo"));
-
-    public static final Supplier<EntityType<AnacondaEntity>> ANACONDA =
-            ENTITY_TYPES.register("anaconda", () -> EntityType.Builder.of(AnacondaEntity::new, MobCategory.CREATURE)
-                    .sized(0.6f, 0.6f).build("anaconda"));
 
     public static final Supplier<EntityType<RuffEntity>> RUFF =
             ENTITY_TYPES.register("ruff", () -> EntityType.Builder.of(RuffEntity::new, MobCategory.CREATURE)
