@@ -4,7 +4,6 @@ import com.fungoussoup.ancienthorizons.gui.SauropodHarnessContainer;
 import com.fungoussoup.ancienthorizons.registry.ModDamageTypes;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderSet;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -72,6 +71,11 @@ public abstract class AbstractSauropodEntity extends TamableAnimal implements Pl
     // Climbing system for harnesses
     protected AABB ladderHitbox;
 
+    private double baseMaxHealth = 40.0;
+    private double baseMovementSpeed = 0.25;
+    private double baseArmor = 2.0;
+    private double baseAttackDamage = 6.0;
+
     protected MountCategory mainCategory = MountCategory.NOT_RIDEABLE;
     protected List<MountCategory> subCategories = List.of();
 
@@ -81,6 +85,12 @@ public abstract class AbstractSauropodEntity extends TamableAnimal implements Pl
 
     protected AbstractSauropodEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
+        if (this.getAttribute(Attributes.MAX_HEALTH) != null) {
+            this.baseMaxHealth = this.getAttributeBaseValue(Attributes.MAX_HEALTH);
+            this.baseMovementSpeed = this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED);
+            this.baseArmor = this.getAttributeBaseValue(Attributes.ARMOR);
+            this.baseAttackDamage = this.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
+        }
         initializeInventory();
         updateAttributesForGrowthStage();
         updateLadderHitbox();
@@ -470,13 +480,36 @@ public abstract class AbstractSauropodEntity extends TamableAnimal implements Pl
     }
 
     protected void updateAttributesForGrowthStage() {
+        // Growth stage is 0-3. Multiplier is 0.4 (stage 0) to 1.0 (stage 3).
+        // 0: 0.4, 1: 0.6, 2: 0.8, 3: 1.0
         float sizeMultiplier = 0.4f + (getGrowthStage() * 0.2f);
-        this.refreshDimensions();
 
-        if (this.getAttribute(Attributes.MAX_HEALTH) != null) {
-            double baseHealth = this.getAttribute(Attributes.MAX_HEALTH).getBaseValue();
-            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(baseHealth * sizeMultiplier);
+        // --- Apply Attribute Scaling ---
+        var healthAttr = this.getAttribute(Attributes.MAX_HEALTH);
+        if (healthAttr != null) {
+            // Use the stored base value for calculation
+            healthAttr.setBaseValue(this.baseMaxHealth * sizeMultiplier);
+            // Must update current health if it's above the new max health
+            if (this.getHealth() > healthAttr.getValue()) {
+                this.setHealth((float) healthAttr.getValue());
+            }
         }
+
+        var speedAttr = this.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speedAttr != null) {
+            speedAttr.setBaseValue(this.baseMovementSpeed * sizeMultiplier);
+        }
+
+        var armorAttr = this.getAttribute(Attributes.ARMOR);
+        if (armorAttr != null) {
+            armorAttr.setBaseValue(this.baseArmor * sizeMultiplier);
+        }
+
+        var damageAttr = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (damageAttr != null) {
+            damageAttr.setBaseValue(this.baseAttackDamage * sizeMultiplier);
+        }
+        this.refreshDimensions();
 
         updateLadderHitbox();
     }

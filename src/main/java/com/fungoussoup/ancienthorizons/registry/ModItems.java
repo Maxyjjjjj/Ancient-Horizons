@@ -297,7 +297,7 @@ public class ModItems {
                     new Item.Properties()));
 
     public static final DeferredItem<Item> TIGER_ARMOR = ITEMS.register("tiger_armor",
-            () -> new ModAnimalArmourItem(ModArmourMaterials.CROC, ModAnimalArmourItem.BodyType.PANTHERINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(4))));
+            () -> new ModAnimalArmourItem(ModArmourMaterials.CROC, ModAnimalArmourItem.BodyType.TIGRINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(4))));
 
 
     //SNOW LEOPARD
@@ -306,7 +306,7 @@ public class ModItems {
                     new Item.Properties()));
 
     public static final DeferredItem<Item> SNOW_LEOPARD_ARMOR = ITEMS.register("snow_leopard_armor",
-            () -> new ModAnimalArmourItem(ModArmourMaterials.PANGOLIN, ModAnimalArmourItem.BodyType.FELINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(4))));
+            () -> new ModAnimalArmourItem(ModArmourMaterials.PANGOLIN, ModAnimalArmourItem.BodyType.UNCIINE, true, new Item.Properties().durability(ArmorItem.Type.BODY.getDurability(4))));
 
     // RACCOON
     public static final DeferredItem<Item> RACCOON_SPAWN_EGG = ITEMS.register("raccoon_spawn_egg",

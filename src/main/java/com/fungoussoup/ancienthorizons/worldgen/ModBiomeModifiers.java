@@ -59,12 +59,12 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> SPAWN_HARE = registerKey("spawn_hare");
     public static final ResourceKey<BiomeModifier> SPAWN_FISHER = registerKey("spawn_fisher");
     public static final ResourceKey<BiomeModifier> SPAWN_WHITE_SHARK = registerKey("spawn_white_shark");
-    public static final ResourceKey<BiomeModifier> SPAWN_ANACONDA = registerKey("spawn_anaconda");
     public static final ResourceKey<BiomeModifier> SPAWN_DEER = registerKey("spawn_deer");
     public static final ResourceKey<BiomeModifier> SPAWN_CROC = registerKey("spawn_croc");
     public static final ResourceKey<BiomeModifier> SPAWN_CICADA = registerKey("spawn_cicada");
     public static final ResourceKey<BiomeModifier> SPAWN_WOLVERINE = registerKey("spawn_wolverine");
     public static final ResourceKey<BiomeModifier> SPAWN_MERGANSER = registerKey("spawn_merganser");
+    public static final ResourceKey<BiomeModifier> SPAWN_WORM = registerKey("spawn_worm");
 
     public static final ResourceKey<BiomeModifier> SPAWN_BLACKCAP = registerKey("spawn_blackcap");
     public static final ResourceKey<BiomeModifier> SPAWN_BLUETHROAT = registerKey("spawn_bluethroat");
@@ -84,7 +84,6 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> SPAWN_TIT = registerKey("spawn_tit");
     public static final ResourceKey<BiomeModifier> SPAWN_WAGTAIL = registerKey("spawn_wagtail");
     public static final ResourceKey<BiomeModifier> SPAWN_WAXWING = registerKey("spawn_waxwing");
-    public static final ResourceKey<BiomeModifier> SPAWN_WORM = registerKey("spawn_worm");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);

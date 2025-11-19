@@ -1,13 +1,9 @@
 package com.fungoussoup.ancienthorizons.registry;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -93,14 +89,15 @@ public class ModTags {
         public static final TagKey<EntityType<?>> FISHER_PREY = createTag("fisher_prey");
         public static final TagKey<EntityType<?>> ANACONDA_PREY = createTag("anaconda_prey");
         public static final TagKey<EntityType<?>> HYPNOVENATOR_PREY = createTag("hypnivenator_prey");
+        public static final TagKey<EntityType<?>> CROCODILE_LAND_PREY = createTag("croc_land_prey");
+        public static final TagKey<EntityType<?>> PHILIPPINE_EAGLE_PREY = createTag("philippine_eagle_prey");
 
         // DIET TYPES
         public static final TagKey<EntityType<?>> CARNIVORES = createTag("carnivores");
         public static final TagKey<EntityType<?>> HERBIVORES = createTag("herbivores");
         public static final TagKey<EntityType<?>> OMNIVORES = createTag("omnivores");
         public static final TagKey<EntityType<?>> SPECIALISTS = createTag("dietary_specialists");
-        public static final TagKey<EntityType<?>> CROCODILE_LAND_PREY = createTag("croc_land_prey");
-        public static final TagKey<EntityType<?>> PHILIPPINE_EAGLE_PREY = createTag("philippine_eagle_prey");
+
 
         private static TagKey<EntityType<?>> createTag(String name) {
             return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, name));

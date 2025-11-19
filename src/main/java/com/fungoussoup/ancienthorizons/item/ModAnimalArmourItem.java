@@ -52,18 +52,19 @@ public class ModAnimalArmourItem extends ArmorItem {
         return false;
     }
 
-    public static enum BodyType {
-        FELINE((resourceLocation) -> resourceLocation.withPath((str) -> "textures/entity/snow_leopard/snow_leopard_armor" + str), SoundEvents.WOLF_ARMOR_BREAK),
-        PANTHERINE((resourceLocation) -> resourceLocation.withPath((str) -> "textures/entity/tiger/tiger_armor" + str), SoundEvents.WOLF_ARMOR_BREAK),
-        STRUTHIONINE((resourceLocation) -> resourceLocation.withPath("textures/entity/ostrich/armor/ostrich_armor_"), SoundEvents.ITEM_BREAK),
-        GALLIMIMINE((resourceLocation) -> resourceLocation.withPath("textures/entity/gallimimus/armor/gallimimus_armor_"), SoundEvents.ITEM_BREAK),
-        AQUILINE((resourceLocation) -> resourceLocation.withPath("textures/entity/eagle/eagle_armor"), SoundEvents.WOLF_ARMOR_BREAK);
-
+    public enum BodyType {
+        UNCIINE((resourceLocation) -> resourceLocation.withPath("textures/entity/snow_leopard/snow_leopard_armor"), SoundEvents.WOLF_ARMOR_BREAK),
+        TIGRINE((resourceLocation) -> resourceLocation.withPath("textures/entity/tiger/tiger_armor"), SoundEvents.WOLF_ARMOR_BREAK),
+        STRUTHIONINE((resourceLocation) -> resourceLocation.withPath((str) -> "textures/entity/ostrich/armor/ostrich_armor_" + str), SoundEvents.ITEM_BREAK),
+        GALLIMIMINE((resourceLocation) -> resourceLocation.withPath((str) -> "textures/entity/gallimimus/armor/gallimimus_armor_" + str), SoundEvents.ITEM_BREAK),
+        AQUILINE((resourceLocation) -> resourceLocation.withPath("textures/entity/eagle/eagle_armor"), SoundEvents.WOLF_ARMOR_BREAK),
+        PITHECOPHAGINE((resourceLocation) -> resourceLocation.withPath("textures/philippine_eagle/eagle_armor"), SoundEvents.WOLF_ARMOR_BREAK),
+        CAMELINE((resourceLocation) -> resourceLocation.withPath((str) -> "textures/entity/bactrian_camel/armor/bactrian_camel_armor_" + str), SoundEvents.ITEM_BREAK);
 
         final Function<ResourceLocation, ResourceLocation> textureLocator;
         final SoundEvent breakingSound;
 
-        private BodyType(Function<ResourceLocation, ResourceLocation> textureLocator, SoundEvent breakingSound) {
+        BodyType(Function<ResourceLocation, ResourceLocation> textureLocator, SoundEvent breakingSound) {
             this.textureLocator = textureLocator;
             this.breakingSound = breakingSound;
         }
