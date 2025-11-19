@@ -275,7 +275,7 @@ public class ModEntities {
                     .sized(0.5f, 0.5f).build("dearc"));
 
     public static final Supplier<EntityType<LionEntity>> LION =
-            ENTITY_TYPES.register("lion", () -> EntityType.Builder.of(LionEntity::new, MobCategory.WATER_CREATURE)
+            ENTITY_TYPES.register("lion", () -> EntityType.Builder.of(LionEntity::new, MobCategory.CREATURE)
                     .sized(1f,1.4f).build("lion"));
 
     public static Supplier<EntityType<GallimimusEntity>> GALLIMIMUS =
