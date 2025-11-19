@@ -31,6 +31,8 @@ public class ParrotMixin extends ShoulderRidingEntity {
         Parrot baby = EntityType.PARROT.create(level);
         if (baby != null && this.random.nextBoolean()) {
             baby.setVariant(Util.getRandom(Parrot.Variant.values(), level.getRandom()));
+            Parrot self = (Parrot) (Object) this;
+            self.setVariant(Util.getRandom(Parrot.Variant.values(), level.getRandom()));
         }
         return baby;
     }
