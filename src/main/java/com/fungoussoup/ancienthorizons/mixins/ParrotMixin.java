@@ -30,8 +30,7 @@ public class ParrotMixin extends ShoulderRidingEntity {
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob other) {
         Parrot baby = EntityType.PARROT.create(level);
         if (baby != null && this.random.nextBoolean()) {
-            Parrot self = (Parrot) (Object) this;
-            self.setVariant(Util.getRandom(Parrot.Variant.values(), level.getRandom()));
+            baby.setVariant(Util.getRandom(Parrot.Variant.values(), level.getRandom()));
         }
         return baby;
     }
