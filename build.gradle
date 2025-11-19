@@ -139,7 +139,6 @@ dependencies {
     implementation "curse.maven:jade-324717:6738687"
     implementation "curse.maven:tough-as-nails-246391:5833252"
     implementation "curse.maven:immersive-aircraft-666014:6992093"
-    implementation "curse.maven:immersive-engineering-231951:6733669"
     implementation "maven.modrinth:automobility:0.5.0.h-neoforge"
 }
 
