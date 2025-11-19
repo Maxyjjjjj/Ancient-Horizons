@@ -11,10 +11,30 @@
             "entries": [
                 {
                     "type": "minecraft:item",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2,
+                                "type": "minecraft:uniform"
+                            }
+                        }
+                    ],
                     "name": "ancienthorizons:raw_chevon"
                 },
                 {
                     "type": "minecraft:item",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2,
+                                "type": "minecraft:uniform"
+                            }
+                        }
+                    ],
                     "name": "ancienthorizons:cooked_chevon",
                     "conditions": [
                         {
