@@ -23,23 +23,14 @@ public class ParrotMixin extends ShoulderRidingEntity {
 
     @Inject(method = "registerGoals", at = @At("TAIL"))
     private void addBreedGoal(CallbackInfo ci) {
-<<<<<<< HEAD
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-=======
-        this.goalSelector.addGoal(3, new BreedGoal((AgeableMob) (Object) this, 1.0D));
->>>>>>> db17e60 (lion in correct category)
     }
 
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob other) {
         Parrot baby = EntityType.PARROT.create(level);
         if (baby != null && this.random.nextBoolean()) {
-<<<<<<< HEAD
             baby.setVariant(Util.getRandom(Parrot.Variant.values(), level.getRandom()));
-=======
-            Parrot self = (Parrot) (Object) this;
-            self.setVariant(Util.getRandom(Parrot.Variant.values(), level.getRandom()));
->>>>>>> db17e60 (lion in correct category)
         }
         return baby;
     }

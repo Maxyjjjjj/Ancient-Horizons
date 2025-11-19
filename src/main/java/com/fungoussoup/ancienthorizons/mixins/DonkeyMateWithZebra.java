@@ -26,11 +26,7 @@ public class DonkeyMateWithZebra {
     @Inject(method = "getBreedOffspring", at = @At("HEAD"), cancellable = true)
     private void getBreedOffspringMixin(ServerLevel level, AgeableMob otherParent, CallbackInfoReturnable<AgeableMob> cir) {
         EntityType<? extends AbstractHorse> entitytype = otherParent instanceof Horse ? EntityType.MULE : otherParent instanceof ZebraEntity ? ModEntities.ZONKEY.get() : EntityType.DONKEY;
-<<<<<<< HEAD
         AbstractHorse abstracthorse = entitytype.create(level);
-=======
-        AbstractHorse abstracthorse = (AbstractHorse) entitytype.create(level);
->>>>>>> db17e60 (lion in correct category)
         cir.setReturnValue(abstracthorse);
     }
 }
