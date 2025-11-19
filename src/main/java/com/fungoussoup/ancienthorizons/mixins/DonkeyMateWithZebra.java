@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Donkey.class)
 public class DonkeyMateWithZebra {
-
     @Inject(method = "canMate", at = @At("HEAD"), cancellable = true)
     private void canMateWithZebraMixin(Animal otherAnimal, CallbackInfoReturnable<Boolean> cir) {
         if (otherAnimal instanceof ZebraEntity) {
@@ -24,9 +23,10 @@ public class DonkeyMateWithZebra {
         }
     }
 
-    @Inject(method = "getBreedOffspring", at = @At("HEAD"))
+    @Inject(method = "getBreedOffspring", at = @At("HEAD"), cancellable = true)
     private void getBreedOffspringMixin(ServerLevel level, AgeableMob otherParent, CallbackInfoReturnable<AgeableMob> cir) {
         EntityType<? extends AbstractHorse> entitytype = otherParent instanceof Horse ? EntityType.MULE : otherParent instanceof ZebraEntity ? ModEntities.ZONKEY.get() : EntityType.DONKEY;
-        AbstractHorse abstracthorse = (AbstractHorse)entitytype.create(level);
+        AbstractHorse abstracthorse = entitytype.create(level);
+        cir.setReturnValue(abstracthorse);
     }
 }
