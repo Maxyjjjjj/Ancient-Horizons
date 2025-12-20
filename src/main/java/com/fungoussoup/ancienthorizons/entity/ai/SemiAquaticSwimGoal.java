@@ -1,6 +1,9 @@
 package com.fungoussoup.ancienthorizons.entity.ai;
 
+import javax.annotation.Nullable;
+
 import com.fungoussoup.ancienthorizons.entity.custom.mob.misc.SemiAquaticAnimal;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.PathfinderMob;
@@ -9,14 +12,13 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
-
 public class SemiAquaticSwimGoal extends RandomStrollGoal {
 
     public SemiAquaticSwimGoal(Animal creature, double speed, int chance) {
         super(creature, speed, chance, false);
     }
 
+    @Override
     public boolean canUse() {
         if (this.mob.isVehicle() || ((SemiAquaticAnimal) this.mob).shouldStopMoving() || this.mob.getTarget() != null || !this.mob.isInWater() && !this.mob.isInLava() && !((SemiAquaticAnimal) this.mob).shouldEnterWater()) {
             return false;
@@ -40,6 +42,7 @@ public class SemiAquaticSwimGoal extends RandomStrollGoal {
     }
 
     @Nullable
+    @Override
     protected Vec3 getPosition() {
         if(this.mob.hasRestriction() && this.mob.distanceToSqr(Vec3.atCenterOf(this.mob.getRestrictCenter())) > this.mob.getRestrictRadius() * this.mob.getRestrictRadius()){
             return DefaultRandomPos.getPosTowards(this.mob, 7, 3, Vec3.atBottomCenterOf(this.mob.getRestrictCenter()), 1);

@@ -78,7 +78,6 @@ public class AncientHorizons {
     
     public AncientHorizons(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
-        NeoForge.EVENT_BUS.register(this);
 
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
@@ -96,6 +95,7 @@ public class AncientHorizons {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
+            NeoForge.EVENT_BUS.register(this);
             ModStrippables.register();
         });
     }

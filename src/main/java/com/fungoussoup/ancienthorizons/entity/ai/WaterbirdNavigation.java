@@ -2,12 +2,12 @@ package com.fungoussoup.ancienthorizons.entity.ai;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.pathfinder.*;
+import net.minecraft.world.level.pathfinder.PathFinder;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
 
 public class WaterbirdNavigation extends GroundPathNavigation {
@@ -51,8 +51,6 @@ public class WaterbirdNavigation extends GroundPathNavigation {
 
     @Override
     protected void followThePath() {
-        // Smooth movement on water — no steep path corrections
-        assert this.path != null;
         Vec3 nextPos = this.path.getNextEntityPos(this.mob);
         this.mob.getMoveControl().setWantedPosition(nextPos.x, nextPos.y, nextPos.z, this.speedModifier);
     }

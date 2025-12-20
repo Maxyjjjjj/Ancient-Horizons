@@ -1,5 +1,10 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
 import com.fungoussoup.ancienthorizons.entity.ai.ModFollowOwnerGoal;
@@ -8,6 +13,8 @@ import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
+
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -21,12 +28,29 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.*;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
@@ -35,10 +59,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.UUID;
 
 public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer {
     // Data accessors for syncing client-server state
@@ -79,6 +99,7 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
         this.moveControl = new SemiFlyingMoveControl(this);
     }
 
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(EAGLE_FLYING, false);
@@ -149,6 +170,10 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
 
     @Override
     public void tick() {
+        if (this.tickCount > Integer.MAX_VALUE - 1000) {
+            this.tickCount = 0;
+        }
+        
         super.tick();
 
         // Smoothly maintain or restore flight
@@ -157,15 +182,24 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
 
             // Hover slightly instead of dropping too fast
             if (this.getDeltaMovement().y < 0 && !this.isCarryingPrey) {
-                this.setDeltaMovement(this.getDeltaMovement().multiply(1.0, 0.9, 1.0));
+                Vec3 velocity = this.getDeltaMovement();
+                this.setDeltaMovement(velocity.multiply(1.0, 0.9, 1.0));
             }
 
-            // Random small motion to simulate air drift
-            if (this.getNavigation().isDone() && this.random.nextInt(80) == 0) {
-                double dx = this.getX() + (this.random.nextDouble() - 0.5) * 12.0;
-                double dy = this.getY() + (this.random.nextDouble() - 0.5) * 6.0;
-                double dz = this.getZ() + (this.random.nextDouble() - 0.5) * 12.0;
-                this.getNavigation().moveTo(dx, dy, dz, 1.0);
+            // Random small motion - LIMIT FREQUENCY
+            if (this.getNavigation().isDone() && this.random.nextInt(120) == 0) { // Increased from 80
+                // Bounds check before navigation
+                if (this.level().isLoaded(this.blockPosition())) {
+                    double dx = this.getX() + (this.random.nextDouble() - 0.5) * 12.0;
+                    double dy = this.getY() + (this.random.nextDouble() - 0.5) * 6.0;
+                    double dz = this.getZ() + (this.random.nextDouble() - 0.5) * 12.0;
+                    
+                    // Validate target before pathfinding
+                    BlockPos targetPos = BlockPos.containing(dx, dy, dz);
+                    if (this.level().isLoaded(targetPos)) {
+                        this.getNavigation().moveTo(dx, dy, dz, 1.0);
+                    }
+                }
             }
 
             // Land automatically if close to ground and not hunting
@@ -174,33 +208,44 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
             }
         } else {
             // Take off if startled, hunting, or falling too long
-            if (!this.onGround() && !this.isInWater() && this.random.nextFloat() < 0.01F) {
+            // REDUCE FREQUENCY
+            if (!this.onGround() && !this.isInWater() && this.random.nextFloat() < 0.005F) { // Reduced from 0.01F
                 startFlying();
             }
         }
 
+        // Hunting logic with safety checks
         if (isHunting && (getTarget() == null || !getTarget().isAlive())) {
-            // Search for prey
-            List<Animal> possiblePrey = this.level().getEntitiesOfClass(
-                    Animal.class,
-                    this.getBoundingBox().inflate(huntingRange),
-                    this::isValidPrey
-            );
+            // LIMIT search area to prevent lag
+            try {
+                List<Animal> possiblePrey = this.level().getEntitiesOfClass(
+                        Animal.class,
+                        this.getBoundingBox().inflate(huntingRange),
+                        this::isValidPrey
+                );
 
-            Animal nearestPrey = null;
-            double nearestDistance = Double.MAX_VALUE;
+                Animal nearestPrey = null;
+                double nearestDistance = Double.MAX_VALUE;
 
-            for (Animal prey : possiblePrey) {
-                double distanceSq = this.distanceToSqr(prey);
-                if (distanceSq < nearestDistance) {
-                    nearestDistance = distanceSq;
-                    nearestPrey = prey;
+                // LIMIT iterations
+                int checked = 0;
+                for (Animal prey : possiblePrey) {
+                    if (checked++ > 10) break; // Don't check more than 10
+                    
+                    double distanceSq = this.distanceToSqr(prey);
+                    if (distanceSq < nearestDistance) {
+                        nearestDistance = distanceSq;
+                        nearestPrey = prey;
+                    }
                 }
-            }
 
-            if (nearestPrey != null) {
-                this.setTarget(nearestPrey);
-            } else {
+                if (nearestPrey != null) {
+                    this.setTarget(nearestPrey);
+                } else {
+                    isHunting = false;
+                }
+            } catch (Exception e) {
+                // Catch any errors to prevent crashes
                 isHunting = false;
             }
         }
@@ -223,14 +268,19 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
             wasFlying = currentlyFlying;
         }
 
-        // Handle prey carrying
+        // Handle prey carrying with safety checks
         if (isCarryingPrey && preyTarget != null) {
             if (!preyTarget.isAlive() || preyTarget.isRemoved()) {
                 dropPrey();
             } else {
-                Vec3 eaglePos = this.position();
-                preyTarget.setPos(eaglePos.x, eaglePos.y - 0.8, eaglePos.z);
-                preyTarget.setDeltaMovement(this.getDeltaMovement());
+                try {
+                    Vec3 eaglePos = this.position();
+                    preyTarget.setPos(eaglePos.x, eaglePos.y - 0.8, eaglePos.z);
+                    preyTarget.setDeltaMovement(this.getDeltaMovement());
+                } catch (Exception e) {
+                    // If something goes wrong, drop the prey
+                    dropPrey();
+                }
             }
         }
 
@@ -487,16 +537,18 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
             if (target == null) return;
 
             switch (swoopPhase) {
-                case 0: // Rising phase
+                case 0 -> {
+                    // Rising phase
                     if (getY() < target.getY() + 10.0) {
                         Vec3 upward = getDeltaMovement().add(0, 0.15, 0);
                         setDeltaMovement(upward);
                     } else {
                         swoopPhase = 1;
                     }
-                    break;
+                }
 
-                case 1: // Diving phase
+                case 1 -> {
+                    // Diving phase
                     Vec3 toTarget = target.position().subtract(position()).normalize();
                     Vec3 dive = toTarget.add(0, -0.4, 0).normalize().scale(1.0);
                     setDeltaMovement(dive);
@@ -505,13 +557,14 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
                         doHurtTarget(target);
                         swoopPhase = 2;
                     }
-                    break;
+                }
 
-                case 2: // Recovery phase
+                case 2 -> {
+                    // Recovery phase
                     Vec3 recover = getDeltaMovement().add(0, 0.3, 0);
                     setDeltaMovement(recover);
                     swoopPhase = 3;
-                    break;
+                }
             }
         }
 
@@ -524,24 +577,33 @@ public class EagleEntity extends TamableAnimal implements NeutralMob, SemiFlyer 
     }
 
     @Override
-    public void setFlying(boolean flying) {
-        boolean currentlyFlying = isFlying();
-        if (currentlyFlying == flying) return;
+public void setFlying(boolean flying) {
+    boolean currentlyFlying = isFlying();
+    if (currentlyFlying == flying) return; // Already in that state
 
-        this.entityData.set(EAGLE_FLYING, flying);
+    this.entityData.set(EAGLE_FLYING, flying);
 
+    try {
         if (flying) {
             this.navigation = flyingNavigation;
             this.moveControl = new SemiFlyingMoveControl(this, 10, 5);
             this.setNoGravity(true);
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2); // slower lateral speed
+            if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2);
+            }
         } else {
             this.navigation = groundNavigation;
             this.moveControl = new MoveControl(this);
             this.setNoGravity(false);
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+            if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+            }
         }
+    } catch (Exception e) {
+        // Revert state if something goes wrong
+        this.entityData.set(EAGLE_FLYING, currentlyFlying);
     }
+}
 
     public boolean isCarryingPrey() {
         return isCarryingPrey;

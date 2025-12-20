@@ -4,6 +4,7 @@ import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.BeipiaosaurusEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -11,8 +12,9 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 
-public class BeipiaosaurusModel<T extends BeipiaosaurusEntity> extends HierarchicalModel<T> {
+public class BeipiaosaurusModel<T extends BeipiaosaurusEntity> extends HierarchicalModel<T> implements ArmedModel {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "beipiaosaurus"), "main");
     private final ModelPart base;
     private final ModelPart body;
@@ -132,6 +134,39 @@ public class BeipiaosaurusModel<T extends BeipiaosaurusEntity> extends Hierarchi
                 this.legleft2.xRot = Mth.cos(ageInTicks * 0.3F + (float)Math.PI) * 0.1F;
                 this.body.xRot = -0.1F;
             }
+        }
+    }
+
+    @Override
+    public void translateToHand(HumanoidArm humanoidArm, PoseStack poseStack) {
+        // First translate to the base position
+        this.base.translateAndRotate(poseStack);
+
+        // Then to the body
+        this.body.translateAndRotate(poseStack);
+
+        // Choose which front paw based on the arm
+        if (humanoidArm == HumanoidArm.RIGHT) {
+            // Translate to right front paw (which is actually the left paw in model space)
+            this.armleft.translateAndRotate(poseStack);
+
+            // Fine-tune position for the fishing rod
+            // Move slightly forward and up from the paw center
+            poseStack.translate(0.0F, -0.5F, -0.5F);
+
+            // Rotate to make the fishing rod point outward naturally
+            poseStack.mulPose(com.mojang.math.Axis.XP.rotationDegrees(45.0F));
+            poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(15.0F));
+        } else {
+            // Translate to left front paw (which is actually the right paw in model space)
+            this.armleft2.translateAndRotate(poseStack);
+
+            // Fine-tune position for the fishing rod
+            poseStack.translate(0.0F, -0.5F, -0.5F);
+
+            // Rotate to make the fishing rod point outward naturally
+            poseStack.mulPose(com.mojang.math.Axis.XP.rotationDegrees(45.0F));
+            poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-15.0F));
         }
     }
 
