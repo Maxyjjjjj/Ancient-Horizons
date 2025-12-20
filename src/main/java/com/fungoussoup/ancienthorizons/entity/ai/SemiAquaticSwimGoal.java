@@ -1,14 +1,12 @@
 package com.fungoussoup.ancienthorizons.entity.ai;
 
 import com.fungoussoup.ancienthorizons.entity.custom.mob.misc.SemiAquaticAnimal;
-import com.fungoussoup.ancienthorizons.misc.AHBlockPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;

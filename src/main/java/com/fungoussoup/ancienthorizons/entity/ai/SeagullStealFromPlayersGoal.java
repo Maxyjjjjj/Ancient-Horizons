@@ -2,13 +2,10 @@ package com.fungoussoup.ancienthorizons.entity.ai;
 
 import com.fungoussoup.ancienthorizons.entity.custom.mob.SeagullEntity;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 

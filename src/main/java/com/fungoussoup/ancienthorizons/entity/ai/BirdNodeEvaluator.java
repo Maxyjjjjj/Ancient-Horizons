@@ -26,7 +26,7 @@ public class BirdNodeEvaluator extends WalkNodeEvaluator {
     public Node getStart() {
         if (flyingMode) {
             BlockPos pos = mob.blockPosition();
-            return this.getNode(pos.getX(), (int)mob.getY(), pos.getZ());
+            return this.getNode(pos.getX(), pos.getY(), pos.getZ());
         }
         return super.getStart();
     }
@@ -35,8 +35,10 @@ public class BirdNodeEvaluator extends WalkNodeEvaluator {
     protected Node findAcceptedNode(int x, int y, int z, int verticalDeltaLimit, double nodeFloorLevel, net.minecraft.core.Direction direction, PathType pathType) {
         if (flyingMode) {
             Node node = this.getNode(x, y, z);
-            node.type = PathType.OPEN;
-            node.costMalus = 1.0F;
+            if (node != null) {
+                node.type = PathType.OPEN;
+                node.costMalus = 1.0F;
+            }
             return node;
         }
         return super.findAcceptedNode(x, y, z, verticalDeltaLimit, nodeFloorLevel, direction, pathType);
@@ -49,8 +51,11 @@ public class BirdNodeEvaluator extends WalkNodeEvaluator {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
-                        if (dx != 0 || dy != 0 || dz != 0) {
-                            Node neighbor = this.getNode(node.x + dx, node.y + dy, node.z + dz);
+                        if (dx == 0 && dy == 0 && dz == 0) {
+                            continue;
+                        }
+                        Node neighbor = this.getNode(node.x + dx, node.y + dy, node.z + dz);
+                        if (neighbor != null && i < outputArray.length) {
                             neighbor.type = PathType.OPEN;
                             neighbor.costMalus = 1.0F;
                             outputArray[i++] = neighbor;

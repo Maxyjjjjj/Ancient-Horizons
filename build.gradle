@@ -133,12 +133,8 @@ configurations {
 
 dependencies {
     implementation "curse.maven:serene-seasons-291874:6182596"
-    implementation "curse.maven:appleskin-248787:6616291"
-    implementation "curse.maven:create-328085:6624071"
-    implementation "curse.maven:farmers-delight-398521:6154807"
     implementation "curse.maven:jade-324717:6738687"
     implementation "curse.maven:tough-as-nails-246391:5833252"
-    implementation "curse.maven:immersive-aircraft-666014:6992093"
     implementation "maven.modrinth:automobility:0.5.0.h-neoforge"
 }
 
