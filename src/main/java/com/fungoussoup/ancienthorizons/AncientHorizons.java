@@ -51,18 +51,8 @@ import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZebraRend
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZonkeyRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZorseRenderer;
 import com.fungoussoup.ancienthorizons.registry.*;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import net.neoforged.api.distmarker.Dist;
