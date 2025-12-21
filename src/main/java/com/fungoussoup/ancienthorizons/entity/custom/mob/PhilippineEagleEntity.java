@@ -1,10 +1,7 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
-import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
-import com.fungoussoup.ancienthorizons.entity.ai.ModFollowOwnerGoal;
-import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;
-import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
+import com.fungoussoup.ancienthorizons.entity.ai.*;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.nbt.CompoundTag;
@@ -82,7 +79,7 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
 
     public static AttributeSupplier.Builder createAttributes() {
         return TamableAnimal.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 26.0D) // BIGGER than Golden Eagle
+                .add(Attributes.MAX_HEALTH, 26.0D)
                 .add(Attributes.FLYING_SPEED, 0.8D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.ATTACK_DAMAGE, 5.0D)
@@ -133,56 +130,75 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
 
     @Override
     public void tick() {
+        // Safety: prevent tick overflow
+        if (this.tickCount > Integer.MAX_VALUE - 1000) {
+            this.tickCount = 0;
+        }
+
         super.tick();
 
-        // handle flight stabilization
+        // Handle flight stabilization
         if (isFlying()) {
             this.resetFallDistance();
             if (this.getDeltaMovement().y < 0 && !isCarryingPrey) {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1.0, 0.9, 1.0));
             }
 
-            if (this.getNavigation().isDone() && this.random.nextInt(80) == 0) {
-                double dx = this.getX() + (this.random.nextDouble() - 0.5) * 12.0;
-                double dy = this.getY() + (this.random.nextDouble() - 0.5) * 6.0;
-                double dz = this.getZ() + (this.random.nextDouble() - 0.5) * 12.0;
-                this.getNavigation().moveTo(dx, dy, dz, 1.0);
+            // Reduced frequency random flight
+            if (this.getNavigation().isDone() && this.random.nextInt(120) == 0) {
+                if (this.level().isLoaded(this.blockPosition())) {
+                    double dx = this.getX() + (this.random.nextDouble() - 0.5) * 12.0;
+                    double dy = this.getY() + (this.random.nextDouble() - 0.5) * 6.0;
+                    double dz = this.getZ() + (this.random.nextDouble() - 0.5) * 12.0;
+
+                    net.minecraft.core.BlockPos targetPos = net.minecraft.core.BlockPos.containing(dx, dy, dz);
+                    if (this.level().isLoaded(targetPos)) {
+                        this.getNavigation().moveTo(dx, dy, dz, 1.0);
+                    }
+                }
             }
 
             if (this.onGround() || (this.verticalCollisionBelow && !this.isHunting)) {
                 stopFlying();
             }
         } else {
-            if (!this.onGround() && !this.isInWater() && this.random.nextFloat() < 0.01F) {
+            // Reduced takeoff frequency
+            if (!this.onGround() && !this.isInWater() && this.random.nextFloat() < 0.005F) {
                 startFlying();
             }
         }
 
-        // Hunting search if needed
+        // Hunting search with safety
         if (isHunting && (getTarget() == null || !getTarget().isAlive())) {
-            List<Animal> possible = this.level().getEntitiesOfClass(
-                    Animal.class,
-                    this.getBoundingBox().inflate(huntingRange),
-                    this::isValidPrey
-            );
+            try {
+                List<Animal> possible = this.level().getEntitiesOfClass(
+                        Animal.class,
+                        this.getBoundingBox().inflate(huntingRange),
+                        this::isValidPrey
+                );
 
-            Animal nearest = null;
-            double nd = Double.MAX_VALUE;
-            for (Animal a : possible) {
-                double ds = this.distanceToSqr(a);
-                if (ds < nd) {
-                    nd = ds;
-                    nearest = a;
+                Animal nearest = null;
+                double nd = Double.MAX_VALUE;
+                int checked = 0;
+                for (Animal a : possible) {
+                    if (checked++ > 10) break; // Limit iterations
+                    double ds = this.distanceToSqr(a);
+                    if (ds < nd) {
+                        nd = ds;
+                        nearest = a;
+                    }
                 }
-            }
-            if (nearest != null) {
-                this.setTarget(nearest);
-            } else {
+                if (nearest != null) {
+                    this.setTarget(nearest);
+                } else {
+                    isHunting = false;
+                }
+            } catch (Exception e) {
                 isHunting = false;
             }
         }
 
-        // timers & carry logic
+        // Timers & carry logic
         if (this.onGround()) groundTimer++; else groundTimer = 0;
         if (swoopCooldown > 0) swoopCooldown--;
 
@@ -190,13 +206,17 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
             if (!preyTarget.isAlive() || preyTarget.isRemoved()) {
                 dropPrey();
             } else {
-                Vec3 p = this.position();
-                preyTarget.setPos(p.x, p.y - 0.8, p.z);
-                preyTarget.setDeltaMovement(this.getDeltaMovement());
+                try {
+                    Vec3 p = this.position();
+                    preyTarget.setPos(p.x, p.y - 0.8, p.z);
+                    preyTarget.setDeltaMovement(this.getDeltaMovement());
+                } catch (Exception e) {
+                    dropPrey();
+                }
             }
         }
 
-        // sync client-visible flag
+        // Sync client-visible flag
         this.entityData.set(DATA_HAS_PREY, isCarryingPrey);
     }
 
@@ -204,17 +224,17 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
     public void aiStep() {
         super.aiStep();
 
-        // ensure we start flying if off-ground
+        // Ensure we start flying if off-ground
         if (!this.onGround() && !this.isFlying() && !this.isInWater()) {
             this.startFlying();
         }
 
-        // update anger server side
+        // Update anger server side
         if (!this.level().isClientSide) {
             this.updatePersistentAnger((ServerLevel) this.level(), true);
         }
 
-        // slight upward stabilization while flying
+        // Slight upward stabilization while flying
         if (isFlying()) {
             this.fallDistance = 0;
             if (this.getDeltaMovement().y < 0) {
@@ -256,21 +276,13 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         if (!this.level().isClientSide) {
             Entity attacker = source.getEntity();
             if (attacker instanceof Player player) {
-                // Apply Bad Omen to the killer
                 player.addEffect(new net.minecraft.world.effect.MobEffectInstance(
                         net.minecraft.world.effect.MobEffects.BAD_OMEN,
-                        12000, // 10 minutes (same as vanilla)
-                        0,
-                        false,
-                        true,
-                        true
+                        12000, 0, false, true, true
                 ));
                 if (player instanceof ServerPlayer sp) {
                     sp.displayClientMessage(Component.translatable("message.ancienthorizons.bad_omen_eagle"), true);
                 }
-
-
-                // Optional: message or sound feedback
                 this.level().playSound(attacker, this.blockPosition(), SoundEvents.APPLY_EFFECT_RAID_OMEN, SoundSource.PLAYERS, 1.5F, 1.0F);
             }
         }
@@ -278,7 +290,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
 
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean recentlyHit) {
-        // No drops if player or player-caused
         Entity attacker = source.getEntity();
         if (attacker instanceof Player) return;
         super.dropCustomDeathLoot(level, source, recentlyHit);
@@ -375,7 +386,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
     public void startFlying() {
         if (this.isFlying()) return;
         setFlying(true);
-        // give small lift
         Vec3 m = this.getDeltaMovement();
         this.setDeltaMovement(m.x, Math.max(m.y, 0.35), m.z);
     }
@@ -407,16 +417,24 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         if (currently == flying) return;
         this.entityData.set(DATA_FLYING, flying);
 
-        if (flying) {
-            this.navigation = this.flyingNavigation;
-            this.moveControl = new SemiFlyingMoveControl(this, 10, 5);
-            this.setNoGravity(true);
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2);
-        } else {
-            this.navigation = this.groundNavigation;
-            this.moveControl = new MoveControl(this);
-            this.setNoGravity(false);
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+        try {
+            if (flying) {
+                this.navigation = this.flyingNavigation;
+                this.moveControl = new SemiFlyingMoveControl(this, 10, 5);
+                this.setNoGravity(true);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2);
+                }
+            } else {
+                this.navigation = this.groundNavigation;
+                this.moveControl = new MoveControl(this);
+                this.setNoGravity(false);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+                }
+            }
+        } catch (Exception e) {
+            this.entityData.set(DATA_FLYING, currently);
         }
     }
 
@@ -440,9 +458,6 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         this.readPersistentAngerSaveData(this.level(), compound);
     }
 
-    /* ----------------------
-       Breeding
-       ---------------------- */
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         PhilippineEagleEntity baby = ModEntities.PHILIPPINE_EAGLE.get().create(level);
@@ -506,14 +521,14 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
         public void tick() {
             if (target == null) return;
             switch (phase) {
-                case 0: // climb if needed
+                case 0:
                     if (getY() < target.getY() + 10.0) {
                         setDeltaMovement(getDeltaMovement().add(0, 0.15, 0));
                     } else {
                         phase = 1;
                     }
                     break;
-                case 1: // dive
+                case 1:
                     Vec3 to = target.position().subtract(position()).normalize();
                     Vec3 dive = to.add(0, -0.4, 0).normalize().scale(getAttributeValue(Attributes.FLYING_SPEED));
                     setDeltaMovement(dive);
@@ -523,7 +538,7 @@ public class PhilippineEagleEntity extends TamableAnimal implements NeutralMob, 
                         phase = 2;
                     }
                     break;
-                case 2: // recover
+                case 2:
                     setDeltaMovement(getDeltaMovement().add(0, 0.3, 0));
                     phase = 3;
                     break;

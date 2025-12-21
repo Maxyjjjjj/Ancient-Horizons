@@ -726,28 +726,6 @@
     "ancienthorizons.subtitles.entity.lion.warning": "Lion warns",
     "ancienthorizons.subtitles.entity.lion.angry": "Lion growls angrily",
 
-    "biome.ancienthorizons.steppe": "Steppe",
-    "biome.ancienthorizons.tundra": "Tundra",
-    "biome.ancienthorizons.hornbeam_forest": "Hornbeam Forest",
-    "biome.ancienthorizons.cold_desert": "Cold Desert",
-    "biome.ancienthorizons.shrubland": "Shrubland",
-    "biome.ancienthorizons.temperate_rainforest": "Temperate Rainforest",
-    "biome.ancienthorizons.ash_forest": "Ash Forest",
-    "biome.ancienthorizons.aspen_forest": "Aspen Forest",
-    "biome.ancienthorizons.baobab_savanna": "Baobab Savanna",
-    "biome.ancienthorizons.beech_forest": "Beech Forest",
-    "biome.ancienthorizons.eucalyptus_woodland": "Eucalyptus Woodland",
-    "biome.ancienthorizons.ginkgo_grove": "Ginkgo Grove",
-    "biome.ancienthorizons.linden_forest": "Linden Forest",
-    "biome.ancienthorizons.maple_forest": "Maple Forest",
-    "biome.ancienthorizons.monkey_puzzle_forest": "Monkey Puzzle Forest",
-    "biome.ancienthorizons.palm_oasis": "Palm Oasis",
-    "biome.ancienthorizons.poplar_grove": "Poplar Grove",
-    "biome.ancienthorizons.redwood_forest": "Redwood Forest",
-    "biome.ancienthorizons.sycamore_forest": "Sycamore Forest",
-    "biome.ancienthorizons.willow_swamp": "Willow Swamp",
-    "biome.ancienthorizons.yew_forest": "Yew Forest",
-
     "item.ancienthorizons.monkey_spawn_egg": "Monkey Spawn Egg",
     "entity.ancienthorizons.monkey": "Monkey",
 
@@ -762,5 +740,17 @@
 
     "effect.ancienthorizons.tranquilized": "Tranquilized",
     "effect.ancienthorizons.tranquilized.description": "Tranquilizes player",
-    "message.ancienthorizons.bad_omen_eagle": "You have slain an individual of the protected species!"
+    "message.ancienthorizons.bad_omen_eagle": "You have slain an individual of the protected species!",
+
+    "item.ancienthorizons.chest_key": "Chest Key",
+    "tooltip.ancienthorizons.unlock_chest": "Right-Click: Lock/Unlock chest",
+    "tooltip.ancienthorizons.lock_chest": "Shift + Right-Click: Lock chest",
+    "tooltip.ancienthorizons.use_key_on_chest": "Use on a chest to bind",
+    "tooltip.ancienthorizons.unbound_key": "Unbound Key",
+    "message.ancienthorizons.success_chest_unlock": "Chest unlocked!",
+    "message.ancienthorizons.incorrect_key": "This key doesn't fit this chest!",
+    "message.ancienthorizons.not_locked": "This chest is not locked!",
+    "message.ancienthorizons.success_chest_lock": "Chest locked successfully!",
+    "message.ancienthorizons.chest_already_locked": "This chest is already locked!",
+    "tooltip.ancienthorizons.key_id": "Key ID: "
 }

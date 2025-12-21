@@ -20,6 +20,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
@@ -87,10 +88,7 @@ public class SeagullEntity extends Animal implements SemiFlyer {
         if (this.isFlying()) return;
         this.setFlying(true);
         this.setNoGravity(true);
-        this.navigation = this.flyingNavigation;
         this.playSound(SoundEvents.PARROT_FLY, 0.8F, 1.2F);
-
-        // Lift off slightly
         this.setDeltaMovement(this.getDeltaMovement().add(0, 0.5, 0));
     }
 
@@ -99,10 +97,8 @@ public class SeagullEntity extends Animal implements SemiFlyer {
         if (!this.isFlying()) return;
         this.setFlying(false);
         this.setNoGravity(false);
-        this.navigation = this.groundNavigation;
         this.isLanding = false;
     }
-
 
     private void updateFlightState() {
         boolean wasFlying = this.isFlying();
@@ -122,12 +118,10 @@ public class SeagullEntity extends Animal implements SemiFlyer {
     }
 
     private boolean shouldStartFlying() {
-        // Start flying if player is riding and wants to take off, or if jumping while moving
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             return this.onGround() && this.getDeltaMovement().horizontalDistance() > 0.1;
         }
 
-        // AI conditions for taking off
         return this.onGround() && this.getTarget() != null &&
                 this.distanceToSqr(this.getTarget()) > 100 &&
                 this.random.nextInt(200) == 0;
@@ -141,38 +135,30 @@ public class SeagullEntity extends Animal implements SemiFlyer {
                 return i;
             }
         }
-        return 20; // Max check distance
+        return 20;
     }
 
     private boolean shouldLand() {
-        // Always land when touching ground
         if (this.onGround()) return true;
 
-        // Player controlled - land when shift is held and close to ground
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             return this.getDeltaMovement().y < -0.2 && this.distanceToGround() < 10;
         }
 
-        // AI landing conditions
         LivingEntity target = this.getTarget();
 
-        // Land if no target
         if (target == null) {
             return this.distanceToGround() < 5 || this.random.nextInt(200) == 0;
         }
 
-        // Land if target is now close enough for ground combat
         double distanceSq = this.distanceToSqr(target);
-        if (distanceSq < 64) { // Within 8 blocks
+        if (distanceSq < 64) {
             return this.distanceToGround() < 8;
         }
 
-        // Land if been flying too long without reaching target (prevent infinite flight)
-        return this.tickCount % 1200 == 0; // Every minute, consider landing
+        return this.tickCount % 1200 == 0;
     }
 
-
-    // Getters and Setters
     public boolean isFlying() {
         return this.entityData.get(FLYING);
     }
@@ -188,7 +174,30 @@ public class SeagullEntity extends Animal implements SemiFlyer {
     }
 
     public void setFlying(boolean flying) {
+        boolean currently = isFlying();
+        if (currently == flying) return;
+
         this.entityData.set(FLYING, flying);
+
+        try {
+            if (flying) {
+                this.navigation = this.flyingNavigation;
+                this.moveControl = new SemiFlyingMoveControl(this, 6, 4);
+                this.setNoGravity(true);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2);
+                }
+            } else {
+                this.navigation = this.groundNavigation;
+                this.moveControl = new MoveControl(this);
+                this.setNoGravity(false);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+                }
+            }
+        } catch (Exception e) {
+            this.entityData.set(FLYING, currently);
+        }
     }
 
     public boolean isSitting() {
@@ -252,7 +261,6 @@ public class SeagullEntity extends Animal implements SemiFlyer {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 
-        // Target goals
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, AbstractFish.class, false, false));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false,
                 player -> this.isAggressive() && this.aggressionLevel > 5 && !this.isBaby()));
@@ -268,9 +276,13 @@ public class SeagullEntity extends Animal implements SemiFlyer {
 
     @Override
     public void aiStep() {
+        // Safety: prevent overflow
+        if (this.tickCount > Integer.MAX_VALUE - 1000) {
+            this.tickCount = 0;
+        }
+
         super.aiStep();
 
-        // Handle cooldowns
         if (this.stealCooldown > 0) {
             this.stealCooldown--;
         }
@@ -279,14 +291,12 @@ public class SeagullEntity extends Animal implements SemiFlyer {
             this.callCooldown--;
         }
 
-        // Handle hunger
         this.hungerTimer++;
-        if (this.hungerTimer >= 6000) { // Every 5 minutes
+        if (this.hungerTimer >= 6000) {
             this.setHungerLevel(this.getHungerLevel() - 1);
             this.hungerTimer = 0;
         }
 
-        // Handle aggression decay
         if (this.aggressionLevel > 0 && this.random.nextInt(200) == 0) {
             this.aggressionLevel--;
             if (this.aggressionLevel <= 0) {
@@ -294,26 +304,23 @@ public class SeagullEntity extends Animal implements SemiFlyer {
             }
         }
 
-        // Handle sitting
         if (this.isSitting()) {
             this.sitTimer++;
-            if (this.sitTimer > 600 + this.random.nextInt(400)) { // 30-50 seconds
+            if (this.sitTimer > 600 + this.random.nextInt(400)) {
                 this.setSitting(false);
                 this.setFlying(true);
                 this.sitTimer = 0;
             }
         }
 
-        // Handle idle flight
         if (this.isFlying() && this.getTarget() == null) {
             this.idleFlightTimer++;
-            if (this.idleFlightTimer > 1200) { // 1 minute
+            if (this.idleFlightTimer > 1200) {
                 this.tryToLand();
                 this.idleFlightTimer = 0;
             }
         }
 
-        // Handle flock calling
         if (this.isHungry && this.callCooldown <= 0 && this.random.nextInt(100) == 0) {
             this.callNearbySeagulls();
             this.callCooldown = 200 + this.random.nextInt(200);
@@ -333,8 +340,6 @@ public class SeagullEntity extends Animal implements SemiFlyer {
         if (damageSource.getEntity() instanceof Player) {
             this.aggressionLevel = Math.min(this.aggressionLevel + 2, 10);
             this.setAggressive(true);
-
-            // Call for backup
             this.callNearbySeagulls();
         }
 
@@ -362,7 +367,6 @@ public class SeagullEntity extends Animal implements SemiFlyer {
                 }
             }
 
-            // Spawn particles
             if (this.level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.HEART,
                         this.getX(), this.getY() + 0.5, this.getZ(),
@@ -376,14 +380,12 @@ public class SeagullEntity extends Animal implements SemiFlyer {
         return super.mobInteract(player, hand);
     }
 
-    // Custom methods
     public void steal() {
         this.lastStealTime = this.tickCount;
         this.setCarryingFood(true);
         this.setHungerLevel(this.getHungerLevel() + 5);
         this.playSound(getStealSound(), 1.0F, 1.0F);
 
-        // Spawn particles
         if (this.level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.SMOKE,
                     this.getX(), this.getY(), this.getZ(),
@@ -395,14 +397,12 @@ public class SeagullEntity extends Animal implements SemiFlyer {
         Vec3 direction = this.position().subtract(from).normalize();
         Vec3 targetPos = this.position().add(direction.scale(distance));
 
-        // Add some randomness
         targetPos = targetPos.add(
                 (this.random.nextDouble() - 0.5) * 4,
                 (this.random.nextDouble() - 0.5) * 2,
                 (this.random.nextDouble() - 0.5) * 4
         );
 
-        // Ensure reasonable height
         targetPos = new Vec3(targetPos.x, Math.max(targetPos.y, this.level().getSeaLevel() + 5), targetPos.z);
 
         return targetPos;
@@ -428,11 +428,17 @@ public class SeagullEntity extends Animal implements SemiFlyer {
                     this.random.nextInt(21) - 10
             );
 
-            BlockState state = this.level().getBlockState(testPos);
-            BlockState above = this.level().getBlockState(testPos.above());
+            try {
+                if (!this.level().isLoaded(testPos)) continue;
 
-            if (state.isSolid() && above.isAir()) {
-                return testPos.above();
+                BlockState state = this.level().getBlockState(testPos);
+                BlockState above = this.level().getBlockState(testPos.above());
+
+                if (state.isSolid() && above.isAir()) {
+                    return testPos.above();
+                }
+            } catch (Exception e) {
+                continue;
             }
         }
 
@@ -440,24 +446,29 @@ public class SeagullEntity extends Animal implements SemiFlyer {
     }
 
     private void callNearbySeagulls() {
-        List<SeagullEntity> nearbySeagulls = this.level().getEntitiesOfClass(
-                SeagullEntity.class,
-                this.getBoundingBox().inflate(20)
-        );
+        try {
+            List<SeagullEntity> nearbySeagulls = this.level().getEntitiesOfClass(
+                    SeagullEntity.class,
+                    this.getBoundingBox().inflate(20)
+            );
 
-        for (SeagullEntity seagull : nearbySeagulls) {
-            if (seagull != this && seagull.getTarget() == null) {
-                seagull.aggressionLevel = Math.min(seagull.aggressionLevel + 1, 5);
-                if (seagull.aggressionLevel > 2) {
-                    seagull.setAggressive(true);
+            int called = 0;
+            for (SeagullEntity seagull : nearbySeagulls) {
+                if (called++ > 5) break; // Limit iterations
+                if (seagull != this && seagull.getTarget() == null) {
+                    seagull.aggressionLevel = Math.min(seagull.aggressionLevel + 1, 5);
+                    if (seagull.aggressionLevel > 2) {
+                        seagull.setAggressive(true);
+                    }
                 }
             }
-        }
 
-        this.playSound(getCallSound(), 1.0F, 1.0F);
+            this.playSound(getCallSound(), 1.0F, 1.0F);
+        } catch (Exception e) {
+            // Ignore errors
+        }
     }
 
-    // Sound methods
     @Override
     public SoundEvent getAmbientSound() {
         return this.isAggressive() ? getAggressiveSound() : getIdleSound();
@@ -469,27 +480,27 @@ public class SeagullEntity extends Animal implements SemiFlyer {
     }
 
     protected SoundEvent getIdleSound() {
-        return SoundEvents.PARROT_AMBIENT; // Placeholder
+        return SoundEvents.PARROT_AMBIENT;
     }
 
     protected SoundEvent getAggressiveSound() {
-        return SoundEvents.PARROT_HURT; // Placeholder
+        return SoundEvents.PARROT_HURT;
     }
 
     protected SoundEvent getCallSound() {
-        return SoundEvents.PARROT_IMITATE_PILLAGER; // Placeholder
+        return SoundEvents.PARROT_IMITATE_PILLAGER;
     }
 
     protected SoundEvent getStealSound() {
-        return SoundEvents.ITEM_PICKUP; // Placeholder
+        return SoundEvents.ITEM_PICKUP;
     }
 
     protected SoundEvent getHurtSound() {
-        return SoundEvents.PARROT_HURT; // Placeholder
+        return SoundEvents.PARROT_HURT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.PARROT_DEATH; // Placeholder
+        return SoundEvents.PARROT_DEATH;
     }
 
     @Override

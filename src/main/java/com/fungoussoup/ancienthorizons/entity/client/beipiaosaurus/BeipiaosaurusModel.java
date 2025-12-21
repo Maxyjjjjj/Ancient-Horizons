@@ -4,6 +4,7 @@ import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.BeipiaosaurusEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -99,17 +100,99 @@ public class BeipiaosaurusModel<T extends BeipiaosaurusEntity> extends Hierarchi
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
         boolean isStealing = entity.getEntityData().get(BeipiaosaurusEntity.IS_STEALING);
+        boolean hasItem = entity.getEntityData().get(BeipiaosaurusEntity.HAS_STOLEN_ITEM);
+        boolean isRiding = entity.isPassenger();
+        boolean isLeftHanded = entity.isLeftHanded();
 
         if (isStealing) {
+            // Stealing animation - hunched over chest
             this.body.xRot = (float) (Math.PI / 4.0);
             this.body.y = -7.0F;
             this.neck.xRot = (float) (Math.PI / 4.0);
             this.neck2.xRot = (float) (-Math.PI / 4.0);
 
+            // Arms reaching into chest
             this.armleft.xRot = (float) (Math.PI / 2.0) + Mth.cos(ageInTicks * 0.1F) * 0.1F;
             this.armleft2.xRot = (float) (Math.PI / 2.0) + Mth.cos(ageInTicks * 0.1F) * 0.1F;
 
             this.tail.xRot = (float) (-Math.PI / 6.0);
+        } else if (isRiding) {
+            // Riding animation - sitting pose
+            this.body.xRot = -0.2F;
+            this.body.y = -7.0F;
+
+            // Neck slightly forward for balance
+            this.neck.xRot = 0.1F;
+            this.neck2.xRot = 0.3F;
+
+            // Head looking forward with slight bob
+            this.head.xRot = -0.3F + Mth.cos(ageInTicks * 0.1F) * 0.05F;
+            this.head.yRot = netHeadYaw * ((float)Math.PI / 180F) * 0.5F;
+
+            // Tail up for balance
+            this.tail.xRot = -0.3F;
+            this.tail.yRot = Mth.cos(ageInTicks * 0.08F) * 0.1F;
+
+            // Legs dangling/gripping with gentle sway
+            this.legleft.xRot = 0.4F + Mth.cos(ageInTicks * 0.15F) * 0.08F;
+            this.legleft2.xRot = 0.4F + Mth.cos(ageInTicks * 0.15F + (float)Math.PI) * 0.08F;
+
+            if (hasItem) {
+                // Holding item close while riding
+                if (isLeftHanded) {
+                    // Left hand holds item
+                    this.armleft.xRot = 1.2F + Mth.cos(ageInTicks * 0.05F) * 0.05F;
+                    this.armleft2.xRot = 0.3F;
+                } else {
+                    // Right hand holds item
+                    this.armleft.xRot = 0.3F;
+                    this.armleft2.xRot = 1.2F + Mth.cos(ageInTicks * 0.05F) * 0.05F;
+                }
+                this.armleft2.yRot = 0.1F;
+                this.armleft.yRot = -0.1F;
+            } else {
+                // Arms relaxed/gripping vehicle
+                this.armleft.xRot = 0.5F + Mth.cos(ageInTicks * 0.12F) * 0.06F;
+                this.armleft2.xRot = 0.5F + Mth.cos(ageInTicks * 0.12F + (float)Math.PI) * 0.06F;
+            }
+        } else if (hasItem) {
+            // Holding stolen item - proud stance
+            this.body.xRot = -0.3F;
+            this.body.y = -8.0F;
+
+            // Neck upright
+            this.neck.xRot = 0.2F;
+            this.neck2.xRot = 0.4F;
+
+            // Head looking around proudly
+            this.head.xRot = -0.4F + headPitch * ((float)Math.PI / 180F) * 0.3F;
+            this.head.yRot = netHeadYaw * ((float)Math.PI / 180F) * 0.5F;
+
+            if (isLeftHanded) {
+                // Left arm holding item close to chest (armleft is actually the left side)
+                this.armleft.xRot = 1.0F + Mth.cos(ageInTicks * 0.05F) * 0.03F;
+                this.armleft.yRot = -0.15F;
+                this.armleft.zRot = 0.1F;
+
+                // Right arm relaxed (armleft2 is actually the right side)
+                this.armleft2.xRot = 0.6F + Mth.cos(limbSwing * 0.6662F) * 0.3F * limbSwingAmount;
+            } else {
+                // Right arm holding item close to chest (armleft2 is actually the right side)
+                this.armleft2.xRot = 1.0F + Mth.cos(ageInTicks * 0.05F) * 0.03F;
+                this.armleft2.yRot = 0.15F;
+                this.armleft2.zRot = -0.1F;
+
+                // Left arm relaxed (armleft is actually the left side)
+                this.armleft.xRot = 0.6F + Mth.cos(limbSwing * 0.6662F) * 0.3F * limbSwingAmount;
+            }
+
+            // Tail swaying happily
+            this.tail.yRot = Mth.cos(ageInTicks * 0.1F) * 0.2F;
+            this.tail.xRot = 0.15F;
+
+            // Walking animation for legs
+            this.legleft.xRot = Mth.cos(limbSwing * 0.6662F) * 1.0F * limbSwingAmount;
+            this.legleft2.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.0F * limbSwingAmount;
         } else {
             float swingScale = 1.0F;
 
@@ -128,45 +211,41 @@ public class BeipiaosaurusModel<T extends BeipiaosaurusEntity> extends Hierarchi
 
             this.head.xRot = headPitch * ((float)Math.PI / 180F) * 0.5F - 0.5236F;
             this.neck2.xRot += headPitch * ((float)Math.PI / 180F) * 0.25F;
-
-            if (entity.isPassenger()) {
-                this.legleft.xRot = Mth.cos(ageInTicks * 0.3F) * 0.1F;
-                this.legleft2.xRot = Mth.cos(ageInTicks * 0.3F + (float)Math.PI) * 0.1F;
-                this.body.xRot = -0.1F;
-            }
         }
     }
 
     @Override
     public void translateToHand(HumanoidArm humanoidArm, PoseStack poseStack) {
-        // First translate to the base position
+        // Translate to base
         this.base.translateAndRotate(poseStack);
 
-        // Then to the body
+        // Translate to body
         this.body.translateAndRotate(poseStack);
 
-        // Choose which front paw based on the arm
+        // Use the right arm (armleft2) for item holding
         if (humanoidArm == HumanoidArm.RIGHT) {
-            // Translate to right front paw (which is actually the left paw in model space)
-            this.armleft.translateAndRotate(poseStack);
-
-            // Fine-tune position for the fishing rod
-            // Move slightly forward and up from the paw center
-            poseStack.translate(0.0F, -0.5F, -0.5F);
-
-            // Rotate to make the fishing rod point outward naturally
-            poseStack.mulPose(com.mojang.math.Axis.XP.rotationDegrees(45.0F));
-            poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(15.0F));
-        } else {
-            // Translate to left front paw (which is actually the right paw in model space)
             this.armleft2.translateAndRotate(poseStack);
 
-            // Fine-tune position for the fishing rod
-            poseStack.translate(0.0F, -0.5F, -0.5F);
+            // Position item at the end of the arm/claw
+            poseStack.translate(-0.02F, 0.5F, 0.0F);
 
-            // Rotate to make the fishing rod point outward naturally
-            poseStack.mulPose(com.mojang.math.Axis.XP.rotationDegrees(45.0F));
-            poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-15.0F));
+            // Rotate item to look natural in claw
+            poseStack.mulPose(Axis.XP.rotationDegrees(-15.0F));
+            poseStack.mulPose(Axis.YP.rotationDegrees(10.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(-5.0F));
+
+            // Scale down item slightly
+            poseStack.scale(0.6F, 0.6F, 0.6F);
+        } else {
+            this.armleft.translateAndRotate(poseStack);
+
+            poseStack.translate(0.02F, 0.5F, 0.0F);
+
+            poseStack.mulPose(Axis.XP.rotationDegrees(-15.0F));
+            poseStack.mulPose(Axis.YP.rotationDegrees(-10.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(5.0F));
+
+            poseStack.scale(0.6F, 0.6F, 0.6F);
         }
     }
 

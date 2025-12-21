@@ -652,6 +652,11 @@ public class ModItems {
     public static final DeferredItem<Item> FOSSIL = ITEMS.register("fossil",
             () -> new Item(new Item.Properties()));
 
+    // KEYS
+
+    public static final DeferredItem<Item> KEY = ITEMS.register("chest_key",
+            () -> new KeyItem(new Item.Properties()));
+
     // MISC
     public static final DeferredItem<Item> SPIKED_HEAVY_CORE = ITEMS.register("spiked_heavy_core",
             () -> new Item(new Item.Properties()));

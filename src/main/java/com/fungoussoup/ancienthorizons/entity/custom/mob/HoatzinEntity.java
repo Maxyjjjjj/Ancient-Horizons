@@ -3,6 +3,7 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
 import com.fungoussoup.ancienthorizons.entity.ai.HoatzinFlightGoal;
+import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +19,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -83,13 +85,22 @@ public class HoatzinEntity extends Animal implements SemiFlyer {
 
     @Override
     public void tick() {
+        // Safety: prevent overflow
+        if (this.tickCount > Integer.MAX_VALUE - 1000) {
+            this.tickCount = 0;
+        }
+
         super.tick();
 
         handleFlightMechanics();
         handleSmellEffect();
 
-        // Switch navigation depending on flight state
-        this.navigation = isFlying() ? flyingNavigation : groundNavigation;
+        // Switch navigation with safety
+        try {
+            this.navigation = isFlying() ? flyingNavigation : groundNavigation;
+        } catch (Exception e) {
+            // Keep current navigation if switch fails
+        }
 
         // Recover stamina when not flying
         if (!isFlying() && getFlightStamina() < MAX_FLIGHT_STAMINA) {
@@ -169,7 +180,25 @@ public class HoatzinEntity extends Animal implements SemiFlyer {
 
     @Override
     public void setFlying(boolean flying) {
+        boolean currently = isFlying();
+        if (currently == flying) return;
+
         this.entityData.set(DATA_FLYING, flying);
+
+        try {
+            if (flying) {
+                this.moveControl = new SemiFlyingMoveControl(this, 10, 9);
+                this.navigation = this.flyingNavigation;
+                this.setNoGravity(true);
+            } else {
+                this.moveControl = new MoveControl(this);
+                this.navigation = this.groundNavigation;
+                this.setNoGravity(false);
+            }
+        } catch (Exception e) {
+            // Revert if something goes wrong
+            this.entityData.set(DATA_FLYING, currently);
+        }
     }
 
     public int getFlightStamina() {
@@ -182,7 +211,6 @@ public class HoatzinEntity extends Animal implements SemiFlyer {
 
     @Override
     public boolean isFood(ItemStack itemStack) {
-        // Hoatzins are folivores (leaf-eaters) and occasionally eat fruits/seeds
         return itemStack.is(ItemTags.LEAVES) ||
                 itemStack.is(Items.WHEAT_SEEDS) ||
                 itemStack.is(Items.BEETROOT_SEEDS) ||
@@ -219,7 +247,7 @@ public class HoatzinEntity extends Animal implements SemiFlyer {
 
     @Override
     public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-        return true;
+        return false;
     }
 
     @Override
@@ -236,15 +264,5 @@ public class HoatzinEntity extends Animal implements SemiFlyer {
         setFlying(compound.getBoolean("Flying"));
         setFlightStamina(compound.getInt("FlightStamina"));
         flightCooldown = compound.getInt("FlightCooldown");
-    }
-
-    // Getter for smell range - useful for the creeper mixin
-    public static double getSmellRange() {
-        return SMELL_RANGE;
-    }
-
-    // Method to check if entity produces foul smell - for mixin use
-    public boolean producesFoulSmell() {
-        return true;
     }
 }

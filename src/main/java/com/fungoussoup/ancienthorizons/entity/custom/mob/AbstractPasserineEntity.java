@@ -142,8 +142,21 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
 
     @Override
     public void tick() {
+        // Safety: prevent overflow
+        if (this.tickCount > Integer.MAX_VALUE - 1000) {
+            this.tickCount = 0;
+        }
+
         super.tick();
-        this.getNavigation().tick();
+
+        // Safe navigation tick
+        try {
+            this.getNavigation().tick();
+        } catch (Exception e) {
+            // If navigation fails, stop current path
+            this.getNavigation().stop();
+        }
+
         if (this.isFlying()) {
             handleFlying();
             // Auto-landing if near ground
@@ -151,18 +164,29 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
                 stopFlying();
             }
         } else {
-            if (!this.onGround() && !this.isInWater()) {
+            if (!this.onGround() && !this.isInWater() && !this.isPassenger()) {
                 startFlying(); // Recover if pushed off ledge
             }
         }
 
         prevDanceProgress = danceProgress;
         boolean dance = isDancing();
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+
+        // Check jukebox with safety
+        try {
+            if (this.jukeboxPosition == null ||
+                    !this.jukeboxPosition.closerToCenterThan(this.position(), 15) ||
+                    !this.level().getBlockState(this.jukeboxPosition).is(net.minecraft.world.level.block.Blocks.JUKEBOX)) {
+                this.isJukeboxing = false;
+                this.setDancing(false);
+                this.jukeboxPosition = null;
+            }
+        } catch (Exception e) {
             this.isJukeboxing = false;
             this.setDancing(false);
             this.jukeboxPosition = null;
         }
+
         if (dance && danceProgress < 5F) {
             danceProgress++;
         }
@@ -195,21 +219,38 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
 
         Vec3 motion = this.getDeltaMovement();
 
-        // Hover stabilization
+        // Hover stabilization with clamping
         if (this.random.nextFloat() < 0.02F) {
             double hover = (this.random.nextDouble() - 0.5) * 0.1;
-            this.setDeltaMovement(motion.x * 0.9, hover, motion.z * 0.9);
+            Vec3 newMotion = new Vec3(motion.x * 0.9, hover, motion.z * 0.9);
+
+            // Clamp velocity
+            double maxVelocity = 1.0;
+            if (newMotion.lengthSqr() > maxVelocity * maxVelocity) {
+                newMotion = newMotion.normalize().scale(maxVelocity);
+            }
+
+            this.setDeltaMovement(newMotion);
         }
 
-        // If not navigating, circle a bit
-        if (this.getNavigation().isDone() && this.random.nextInt(60) == 0) {
-            double dx = this.getX() + (this.random.nextDouble() - 0.5) * 8.0;
-            double dy = this.getY() + (this.random.nextDouble() - 0.5) * 4.0;
-            double dz = this.getZ() + (this.random.nextDouble() - 0.5) * 8.0;
-            this.getNavigation().moveTo(dx, dy, dz, 1.0);
+        // If not navigating, circle a bit - with reduced frequency
+        if (this.getNavigation().isDone() && this.random.nextInt(80) == 0) {
+            try {
+                if (this.level().isLoaded(this.blockPosition())) {
+                    double dx = this.getX() + (this.random.nextDouble() - 0.5) * 8.0;
+                    double dy = this.getY() + (this.random.nextDouble() - 0.5) * 4.0;
+                    double dz = this.getZ() + (this.random.nextDouble() - 0.5) * 8.0;
+
+                    net.minecraft.core.BlockPos targetPos = net.minecraft.core.BlockPos.containing(dx, dy, dz);
+                    if (this.level().isLoaded(targetPos)) {
+                        this.getNavigation().moveTo(dx, dy, dz, 1.0);
+                    }
+                }
+            } catch (Exception e) {
+                // If navigation fails, just continue flying
+            }
         }
     }
-
 
     private void handleHopping() {
         if (this.hopTicks < this.hopDuration) {
@@ -286,19 +327,30 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
     }
 
     public void setFlying(boolean flying) {
-        if (flying == isFlying()) return;
+        boolean currently = isFlying();
+        if (currently == flying) return;
 
         this.entityData.set(PASSERINE_FLYING, flying);
-        if (flying) {
-            this.moveControl = new SemiFlyingMoveControl(this, 10, 9);
-            this.navigation = flyingNavigation;
-            this.setNoGravity(true);
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25 * FLYING_SPEED_MODIFIER);
-        } else {
-            this.moveControl = new MoveControl(this);
-            this.navigation = groundNavigation;
-            this.setNoGravity(false);
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+
+        try {
+            if (flying) {
+                this.moveControl = new SemiFlyingMoveControl(this, 10, 9);
+                this.navigation = flyingNavigation;
+                this.setNoGravity(true);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25 * FLYING_SPEED_MODIFIER);
+                }
+            } else {
+                this.moveControl = new MoveControl(this);
+                this.navigation = groundNavigation;
+                this.setNoGravity(false);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+                }
+            }
+        } catch (Exception e) {
+            // Revert state if something goes wrong
+            this.entityData.set(PASSERINE_FLYING, currently);
         }
     }
 
@@ -308,12 +360,23 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
 
     public void setHopping(boolean hopping) {
         this.entityData.set(IS_HOPPING, hopping);
-        if (hopping) {
-            Objects.requireNonNull(this.getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.25 * HOPPING_SPEED_MODIFIER);
-        } else {
-            Objects.requireNonNull(this.getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.25);
+
+        try {
+            if (hopping) {
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25 * HOPPING_SPEED_MODIFIER);
+                }
+            } else {
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+                }
+            }
+        } catch (Exception e) {
+            // If speed change fails, just update the flag
+            this.entityData.set(IS_HOPPING, hopping);
         }
     }
+
 
     public boolean isResting() {
         return this.isResting;
@@ -333,12 +396,28 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
     }
 
     public void startFlying() {
-        if (!isFlying() && !this.isInWaterOrBubble()) {
+        if (isFlying() || this.isInWaterOrBubble() || this.isPassenger()) {
+            return;
+        }
+
+        try {
             setFlying(true);
             this.flapTicks = 0;
-            this.setDeltaMovement(this.getDeltaMovement().add(0, 0.4, 0)); // Takeoff boost
+
+            // Takeoff boost with clamping
+            Vec3 boost = this.getDeltaMovement().add(0, 0.4, 0);
+            double maxVelocity = 1.5;
+            if (boost.lengthSqr() > maxVelocity * maxVelocity) {
+                boost = boost.normalize().scale(maxVelocity);
+            }
+
+            this.setDeltaMovement(boost);
+        } catch (Exception e) {
+            // If takeoff fails, stay grounded
+            setFlying(false);
         }
     }
+
 
     public void stopFlying() {
         if (isFlying()) {
@@ -494,6 +573,34 @@ public abstract class AbstractPasserineEntity extends ShoulderRidingEntity imple
         @Override
         public void start() {
             this.bird.startHopping();
+        }
+
+        @Override
+        public void tick() {
+            try {
+                // Existing hop logic
+                if (this.bird.hopTicks < this.bird.hopDuration) {
+                    this.bird.hopTicks++;
+                    float hopProgress = (float) this.bird.hopTicks / this.bird.hopDuration;
+                    float hopHeight = 4.0F * hopProgress * (1.0F - hopProgress);
+
+                    Vec3 currentVel = this.bird.getDeltaMovement();
+                    Vec3 newVel = new Vec3(currentVel.x, hopHeight * 0.15F, currentVel.z);
+
+                    // Clamp velocity
+                    if (newVel.lengthSqr() > 2.0) {
+                        newVel = newVel.normalize().scale(1.4);
+                    }
+
+                    this.bird.setDeltaMovement(newVel);
+                } else {
+                    this.bird.setHopping(false);
+                    this.bird.hopCooldown = 20 + this.bird.random.nextInt(40);
+                }
+            } catch (Exception e) {
+                // If hop fails, just stop hopping
+                this.bird.setHopping(false);
+            }
         }
 
         @Override

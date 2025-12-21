@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -156,11 +157,16 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
 
     @Override
     public void tick() {
+        // Safety: prevent overflow
+        if (this.tickCount > Integer.MAX_VALUE - 1000) {
+            this.tickCount = 0;
+        }
+
         super.tick();
 
         if (this.level().isClientSide) {
             if (this.clientSideStandAnimation != this.clientSideStandAnimationO) {
-                this.refreshDimensions(); // Optional: only if pose changes
+                this.refreshDimensions();
             }
 
             this.setupAnimationStates();
@@ -174,8 +180,15 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
                 this.entityData.set(DATA_TAKEOFF_COOLDOWN, this.takeoffCooldown);
             }
 
-            // Handle flight mechanics
-            this.updateFlightState();
+            // Handle flight mechanics with safety
+            try {
+                this.updateFlightState();
+            } catch (Exception e) {
+                // If flight update fails, stop flying to be safe
+                if (this.isFlying()) {
+                    this.stopFlying();
+                }
+            }
         }
 
         // Client-side visual effects
@@ -397,43 +410,55 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     }
 
     private void handleFlightMovement(float forward, float strafe, Player player) {
-        // Calculate movement direction
-        Vec3 look = this.getLookAngle();
-        Vec3 up = new Vec3(0, 1, 0);
-        Vec3 right = look.cross(up).normalize();
+        try {
+            // Calculate movement direction
+            Vec3 look = this.getLookAngle();
+            Vec3 up = new Vec3(0, 1, 0);
+            Vec3 right = look.cross(up).normalize();
 
-        Vec3 moveDirection = look.scale(forward).add(right.scale(strafe));
+            Vec3 moveDirection = look.scale(forward).add(right.scale(strafe));
 
-        // Handle diving and climbing
-        if (player instanceof LocalPlayer localPlayer) {
             // Handle diving and climbing
-            float verticalInput = 0.0F;
-            if (localPlayer.input.jumping) {
-                verticalInput = 0.3F; // Climb
-            } else if (localPlayer.input.shiftKeyDown) {
-                verticalInput = -0.3F; // Dive
+            if (player instanceof net.minecraft.client.player.LocalPlayer localPlayer) {
+                float verticalInput = 0.0F;
+                if (localPlayer.input.jumping) {
+                    verticalInput = 0.3F;
+                } else if (localPlayer.input.shiftKeyDown) {
+                    verticalInput = -0.3F;
+                }
+
+                float pitch = -this.getXRot() * 0.017453292F;
+                verticalInput += Mth.sin(pitch) * forward * 0.5F;
+
+                moveDirection = moveDirection.add(0, verticalInput, 0);
+
+                // Handle barrel roll with cooldown
+                if (player.isSprinting() && !this.isBarrelRolling && strafe != 0.0F && this.tickCount % 20 == 0) {
+                    this.startBarrelRoll(strafe > 0 ? 1.0F : -1.0F);
+                }
             }
 
-            // Apply pitch for diving/climbing
-            float pitch = -this.getXRot() * 0.017453292F; // Convert to radians
-            verticalInput += Mth.sin(pitch) * forward * 0.5F;
+            // Apply movement with flight speed and clamp
+            float speed = (float) this.getAttributeValue(Attributes.FLYING_SPEED);
+            speed = Mth.clamp(speed, 0.1F, 1.5F);
 
-            moveDirection = moveDirection.add(0, verticalInput, 0);
+            Vec3 newMovement = moveDirection.scale(speed);
 
-            // Handle barrel roll
-            if (player.isSprinting() && !this.isBarrelRolling && strafe != 0.0F) {
-                this.startBarrelRoll(strafe > 0 ? 1.0F : -1.0F);
+            // Clamp total velocity
+            double maxVelocity = 2.0;
+            if (newMovement.lengthSqr() > maxVelocity * maxVelocity) {
+                newMovement = newMovement.normalize().scale(maxVelocity);
             }
-        }
 
+            this.setDeltaMovement(newMovement);
 
-        // Apply movement with flight speed
-        float speed = (float) this.getAttributeValue(Attributes.FLYING_SPEED);
-        this.setDeltaMovement(moveDirection.scale(speed));
-
-        // Flap wings for movement
-        if (moveDirection.lengthSqr() > 0.01) {
-            this.playFlapSound();
+            // Flap wings for movement
+            if (moveDirection.lengthSqr() > 0.01) {
+                this.playFlapSound();
+            }
+        } catch (Exception e) {
+            // If flight movement fails, stabilize
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
         }
     }
 
@@ -471,7 +496,7 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
-        if (itemstack.is(Items.SADDLE) && !this.isSaddled()) {
+        if (itemstack.is(ItemTags.WOOL_CARPETS) && !this.isSaddled()) {
             // Saddle the creature
             if (!player.getAbilities().instabuild) {
                 itemstack.shrink(1);
@@ -548,7 +573,32 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
 
     @Override
     public void setFlying(boolean flying) {
+        boolean currently = isFlying();
+        if (currently == flying) return;
+
         this.entityData.set(DATA_FLYING, flying);
+
+        try {
+            if (flying) {
+                this.navigation = this.flyingNavigation;
+                this.moveControl = new SemiFlyingMoveControl(this);
+                this.lookControl = new SemiFlyingLookControl(this);
+                this.setNoGravity(true);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2);
+                }
+            } else {
+                this.navigation = this.groundNavigation;
+                this.moveControl = new MoveControl(this);
+                this.setNoGravity(false);
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
+                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+                }
+            }
+        } catch (Exception e) {
+            // Revert state if something goes wrong
+            this.entityData.set(DATA_FLYING, currently);
+        }
     }
 
     public float getRoll() {
@@ -824,9 +874,16 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     }
 
     private boolean hasGroundPath(BlockPos target) {
-        PathNavigation nav = this.groundNavigation;
-        Path path = nav.createPath(target, 1);
-        return path != null && path.canReach();
+        try {
+            if (!this.level().isLoaded(target)) {
+                return false;
+            }
+
+            Path path = this.groundNavigation.createPath(target, 1);
+            return path != null && path.canReach();
+        } catch (Exception e) {
+            return false; // Assume no path if error occurs
+        }
     }
 
     static class AzhdarchidAirAttackGoal extends Goal {
@@ -885,37 +942,47 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
             this.azhdarchid.diveAnimationState.stop();
         }
 
-        @Override
         public void tick() {
-            LivingEntity target = this.azhdarchid.getTarget();
+            LivingEntity target = azhdarchid.getTarget();
             if (target == null || this.diveTarget == null) {
                 this.stop();
                 return;
             }
 
             // Always face the target
-            this.azhdarchid.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            azhdarchid.getLookControl().setLookAt(target, 30.0F, 30.0F);
 
             if (this.diveTimer > 0) {
-                // Dive phase: move rapidly toward diveTarget
-                Vec3 currentPos = this.azhdarchid.position();
-                Vec3 direction = this.diveTarget.subtract(currentPos).normalize();
+                try {
+                    // Dive phase: move rapidly toward diveTarget
+                    Vec3 currentPos = azhdarchid.position();
+                    Vec3 direction = this.diveTarget.subtract(currentPos).normalize();
 
-                double speed = this.azhdarchid.getAttributeValue(Attributes.FLYING_SPEED) * 2.5;
-                Vec3 motion = direction.scale(speed);
+                    double speed = azhdarchid.getAttributeValue(Attributes.FLYING_SPEED) * 2.5;
+                    Vec3 motion = direction.scale(speed);
 
-                this.azhdarchid.setDeltaMovement(motion);
-                this.diveTimer--;
+                    // Clamp velocity to prevent runaway
+                    double maxVelocity = 2.0;
+                    if (motion.lengthSqr() > maxVelocity * maxVelocity) {
+                        motion = motion.normalize().scale(maxVelocity);
+                    }
 
-                // Check for collision or proximity
-                if (currentPos.distanceToSqr(this.diveTarget) < 2.0) {
-                    // Impact phase
-                    this.performDiveAttack(target);
+                    azhdarchid.setDeltaMovement(motion);
+                    this.diveTimer--;
+
+                    // Check for collision or proximity
+                    if (currentPos.distanceToSqr(this.diveTarget) < 2.0) {
+                        // Impact phase
+                        this.performDiveAttack(target);
+                        this.stop();
+                    }
+                } catch (Exception e) {
+                    // If anything goes wrong during dive, abort
                     this.stop();
                 }
             } else {
                 // If dive ended, return to normal flight
-                this.azhdarchid.setAnimation(AZHDARCHID_SOAR);
+                azhdarchid.setAnimation(AZHDARCHID_SOAR);
             }
         }
 

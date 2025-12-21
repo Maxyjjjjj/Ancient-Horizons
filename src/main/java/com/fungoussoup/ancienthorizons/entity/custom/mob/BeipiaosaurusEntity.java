@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Container;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.AbstractChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
@@ -35,10 +37,12 @@ import java.util.List;
 public class BeipiaosaurusEntity extends Animal implements ILootsChests {
     public static final EntityDataAccessor<Boolean> IS_STEALING =
             SynchedEntityData.defineId(BeipiaosaurusEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_STOLEN_ITEM =
+    public static final EntityDataAccessor<Boolean> HAS_STOLEN_ITEM =
             SynchedEntityData.defineId(BeipiaosaurusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> STEALING_COOLDOWN =
             SynchedEntityData.defineId(BeipiaosaurusEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Boolean> IS_LEFT_HANDED =
+            SynchedEntityData.defineId(BeipiaosaurusEntity.class, EntityDataSerializers.BOOLEAN);
 
     private BlockPos targetChestPos;
     private int stealingTimer = 0;
@@ -59,6 +63,14 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         builder.define(IS_STEALING, false);
         builder.define(HAS_STOLEN_ITEM, false);
         builder.define(STEALING_COOLDOWN, 0);
+        builder.define(IS_LEFT_HANDED, false);
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
+        // 11% chance to be left-handed
+        this.entityData.set(IS_LEFT_HANDED, this.random.nextFloat() < 0.11F);
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnData);
     }
 
     @Override
@@ -168,17 +180,26 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         }
     }
 
+    // Public getter for stolen item (used by renderer)
+    public ItemStack getStolenItem() {
+        return this.stolenItem;
+    }
+
+    // Public getter for handedness (used by renderer and model)
+    public boolean isLeftHanded() {
+        return this.entityData.get(IS_LEFT_HANDED);
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("HasStolenItem", this.entityData.get(HAS_STOLEN_ITEM));
         tag.putInt("StealingCooldown", this.entityData.get(STEALING_COOLDOWN));
+        tag.putBoolean("IsLeftHanded", this.entityData.get(IS_LEFT_HANDED));
 
         if (!this.stolenItem.isEmpty()) {
             CompoundTag itemTag = new CompoundTag();
-
             this.stolenItem.save(this.level().registryAccess(), itemTag);
-
             tag.put("StolenItem", itemTag);
         }
     }
@@ -188,6 +209,7 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         super.readAdditionalSaveData(tag);
         this.entityData.set(HAS_STOLEN_ITEM, tag.getBoolean("HasStolenItem"));
         this.entityData.set(STEALING_COOLDOWN, tag.getInt("StealingCooldown"));
+        this.entityData.set(IS_LEFT_HANDED, tag.getBoolean("IsLeftHanded"));
 
         if (tag.contains("StolenItem")) {
             this.stolenItem = ItemStack.parseOptional(

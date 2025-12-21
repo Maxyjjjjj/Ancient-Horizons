@@ -20,6 +20,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -32,7 +33,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathType;
 import org.jetbrains.annotations.Nullable;
 
-public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
+public class DearcEntity extends TamableAnimal implements SemiFlyer {
 
     // Data accessor to sync the flying state between server and client
     private static final EntityDataAccessor<Boolean> IS_FLYING =
@@ -41,7 +42,7 @@ public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
     private final PathNavigation groundNavigation;
     private final BirdNavigation airNavigation;
 
-    public DearcEntity(EntityType<? extends ShoulderRidingEntity> entityType, Level level) {
+    public DearcEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
         this.moveControl = new MoveControl(this);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
@@ -70,7 +71,6 @@ public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(1, new LandOnOwnersShoulderGoal(this));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new ModFollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.1D, this::isFood, false));
@@ -90,6 +90,15 @@ public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("IsFlying", this.isFlying());
+    }
+
+    @Override
+    public void tick() {
+        if (this.tickCount > Integer.MAX_VALUE - 1000) {
+            this.tickCount = 0;
+        }
+
+        super.tick();
     }
 
     @Override
@@ -173,14 +182,25 @@ public class DearcEntity extends ShoulderRidingEntity implements SemiFlyer {
 
     @Override
     public void setFlying(boolean flying) {
-        if (flying) {
-            this.moveControl = new SemiFlyingMoveControl(this, 10, 9);
-            this.navigation = this.airNavigation;
-        } else {
-            this.moveControl = new MoveControl(this);
-            this.navigation = this.groundNavigation;
-        }
+        boolean currently = isFlying();
+        if (currently == flying) return;
+
         this.entityData.set(IS_FLYING, flying);
+
+        try {
+            if (flying) {
+                this.moveControl = new SemiFlyingMoveControl(this, 10, 9);
+                this.navigation = this.airNavigation;
+                this.setNoGravity(true);
+            } else {
+                this.moveControl = new MoveControl(this);
+                this.navigation = this.groundNavigation;
+                this.setNoGravity(false);
+            }
+        } catch (Exception e) {
+            // Revert state
+            this.entityData.set(IS_FLYING, currently);
+        }
     }
 
     @Override
