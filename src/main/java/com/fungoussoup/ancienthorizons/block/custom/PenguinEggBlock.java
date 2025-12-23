@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.block.custom;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.PenguinEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;

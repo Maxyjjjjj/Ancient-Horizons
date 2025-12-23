@@ -11,11 +11,15 @@
     "foliage_placer": {
       "type": "minecraft:spruce_foliage_placer",
       "offset": 1,
-      "radius": 1,
+      "radius": {
+        "type": "minecraft:uniform",
+        "max_inclusive": 2,
+        "min_inclusive": 1
+      },
       "trunk_height": {
         "type": "minecraft:uniform",
-        "max_inclusive": 3,
-        "min_inclusive": 1
+        "max_inclusive": 4,
+        "min_inclusive": 2
       }
     },
     "foliage_provider": {
@@ -35,12 +39,12 @@
       "type": "minecraft:two_layers_feature_size",
       "limit": 1,
       "lower_size": 0,
-      "upper_size": 1
+      "upper_size": 2
     },
     "trunk_placer": {
       "type": "minecraft:straight_trunk_placer",
-      "base_height": 10,
-      "height_rand_a": 3,
+      "base_height": 12,
+      "height_rand_a": 4,
       "height_rand_b": 3
     },
     "trunk_provider": {

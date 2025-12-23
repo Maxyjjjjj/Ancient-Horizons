@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.projectile;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

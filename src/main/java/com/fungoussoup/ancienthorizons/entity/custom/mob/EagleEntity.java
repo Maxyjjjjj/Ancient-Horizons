@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
 import com.fungoussoup.ancienthorizons.entity.ai.ModFollowOwnerGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingFlyGoal;

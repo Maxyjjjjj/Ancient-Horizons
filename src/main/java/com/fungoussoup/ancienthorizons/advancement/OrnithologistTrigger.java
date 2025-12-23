@@ -1,7 +1,7 @@
 package com.fungoussoup.ancienthorizons.advancement;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractPasserineEntity;
 import com.fungoussoup.ancienthorizons.registry.ModAdvancements;
 import com.mojang.serialization.Codec;

@@ -4,7 +4,7 @@ import com.fungoussoup.ancienthorizons.entity.interfaces.ILootsChests;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;

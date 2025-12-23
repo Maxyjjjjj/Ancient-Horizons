@@ -9,8 +9,12 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:blob_foliage_placer",
-      "height": 3,
+      "type": "minecraft:random_spread_foliage_placer",
+      "foliage_height": {
+        "type": "minecraft:constant",
+        "value": 3
+      },
+      "leaf_placement_attempts": 60,
       "offset": 0,
       "radius": {
         "type": "minecraft:uniform",
@@ -39,7 +43,7 @@
     },
     "trunk_placer": {
       "type": "minecraft:straight_trunk_placer",
-      "base_height": 8,
+      "base_height": 12,
       "height_rand_a": 6,
       "height_rand_b": 4
     },

@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.mixins;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.ZebraEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;

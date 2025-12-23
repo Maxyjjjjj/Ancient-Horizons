@@ -5,11 +5,10 @@ import com.fungoussoup.ancienthorizons.entity.ai.BigCatSleepGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.BigCatYawnGoal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SleepingAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.util.TigerVariant;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -33,7 +32,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
 
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
@@ -960,5 +958,4 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
 
     public boolean isYawning() { return entityData.get(TIGER_YAWNING); }
     public void setYawning(boolean yawning) { entityData.set(TIGER_YAWNING, yawning); }
-
 }

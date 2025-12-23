@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.interfaces.CuriousAndIntelligentAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -23,7 +23,6 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
-import java.util.UUID;
 
 public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAnimal {
 

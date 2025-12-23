@@ -26,7 +26,9 @@ import com.fungoussoup.ancienthorizons.entity.client.hippo.HippopotamusModel;
 import com.fungoussoup.ancienthorizons.entity.client.hoatzin.HoatzinModel;
 import com.fungoussoup.ancienthorizons.entity.client.hypnovenator.HypnovenatorModel;
 import com.fungoussoup.ancienthorizons.entity.client.large_azhdarchid.CryodrakonModel;
+import com.fungoussoup.ancienthorizons.entity.client.latenivenatrix.LatenivenatrixModel;
 import com.fungoussoup.ancienthorizons.entity.client.lion.LionModel;
+import com.fungoussoup.ancienthorizons.entity.client.maip.MaipModel;
 import com.fungoussoup.ancienthorizons.entity.client.mantis.MantisModel;
 import com.fungoussoup.ancienthorizons.entity.client.merganser.MerganserModel;
 import com.fungoussoup.ancienthorizons.entity.client.monkey.MonkeyModel;
@@ -46,6 +48,7 @@ import com.fungoussoup.ancienthorizons.entity.client.snow_leopard.SnowLeopardMod
 import com.fungoussoup.ancienthorizons.entity.client.stoat.StoatModel;
 import com.fungoussoup.ancienthorizons.entity.client.tiger.TigerModel;
 import com.fungoussoup.ancienthorizons.entity.client.velociraptor.VelociraptorModel;
+import com.fungoussoup.ancienthorizons.entity.client.wildebeest.WildebeestModel;
 import com.fungoussoup.ancienthorizons.entity.client.wolverine.WolverineModel;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZebraModel;
 import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZonkeyModel;
@@ -62,7 +65,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
-import static com.fungoussoup.ancienthorizons.entity.ModEntities.*;
+import static com.fungoussoup.ancienthorizons.registry.ModEntities.*;
 
 @EventBusSubscriber(modid = AncientHorizons.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEventBusEvents {
@@ -120,6 +123,9 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(MonkeyModel.LAYER_LOCATION, MonkeyModel::createBodyLayer);
         event.registerLayerDefinition(WolverineModel.LAYER_LOCATION, WolverineModel::createBodyLayer);
         event.registerLayerDefinition(MerganserModel.LAYER_LOCATION, MerganserModel::createBodyLayer);
+        event.registerLayerDefinition(LatenivenatrixModel.LAYER_LOCATION, LatenivenatrixModel::createBodyLayer);
+        event.registerLayerDefinition(WildebeestModel.LAYER_LOCATION, WildebeestModel::createBodyLayer);
+        event.registerLayerDefinition(MaipModel.LAYER_LOCATION, MaipModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -189,6 +195,9 @@ public class ModEventBusEvents {
         event.put(MONKEY.get(), MonkeyEntity.createAttributes().build());
         event.put(WOLVERINE.get(), WolverineEntity.createAttributes().build());
         event.put(MERGANSER.get(), MerganserEntity.createAttributes().build());
+        event.put(LATENIVENATRIX.get(), LatenivenatrixEntity.createAttributes().build());
+        event.put(WILDEBEEST.get(), WildebeestEntity.createAttributes().build());
+        event.put(MAIP.get(), MaipEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -256,5 +265,8 @@ public class ModEventBusEvents {
         event.register(MERGANSER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(STOAT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(PHEASANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(LATENIVENATRIX.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(WILDEBEEST.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(MAIP.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }

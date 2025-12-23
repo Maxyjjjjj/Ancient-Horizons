@@ -1,10 +1,11 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -30,7 +31,7 @@ import net.neoforged.neoforge.event.EventHooks;
 
 public class SnowLeopardEntity extends TamableAnimal {
     private static final EntityDataAccessor<Integer> DATA_COLLAR_COLOR = SynchedEntityData.defineId(SnowLeopardEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> IS_SITTING = SynchedEntityData.defineId(SnowLeopardEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SL_SITTING = SynchedEntityData.defineId(SnowLeopardEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_BLUE_EYES = SynchedEntityData.defineId(SnowLeopardEntity.class, EntityDataSerializers.BOOLEAN);
 
     public final AnimationState sitAnimationState = new AnimationState();
@@ -106,12 +107,26 @@ public class SnowLeopardEntity extends TamableAnimal {
         }
     }
 
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("Sitting", isSitting());
+        compound.putInt("CollarColor", getCollarColor().getId());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setOrderedToSit(compound.getBoolean("Sitting"));
+        this.setCollarColor(DyeColor.byId(compound.getInt("CollarColor")));
+    }
+
     public boolean isHoldingTail() {
         return this.level().isThundering();
     }
 
     public boolean isSitting() {
-        return this.entityData.get(IS_SITTING);
+        return this.entityData.get(SL_SITTING);
     }
 
     public boolean isOrderedToSit() {
@@ -120,7 +135,7 @@ public class SnowLeopardEntity extends TamableAnimal {
 
     @Override
     public void setOrderedToSit(boolean sitting) {
-        this.entityData.set(IS_SITTING, sitting);
+        this.entityData.set(SL_SITTING, sitting);
     }
 
     @Override
@@ -174,7 +189,7 @@ public class SnowLeopardEntity extends TamableAnimal {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_COLLAR_COLOR, DyeColor.RED.getId());
-        builder.define(IS_SITTING, false);
+        builder.define(SL_SITTING, false);
         builder.define(IS_BLUE_EYES, false);
     }
 
@@ -224,11 +239,10 @@ public class SnowLeopardEntity extends TamableAnimal {
     protected void applyTamingSideEffects() {
         if (this.isTame()) {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(60.0F);
-            this.setHealth(40.0F);
+            this.setHealth(60.0F);
         } else {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(18.0F);
         }
-
     }
 
     public boolean hurt(DamageSource source, float amount) {

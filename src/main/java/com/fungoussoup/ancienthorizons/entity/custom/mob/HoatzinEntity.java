@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.BirdNavigation;
 import com.fungoussoup.ancienthorizons.entity.ai.HoatzinFlightGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiFlyingMoveControl;
@@ -31,8 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class HoatzinEntity extends Animal implements SemiFlyer {
     private static final EntityDataAccessor<Boolean> DATA_FLYING = SynchedEntityData.defineId(HoatzinEntity.class, EntityDataSerializers.BOOLEAN);

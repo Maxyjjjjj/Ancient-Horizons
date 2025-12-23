@@ -738,6 +738,15 @@
     "ancienthorizons.subtitles.entity.merganser.hurt": "Merganser is hurt",
     "ancienthorizons.subtitles.entity.merganser.death": "Merganser dies",
 
+    "item.ancienthorizons.wildebeest_spawn_egg": "Wildebeest Spawn Egg",
+    "entity.ancienthorizons.wildebeest": "Wildebeest",
+
+    "item.ancienthorizons.latenivenatrix_spawn_egg": "Latenivenatrix Spawn Egg",
+    "entity.ancienthorizons.latenivenatrix": "Latenivenatrix",
+
+    "item.ancienthorizons.maip_spawn_egg": "Maip Spawn Egg",
+    "entity.ancienthorizons.maip": "Maip",
+
     "effect.ancienthorizons.tranquilized": "Tranquilized",
     "effect.ancienthorizons.tranquilized.description": "Tranquilizes player",
     "message.ancienthorizons.bad_omen_eagle": "You have slain an individual of the protected species!",
@@ -752,5 +761,8 @@
     "message.ancienthorizons.not_locked": "This chest is not locked!",
     "message.ancienthorizons.success_chest_lock": "Chest locked successfully!",
     "message.ancienthorizons.chest_already_locked": "This chest is already locked!",
-    "tooltip.ancienthorizons.key_id": "Key ID: "
+    "tooltip.ancienthorizons.key_id": "Key ID: ",
+
+    "tooltip.ancienthorizons.fossil_of": "Fossil Of: ",
+    "tooltip.ancienthorizons.fossil_unidentified": "Unidentified Fossil"
 }

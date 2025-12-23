@@ -26,7 +26,7 @@
       },
       "frond_length": {
         "type": "minecraft:constant",
-        "value": 5
+        "value": 6
       }
     },
     "force_dirt": false,
@@ -39,9 +39,9 @@
     },
     "trunk_placer": {
       "type": "ancienthorizons:palm_trunk_placer",
-      "base_height": 4,
-      "height_rand_a": 2,
-      "height_rand_b": 3
+      "base_height": 8,
+      "height_rand_a": 3,
+      "height_rand_b": 2
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",

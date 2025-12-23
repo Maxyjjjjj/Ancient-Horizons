@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.interfaces.Stampedeable;
 import com.fungoussoup.ancienthorizons.entity.ai.StampedeGoal;
 import com.fungoussoup.ancienthorizons.entity.ai.StampedeTracker;
@@ -27,8 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class DeerEntity extends Animal implements Stampedeable {
@@ -42,7 +40,6 @@ public class DeerEntity extends Animal implements Stampedeable {
     private int alertTimer = 0;
     private static final int ALERT_DURATION = 60; // 3 seconds
 
-    // Antler growth for males (visual variants could be added)
     private boolean hasAntlers = random.nextBoolean();
 
     public DeerEntity(EntityType<? extends Animal> entityType, Level level) {
@@ -59,7 +56,7 @@ public class DeerEntity extends Animal implements Stampedeable {
     protected void registerGoals() {
         this.eatBlockGoal = new EatBlockGoal(this);
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new StampedeGoal(this, 1.6D, 16));
+        this.goalSelector.addGoal(1, new StampedeGoal(this));
         this.goalSelector.addGoal(2, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.1D, this::isFood, true));

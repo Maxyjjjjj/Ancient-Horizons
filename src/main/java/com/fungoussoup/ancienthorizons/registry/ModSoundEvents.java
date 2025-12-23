@@ -154,6 +154,13 @@ public class ModSoundEvents {
     public static final SoundEvent MERGANSER_HURT = registerSoundEvent("merganser_hurt", createSoundEvent("entity.merganser.hurt"));
     public static final SoundEvent MERGANSER_DEATH = registerSoundEvent("merganser_death", createSoundEvent("entity.merganser.death"));
 
+    // MAIP
+
+    public static final SoundEvent MAIP_AMBIENT = registerSoundEvent("maip_idle", createSoundEvent("entity.maip.idle"));
+    public static final SoundEvent MAIP_HURT = registerSoundEvent("maip_hurt", createSoundEvent("entity.maip.hurt"));
+    public static final SoundEvent MAIP_DEATH = registerSoundEvent("maip_death", createSoundEvent("entity.maip.death"));
+    public static final SoundEvent MAIP_ATTACK = registerSoundEvent("maip_attack", createSoundEvent("entity.maip.attack"));
+    public static final SoundEvent MAIP_ROAR = registerSoundEvent("maip_roar", createSoundEvent("entity.maip.roar"));
 
     private static SoundEvent createSoundEvent(String path) {
         ResourceLocation rl = ResourceLocation.fromNamespaceAndPath("ancienthorizons", path);

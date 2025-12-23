@@ -1,7 +1,7 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.entity.ai.BactrianCamelAi;
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.projectile.BactrianCamelSpit;
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.serialization.Dynamic;
@@ -565,7 +565,7 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
     }
 
     protected BodyRotationControl createBodyControl() {
-        return new BactrianCamel.CamelBodyRotationControl(this);
+        return new BactrianCamel.BactrianCamelBodyRotationControl(this);
     }
 
     @Override
@@ -590,8 +590,8 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         SITTING_DIMENSIONS = EntityDimensions.scalable(1.7F, 2.375F - 1.43F).withEyeHeight(0.845F);
     }
 
-    class CamelBodyRotationControl extends BodyRotationControl {
-        public CamelBodyRotationControl(BactrianCamel camel) {
+    class BactrianCamelBodyRotationControl extends BodyRotationControl {
+        public BactrianCamelBodyRotationControl(BactrianCamel camel) {
             super(camel);
         }
 

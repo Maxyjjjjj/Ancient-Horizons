@@ -7,10 +7,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.core.BlockPos;
 
-/**
- * System for managing different types of variant conditions
- * This allows for flexible variant changing based on various environmental and behavioral factors
- */
 public abstract class VariantCondition {
 
     protected final String name;

@@ -98,6 +98,9 @@ public class ModTags {
         public static final TagKey<EntityType<?>> OMNIVORES = createTag("omnivores");
         public static final TagKey<EntityType<?>> SPECIALISTS = createTag("dietary_specialists");
 
+        public static final TagKey<EntityType<?>> MAIP_PREY = createTag("maip_prey");
+        public static final TagKey<EntityType<?>> MAIP_ENEMIES = createTag("maip_enemies");
+
 
         private static TagKey<EntityType<?>> createTag(String name) {
             return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, name));

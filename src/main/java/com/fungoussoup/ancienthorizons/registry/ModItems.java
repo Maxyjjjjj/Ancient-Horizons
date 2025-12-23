@@ -1,7 +1,6 @@
 package com.fungoussoup.ancienthorizons.registry;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
 import com.fungoussoup.ancienthorizons.item.*;
 import com.fungoussoup.ancienthorizons.item.weapon.ChakramItem;
 import com.fungoussoup.ancienthorizons.item.weapon.HammerItem;
@@ -625,6 +624,14 @@ public class ModItems {
             () -> new DeferredSpawnEggItem(ModEntities.DEARC, 0xe4e4e4, 0xd2a475,
                     new Item.Properties()));
 
+    public static final DeferredItem<Item> LATENIVENATRIX_SPAWN_EGG = ITEMS.register("latenivenatrix_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.LATENIVENATRIX, 0x73523f, 0x563e30,
+                    new Item.Properties()));
+
+    public static final DeferredItem<Item> MAIP_SPAWN_EGG = ITEMS.register("maip_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.MAIP, 0x9ea9a3, 0x47534d,
+                    new Item.Properties()));
+
     // FOODSTUFFS
     public static final DeferredItem<Item> RAW_CHEVON = ITEMS.register("raw_chevon",
             () -> new Item((new Item.Properties()).food(Foods.MUTTON)));
@@ -650,7 +657,7 @@ public class ModItems {
 
     // FOSSILS, PALAEONTOLOGY AND REVIVAL
     public static final DeferredItem<Item> FOSSIL = ITEMS.register("fossil",
-            () -> new Item(new Item.Properties()));
+            () -> new FossilItem(new Item.Properties()));
 
     // KEYS
 

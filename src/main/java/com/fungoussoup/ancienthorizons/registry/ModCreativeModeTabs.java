@@ -607,6 +607,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.OBSIDIAN_SHARD);
                         output.accept(ModItems.BESTIARY);
                         output.accept(ModItems.IVORY);
+                        output.accept(ModItems.KEY);
                     }))
                     .build());
 

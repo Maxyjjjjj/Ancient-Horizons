@@ -1,6 +1,7 @@
 package com.fungoussoup.ancienthorizons.mixins;
 
 import com.fungoussoup.ancienthorizons.entity.custom.mob.HoatzinEntity;
+import com.fungoussoup.ancienthorizons.entity.custom.mob.LionEntity;
 import net.minecraft.world.entity.ai.goal.target.*;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,6 +37,14 @@ public class CreeperMixin {
                 1.2D
         ));
 
+        creeper.goalSelector.addGoal(3, new AvoidEntityGoal<>(
+                creeper,
+                LionEntity.class,
+                10.0F,
+                1.0D,
+                1.2D
+        ));
+
         creeper.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
                 creeper,
                 HoatzinEntity.class,
@@ -52,7 +61,10 @@ public class CreeperMixin {
         boolean tigerNearby = !creeper.level().getEntitiesOfClass(TigerEntity.class,
                 creeper.getBoundingBox().inflate(10.0D)).isEmpty();
 
-        if (tigerNearby) {
+        boolean lionNearby = !creeper.level().getEntitiesOfClass(LionEntity.class,
+                creeper.getBoundingBox().inflate(10.0D)).isEmpty();
+
+        if (tigerNearby || lionNearby) {
             ci.cancel(); // Cancel the explosion
         }
     }

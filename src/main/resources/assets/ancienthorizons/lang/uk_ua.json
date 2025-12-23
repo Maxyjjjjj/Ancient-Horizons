@@ -701,6 +701,16 @@
     "ancienthorizons.subtitles.entity.merganser.idle": "Крех крякає",
     "ancienthorizons.subtitles.entity.merganser.hurt": "Креха поранено",
     "ancienthorizons.subtitles.entity.merganser.death": "Крех гине",
+
+    "item.ancienthorizons.wildebeest_spawn_egg": "Яйце виклику гну",
+    "entity.ancienthorizons.wildebeest": "Гну",
+
+    "item.ancienthorizons.latenivenatrix_spawn_egg": "Яйце виклику латенівенатрікса",
+    "entity.ancienthorizons.latenivenatrix": "Латенівенарікс",
+
+    "item.ancienthorizons.maip_spawn_egg": "Яйце виклику маїпа",
+    "entity.ancienthorizons.maip": "Маїп",
+
     "message.ancienthorizons.bad_omen_eagle": "Ви вбили особину виду, що знаходиться під охороною!",
 
     "item.ancienthorizons.chest_key": "Ключ для скринь",
@@ -713,5 +723,8 @@
     "message.ancienthorizons.not_locked": "Ця скриня не замкнена!",
     "message.ancienthorizons.success_chest_lock": "Скриню успішно замкнено!",
     "message.ancienthorizons.chest_already_locked": "Ця скриня вже замкнена!",
-    "tooltip.ancienthorizons.key_id": "ID Ключа: "
+    "tooltip.ancienthorizons.key_id": "ID Ключа: ",
+
+    "tooltip.ancienthorizons.fossil_of": "Скам'янілість: ",
+    "tooltip.ancienthorizons.fossil_unidentified": "Неідентифікована скам'янілість"
 }

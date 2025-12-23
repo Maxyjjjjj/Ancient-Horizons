@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.mixins;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BiomeDefaultFeatures.class)
 public class BiomeDefaultFeaturesMixin {
 
-    @Inject(method = "farmAnimals", at = @At("HEAD"))
+    @Inject(method = "farmAnimals", at = @At("RETURN"))
     private static void addModFarmAnimals(MobSpawnSettings.Builder builder, CallbackInfo ci) {
         builder.addSpawn(
                 MobCategory.CREATURE,

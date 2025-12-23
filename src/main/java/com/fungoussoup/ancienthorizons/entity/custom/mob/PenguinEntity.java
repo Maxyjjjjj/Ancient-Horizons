@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.SemiAquaticSwimGoal;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.misc.SemiAquaticAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModBlocks;

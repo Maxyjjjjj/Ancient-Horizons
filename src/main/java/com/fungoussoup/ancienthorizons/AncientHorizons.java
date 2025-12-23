@@ -1,6 +1,10 @@
 package com.fungoussoup.ancienthorizons;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.entity.client.latenivenatrix.LatenivenatrixModel;
+import com.fungoussoup.ancienthorizons.entity.client.latenivenatrix.LatenivenatrixRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.maip.MaipRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.wildebeest.WildebeestRenderer;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.client.abstract_passerine.*;
 import com.fungoussoup.ancienthorizons.entity.client.bactrian_camel.BactrianCamelRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.beipiaosaurus.BeipiaosaurusRenderer;
@@ -176,6 +180,9 @@ public class AncientHorizons {
             EntityRenderers.register(ModEntities.MONKEY.get(), MonkeyRenderer::new);
             EntityRenderers.register(ModEntities.WOLVERINE.get(), WolverineRenderer::new);
             EntityRenderers.register(ModEntities.MERGANSER.get(), MerganserRenderer::new);
+            EntityRenderers.register(ModEntities.LATENIVENATRIX.get(), LatenivenatrixRenderer::new);
+            EntityRenderers.register(ModEntities.MAIP.get(), MaipRenderer::new);
+            EntityRenderers.register(ModEntities.WILDEBEEST.get(), WildebeestRenderer::new);
         }
     }
 }

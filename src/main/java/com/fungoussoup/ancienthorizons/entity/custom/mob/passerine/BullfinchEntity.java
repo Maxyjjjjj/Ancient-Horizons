@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob.passerine;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractPasserineEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;

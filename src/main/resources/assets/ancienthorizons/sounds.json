@@ -542,5 +542,29 @@
             "ancienthorizons:entity/diplodocus_death"
         ],
         "subtitle": "ancienthorizons.subtitles.entity.diplodocus.death"
+    },
+    "entity.maip.idle": {
+        "sounds": [
+            "ancienthorizons:entity/maip_idle_0",
+            "ancienthorizons:entity/maip_idle_1",
+            "ancienthorizons:entity/maip_idle_2",
+            "ancienthorizons:entity/maip_idle_3",
+            "ancienthorizons:entity/maip_idle_4"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.maip.idle"
+    },
+    "entity.maip.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/maip_hurt_0",
+            "ancienthorizons:entity/maip_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.maip.hurt"
+    },
+    "entity.maip.death": {
+        "sounds": [
+            "ancienthorizons:entity/maip_death_0",
+            "ancienthorizons:entity/maip_death_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.maip.death"
     }
 }

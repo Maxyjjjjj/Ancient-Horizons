@@ -1,7 +1,7 @@
 package com.fungoussoup.ancienthorizons.item;
 
 import com.fungoussoup.ancienthorizons.entity.custom.projectile.TranquilizerDartEntity;
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;

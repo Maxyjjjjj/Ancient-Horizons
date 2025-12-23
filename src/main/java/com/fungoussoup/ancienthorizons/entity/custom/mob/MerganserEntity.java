@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.WaterbirdNavigation;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import net.minecraft.server.level.ServerLevel;

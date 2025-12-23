@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.interfaces.ILootsChests;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.BlockPos;
@@ -122,7 +122,12 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         this.targetChestPos = chestPos;
         this.entityData.set(IS_STEALING, true);
         this.stealingTimer = 0;
-        this.playSound(SoundEvents.CHEST_OPEN, 0.5F, 1.0F);
+
+        // Use block events instead of startOpen
+        if (this.level() instanceof ServerLevel serverLevel) {
+            BlockState state = serverLevel.getBlockState(chestPos);
+            serverLevel.blockEvent(chestPos, state.getBlock(), 1, 1); // Open chest
+        }
     }
 
     private void completeTheft() {
@@ -145,6 +150,8 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
                         break;
                     }
                 }
+                BlockState state = serverLevel.getBlockState(targetChestPos);
+                serverLevel.blockEvent(targetChestPos, state.getBlock(), 1, 0); // Close chest
             }
         }
 
@@ -304,10 +311,28 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
                     mobPos.offset(range, range, range))) {
                 BlockState state = mob.level().getBlockState(pos);
                 if (state.getBlock() instanceof AbstractChestBlock<?>) {
-                    return pos.immutable();
+                    // Check if chest has items before targeting it
+                    if (isChestNonEmpty(pos)) {
+                        return pos.immutable();
+                    }
                 }
             }
             return null;
+        }
+
+        private boolean isChestNonEmpty(BlockPos pos) {
+            if (mob.level() instanceof ServerLevel serverLevel) {
+                BlockEntity blockEntity = serverLevel.getBlockEntity(pos);
+                if (blockEntity instanceof ChestBlockEntity chestEntity) {
+                    // Check if chest has any items
+                    for (int i = 0; i < chestEntity.getContainerSize(); i++) {
+                        if (!chestEntity.getItem(i).isEmpty()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 

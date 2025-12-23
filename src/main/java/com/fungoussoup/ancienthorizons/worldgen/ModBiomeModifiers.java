@@ -1,7 +1,7 @@
 package com.fungoussoup.ancienthorizons.worldgen;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;

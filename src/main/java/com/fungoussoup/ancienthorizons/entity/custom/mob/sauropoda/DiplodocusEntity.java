@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob.sauropoda;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.AbstractSauropodEntity;
 import com.fungoussoup.ancienthorizons.registry.ModDamageTypes;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;

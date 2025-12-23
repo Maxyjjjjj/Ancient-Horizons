@@ -149,7 +149,6 @@ public class KeyItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 
-        // Accessing data for tooltips in 1.20.5+
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
         CompoundTag tag = (customData != null) ? customData.copyTag() : null;
 

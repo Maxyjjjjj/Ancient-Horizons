@@ -3,7 +3,7 @@ package com.fungoussoup.ancienthorizons.entity.ai;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.BactrianCamel;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

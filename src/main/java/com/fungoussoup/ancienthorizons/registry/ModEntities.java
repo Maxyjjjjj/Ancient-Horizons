@@ -1,4 +1,4 @@
-package com.fungoussoup.ancienthorizons.entity;
+package com.fungoussoup.ancienthorizons.registry;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.*;
@@ -277,6 +277,18 @@ public class ModEntities {
     public static final Supplier<EntityType<LionEntity>> LION =
             ENTITY_TYPES.register("lion", () -> EntityType.Builder.of(LionEntity::new, MobCategory.CREATURE)
                     .sized(1f,1.4f).build("lion"));
+
+    public static final Supplier<EntityType<WildebeestEntity>> WILDEBEEST =
+            ENTITY_TYPES.register("wildebeest", () -> EntityType.Builder.of(WildebeestEntity::new, MobCategory.CREATURE)
+                    .sized(0.7f,1.9f).build("wildebeest"));
+
+    public static final Supplier<EntityType<LatenivenatrixEntity>> LATENIVENATRIX =
+            ENTITY_TYPES.register("latenivenatrix", () -> EntityType.Builder.of(LatenivenatrixEntity::new, MobCategory.CREATURE)
+                    .sized(0.8f,1.6f).build("latenivenatrix"));
+
+    public static final Supplier<EntityType<MaipEntity>> MAIP =
+            ENTITY_TYPES.register("maip", () -> EntityType.Builder.of(MaipEntity::new, MobCategory.CREATURE)
+                    .sized(1f, 2.7f).build("maip"));
 
     public static Supplier<EntityType<GallimimusEntity>> GALLIMIMUS =
             ENTITY_TYPES.register("gallimimus", () -> EntityType.Builder.of(GallimimusEntity::new, MobCategory.CREATURE)

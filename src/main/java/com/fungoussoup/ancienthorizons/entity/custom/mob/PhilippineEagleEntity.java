@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.ai.*;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SemiFlyer;
 import com.fungoussoup.ancienthorizons.registry.ModTags;

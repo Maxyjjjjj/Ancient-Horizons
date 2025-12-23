@@ -1,6 +1,7 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
+import com.fungoussoup.ancienthorizons.entity.interfaces.CanDisembowel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -21,11 +22,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class VelociraptorEntity extends TamableAnimal implements NeutralMob {
+public class VelociraptorEntity extends TamableAnimal implements NeutralMob, CanDisembowel {
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @Nullable
@@ -59,7 +62,38 @@ public class VelociraptorEntity extends TamableAnimal implements NeutralMob {
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this).setAlertOthers());
-        this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
+        this.targetSelector.addGoal(4, new NonTameRandomTargetGoal<>(this, LivingEntity.class, true, this::isAngryAt));
+        this.targetSelector.addGoal(7, new ResetUniversalAngerTargetGoal<>(this, false));
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean didHurt = super.doHurtTarget(target);
+
+        if (didHurt && target instanceof LivingEntity livingTarget) {
+            // Check if disembowelment triggers
+            if (this.random.nextFloat() < this.DisembowelChance()) {
+                // Calculate disembowelment damage
+                float maxHealth = livingTarget.getMaxHealth();
+                float disembowelDamage = maxHealth * (this.DisembowelmentDamagePercentage() / 100.0F);
+
+                // Apply the disembowelment damage
+                livingTarget.hurt(this.damageSources().mobAttack(this), disembowelDamage);
+
+                // Apply bleeding effect (Wither for damage over time, or you can create a custom effect)
+                livingTarget.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0)); // 5 seconds of wither
+
+                // Optional: Add visual feedback
+                if (!this.level().isClientSide) {
+                    this.level().broadcastEntityEvent(livingTarget, (byte)2); // Critical hit particles
+                }
+
+                // Play a special sound for disembowelment
+                this.playSound(SoundEvents.PLAYER_ATTACK_CRIT, 1.0F, 0.8F);
+            }
+        }
+
+        return didHurt;
     }
 
     @Override
@@ -231,5 +265,15 @@ public class VelociraptorEntity extends TamableAnimal implements NeutralMob {
             return super.causeFallDamage(fallDistance * 0.5F, damageMultiplier, damageSource);
         }
         return false;
+    }
+
+    @Override
+    public int DisembowelmentDamagePercentage() {
+        return 25;
+    }
+
+    @Override
+    public float DisembowelChance() {
+        return 0.25F;
     }
 }

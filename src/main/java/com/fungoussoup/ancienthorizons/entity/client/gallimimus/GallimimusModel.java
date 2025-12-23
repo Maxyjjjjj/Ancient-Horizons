@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 import static com.fungoussoup.ancienthorizons.entity.client.gallimimus.GallimimusAnimations.GALLIMIMUS_RUN;
+import static com.fungoussoup.ancienthorizons.entity.client.gallimimus.GallimimusAnimations.GALLIMIMUS_RECHARGE;
 
 public class GallimimusModel<T extends GallimimusEntity> extends HierarchicalModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "gallimimus"), "main");
@@ -109,14 +110,30 @@ public class GallimimusModel<T extends GallimimusEntity> extends HierarchicalMod
         this.root().getAllParts().forEach(ModelPart::resetPose);
         this.toggleInvisibleParts(entity);
 
-        if (!entity.isGallimimusSprinting()) {
+        // Check if recharging (takes priority over other animations)
+        if (entity.isRecharging() && !entity.isGallimimusSprinting()) {
+            // Manually apply recharge animation
+            float time = ageInTicks * 0.05F; // Slow breathing effect
+            float breathe = Mth.sin(time) * 0.025F;
+            this.body.y += breathe * 8.0F;
+            this.body.xRot += breathe;
+            this.neck.xRot -= breathe * 0.5F;
+            this.wingleft.zRot -= breathe * 2.0F;
+            this.wingleft2.zRot += breathe * 2.0F;
+        } else if (!entity.isGallimimusSprinting()) {
+            // Normal walking animation
             float walkSpeed = 1.0F;
             float walkDegree = 1.0F;
             this.haunchleft.xRot = Mth.cos(limbSwing * walkSpeed) * walkDegree * limbSwingAmount;
             this.haunchleft2.xRot = Mth.cos(limbSwing * walkSpeed + (float) Math.PI) * walkDegree * limbSwingAmount;
         } else {
+            // Sprint animation
             animateWalk(GALLIMIMUS_RUN, limbSwing, limbSwingAmount, 2.0F, 2.5F);
         }
+
+        // Head look controls (always active)
+        this.neck.xRot += headPitch * ((float)Math.PI / 180F);
+        this.neck.yRot = netHeadYaw * ((float)Math.PI / 180F);
     }
 
     private void toggleInvisibleParts(GallimimusEntity entity) {

@@ -1,6 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
-import com.fungoussoup.ancienthorizons.entity.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -30,21 +30,26 @@ import javax.annotation.Nullable;
 
 public class GallimimusEntity extends AbstractHorse {
 
-    // Data parameter for syncing stamina to client
     private static final EntityDataAccessor<Integer> DATA_STAMINA =
             SynchedEntityData.defineId(GallimimusEntity.class, EntityDataSerializers.INT);
 
     private static final EntityDataAccessor<Boolean> DATA_SPRINTING =
             SynchedEntityData.defineId(GallimimusEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private int maxStamina = 100;
-    private int staminaRegenDelay = 0; // delay before stamina starts regenerating
-    private static final int REGEN_DELAY_TICKS = 20; // 1-second delay after sprinting
+    private static final EntityDataAccessor<Boolean> DATA_RECHARGING =
+            SynchedEntityData.defineId(GallimimusEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private int maxStamina = 200; // Increased for longer sprints
+    private int staminaRegenDelay = 0;
+    private static final int REGEN_DELAY_TICKS = 40; // 2-second delay after sprinting stops
+    private static final int STAMINA_DRAIN_RATE = 1; // Stamina per tick while sprinting
+    private static final int STAMINA_REGEN_RATE = 3; // Stamina per tick while recharging
 
     public GallimimusEntity(EntityType<? extends AbstractHorse> type, Level world) {
         super(type, world);
         this.entityData.set(DATA_STAMINA, this.maxStamina);
         this.entityData.set(DATA_SPRINTING, false);
+        this.entityData.set(DATA_RECHARGING, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -72,13 +77,13 @@ public class GallimimusEntity extends AbstractHorse {
         super.defineSynchedData(builder);
         builder.define(DATA_STAMINA, this.maxStamina);
         builder.define(DATA_SPRINTING, false);
+        builder.define(DATA_RECHARGING, false);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        // Only handle stamina logic on server
         if (!this.level().isClientSide) {
             boolean isSprinting = this.entityData.get(DATA_SPRINTING);
             int currentStamina = this.entityData.get(DATA_STAMINA);
@@ -86,20 +91,25 @@ public class GallimimusEntity extends AbstractHorse {
             if (isSprinting) {
                 // Drain stamina while sprinting
                 if (currentStamina > 0) {
-                    this.entityData.set(DATA_STAMINA, currentStamina - 1);
-                    staminaRegenDelay = REGEN_DELAY_TICKS; // reset regen delay
+                    this.entityData.set(DATA_STAMINA, Math.max(0, currentStamina - STAMINA_DRAIN_RATE));
+                    this.entityData.set(DATA_RECHARGING, false);
+                    staminaRegenDelay = REGEN_DELAY_TICKS;
                 } else {
-                    // Out of stamina, stop sprinting
-                    this.entityData.set(DATA_SPRINTING, false);
-                    this.setSprinting(false);
+                    // Out of stamina, force stop sprinting
+                    this.stopSprinting();
                 }
             } else {
                 // Handle stamina regeneration
                 if (staminaRegenDelay > 0) {
                     staminaRegenDelay--;
+                    this.entityData.set(DATA_RECHARGING, false);
                 } else if (currentStamina < maxStamina) {
-                    // Regenerate stamina (2 points per tick for faster regen)
-                    this.entityData.set(DATA_STAMINA, Math.min(currentStamina + 2, maxStamina));
+                    // Actively recharging
+                    this.entityData.set(DATA_RECHARGING, true);
+                    this.entityData.set(DATA_STAMINA, Math.min(currentStamina + STAMINA_REGEN_RATE, maxStamina));
+                } else {
+                    // Fully charged
+                    this.entityData.set(DATA_RECHARGING, false);
                 }
             }
         }
@@ -114,13 +124,27 @@ public class GallimimusEntity extends AbstractHorse {
             int currentStamina = this.entityData.get(DATA_STAMINA);
 
             if (wantsToSprint && currentStamina > 0) {
-                this.entityData.set(DATA_SPRINTING, true);
-                this.setSprinting(true);
+                // Start or continue sprinting
+                if (!this.isGallimimusSprinting()) {
+                    this.startSprinting();
+                }
             } else {
-                this.entityData.set(DATA_SPRINTING, false);
-                this.setSprinting(false);
+                // Stop sprinting if not holding jump or out of stamina
+                if (this.isGallimimusSprinting()) {
+                    this.stopSprinting();
+                }
             }
         }
+    }
+
+    private void startSprinting() {
+        this.entityData.set(DATA_SPRINTING, true);
+        this.setSprinting(true);
+    }
+
+    private void stopSprinting() {
+        this.entityData.set(DATA_SPRINTING, false);
+        this.setSprinting(false);
     }
 
     private double getGallimimusNormalSpeed() {
@@ -128,10 +152,9 @@ public class GallimimusEntity extends AbstractHorse {
     }
 
     private double getGallimimusSprintSpeed() {
-        return 0.5D; // A flat value for sprint speed
+        return 0.6D; // Increased sprint speed for more dramatic effect
     }
 
-    // Getter for stamina percentage (used by overlay)
     public float getStaminaPercent() {
         return (float) getStamina() / getMaxStamina();
     }
@@ -146,6 +169,10 @@ public class GallimimusEntity extends AbstractHorse {
 
     public boolean isGallimimusSprinting() {
         return this.entityData.get(DATA_SPRINTING);
+    }
+
+    public boolean isRecharging() {
+        return this.entityData.get(DATA_RECHARGING);
     }
 
     @Override
@@ -177,7 +204,6 @@ public class GallimimusEntity extends AbstractHorse {
         return stack.is(Items.FERN);
     }
 
-    // Disable horse-specific behaviors
     @Override
     public boolean canEatGrass() {
         return false;
@@ -190,17 +216,16 @@ public class GallimimusEntity extends AbstractHorse {
 
     @Override
     public boolean canJump() {
-        return false;
+        return false; // Disable jumping, jump key used for sprint
     }
 
     @Override
     public void onPlayerJump(int jumpPower) {
-        // Disabled - sprint is handled via the sprint key now
+        // Disabled - jump key now controls sprinting
     }
 
     @Override
     protected float getRiddenSpeed(Player player) {
-        // Dynamically return speed based on whether the entity is sprinting
         if (this.isGallimimusSprinting()) {
             return (float) this.getGallimimusSprintSpeed();
         }
@@ -245,11 +270,19 @@ public class GallimimusEntity extends AbstractHorse {
     @Override
     protected void playStepSound(BlockPos pos, BlockState block) {
         SoundType soundtype = block.getSoundType(this.level(), pos, this);
-        this.playSound(SoundEvents.PANDA_STEP, soundtype.getVolume() * 0.15F, soundtype.getPitch());
+        if (this.isGallimimusSprinting()) {
+            this.playSound(SoundEvents.PANDA_STEP, soundtype.getVolume() * 0.3F, soundtype.getPitch() * 1.2F);
+        } else {
+            this.playSound(SoundEvents.PANDA_STEP, soundtype.getVolume() * 0.15F, soundtype.getPitch());
+        }
     }
 
     @Override
     protected void playGallopSound(SoundType soundType) {
-        this.playSound(SoundEvents.PANDA_STEP, soundType.getVolume() * 0.15F, soundType.getPitch());
+        if (this.isGallimimusSprinting()) {
+            this.playSound(SoundEvents.PANDA_STEP, soundType.getVolume() * 0.3F, soundType.getPitch() * 1.2F);
+        } else {
+            this.playSound(SoundEvents.PANDA_STEP, soundType.getVolume() * 0.15F, soundType.getPitch());
+        }
     }
 }
