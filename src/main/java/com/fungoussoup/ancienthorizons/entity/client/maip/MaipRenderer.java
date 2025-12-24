@@ -23,26 +23,12 @@ public class MaipRenderer extends MobRenderer<MaipEntity, MaipModel<MaipEntity>>
     }
 
     @Override
-    public void render(MaipEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight) {
-
-        // Handle baby scaling
+    public void render(MaipEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         if (entity.isBaby()) {
-            poseStack.pushPose();
             poseStack.scale(0.5F, 0.5F, 0.5F);
             super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-            poseStack.popPose();
         } else {
-            // Size variant scaling
-            float scale = entity.getAgeScale();
-            if (scale != 1.0F) {
-                poseStack.pushPose();
-                poseStack.scale(scale, scale, scale);
-                super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-                poseStack.popPose();
-            } else {
-                super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-            }
+            super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
         }
     }
 }

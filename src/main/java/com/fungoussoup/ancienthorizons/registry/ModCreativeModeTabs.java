@@ -533,7 +533,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.HIPPOPOTAMUS_SPAWN_EGG);
                         output.accept(ModItems.HOATZIN_SPAWN_EGG);
                         output.accept(ModItems.HYPNOVENATOR_SPAWN_EGG);
+                        output.accept(ModItems.LATENIVENATRIX_SPAWN_EGG);
                         output.accept(ModItems.LION_SPAWN_EGG);
+                        output.accept(ModItems.MAIP_SPAWN_EGG);
                         output.accept(ModItems.MANTIS_SPAWN_EGG);
                         output.accept(ModItems.MERGANSER_SPAWN_EGG);
                         output.accept(ModItems.MONKEY_SPAWN_EGG);
@@ -544,12 +546,14 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.PHILIPPINE_EAGLE_SPAWN_EGG);
                         output.accept(ModItems.RACCOON_SPAWN_EGG);
                         output.accept(ModItems.REDSTART_SPAWN_EGG);
+                        output.accept(ModItems.RED_PANDA_SPAWN_EGG);
                         output.accept(ModItems.REEDLING_SPAWN_EGG);
                         output.accept(ModItems.ROBIN_SPAWN_EGG);
                         output.accept(ModItems.ROADRUNNER_SPAWN_EGG);
                         output.accept(ModItems.ROE_DEER_SPAWN_EGG);
                         output.accept(ModItems.RUFF_SPAWN_EGG);
                         output.accept(ModItems.SEAGULL_SPAWN_EGG);
+                        output.accept(ModItems.SAICHANIA_SPAWN_EGG);
                         output.accept(ModItems.SISKIN_SPAWN_EGG);
                         output.accept(ModItems.SKYLARK_SPAWN_EGG);
                         output.accept(ModItems.SNOW_LEOPARD_SPAWN_EGG);
@@ -562,6 +566,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.WAGTAIL_SPAWN_EGG);
                         output.accept(ModItems.WAXWING_SPAWN_EGG);
                         output.accept(ModItems.WHITE_SHARK_SPAWN_EGG);
+                        output.accept(ModItems.WILDEBEEST_SPAWN_EGG);
                         output.accept(ModItems.WOLVERINE_SPAWN_EGG);
                         output.accept(ModItems.ZEBRA_SPAWN_EGG);
                         output.accept(ModItems.ZONKEY_SPAWN_EGG);

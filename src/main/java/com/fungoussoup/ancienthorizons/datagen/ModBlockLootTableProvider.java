@@ -500,6 +500,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         add(ModBlocks.YEW_DOOR.get(),
                 block -> createDoorTable(ModBlocks.YEW_DOOR.get()));
 
+        dropSelf(ModBlocks.PENGUIN_EGG.get());
+
     }
 
     protected LootTable.Builder createMultipleOreDrops(Block pBlock, Item item, float minDrops, float maxDrops) {

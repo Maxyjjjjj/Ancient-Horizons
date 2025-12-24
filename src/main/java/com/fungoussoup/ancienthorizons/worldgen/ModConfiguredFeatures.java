@@ -4,6 +4,7 @@ import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.registry.ModBlocks;
 import com.fungoussoup.ancienthorizons.worldgen.feature.PalmFoliagePlacer;
 import com.fungoussoup.ancienthorizons.worldgen.feature.PalmTrunkPlacer;
+import com.fungoussoup.ancienthorizons.worldgen.feature.WillowTrunkPlacer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -98,16 +99,19 @@ public class ModConfiguredFeatures {
         register(context, TUNGSTEN_ORE_KEY, Feature.ORE, new OreConfiguration(tungstenOres, 3));
         register(context, ZIRCON_ORE_KEY, Feature.ORE, new OreConfiguration(zirconOres, 3));
 
-        register(context, WILLOW_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ModBlocks.WILLOW_LOG.get()),
-                new CherryTrunkPlacer(6, 2, 2,
-                        UniformInt.of(2, 4),
-                        UniformInt.of(3, 5),
-                        UniformInt.of(-5, -3),
-                        UniformInt.of(-1, 0)),
-                BlockStateProvider.simple(ModBlocks.WILLOW_LEAVES.get()),
-                new CherryFoliagePlacer(ConstantInt.of(5), ConstantInt.of(0), ConstantInt.of(6), 0.3F, 0.6F, 0.2F, 0.4F),
-                new TwoLayersFeatureSize(1, 0, 2)).build());
+        register(context, WILLOW_KEY, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(ModBlocks.WILLOW_LOG.get()),
+                        new WillowTrunkPlacer(6, 2, 2, 4, 3),
+                        BlockStateProvider.simple(ModBlocks.WILLOW_LEAVES.get()),
+                        new BlobFoliagePlacer(
+                                ConstantInt.of(3),
+                                ConstantInt.of(0),
+                                4
+                        ),
+                        new TwoLayersFeatureSize(1, 0, 2)
+                ).build()
+        );
 
         register(context, HORNBEAM_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(ModBlocks.HORNBEAM_LOG.get()),

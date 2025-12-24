@@ -706,6 +706,9 @@
 
     "item.ancienthorizons.beipiaosaurus_spawn_egg": "Beipiaosaurus Spawn Egg",
     "entity.ancienthorizons.beipiaosaurus": "Beipiaosaurus",
+    "ancienthorizons.subtitles.entity.beipiaosaurus.idle": "Beipiaosaurus gobbles",
+    "ancienthorizons.subtitles.entity.beipiaosaurus.hurt": "Beipiaosaurus is hurt",
+    "ancienthorizons.subtitles.entity.beipiaosaurus.death": "Beipiaosaurus dies",
 
     "item.ancienthorizons.white_shark_spawn_egg": "White Shark Spawn Egg",
     "entity.ancienthorizons.white_shark": "White Shark",
@@ -746,6 +749,33 @@
 
     "item.ancienthorizons.maip_spawn_egg": "Maip Spawn Egg",
     "entity.ancienthorizons.maip": "Maip",
+    "ancienthorizons.subtitles.entity.maip.idle": "Maip clicks",
+    "ancienthorizons.subtitles.entity.maip.hurt": "Maip is hurt",
+    "ancienthorizons.subtitles.entity.maip.death": "Maip dies",
+    "ancienthorizons.subtitles.entity.maip.roar": "Maip roars",
+    "ancienthorizons.subtitles.entity.maip.attack": "Maip attacks",
+
+    "item.ancienthorizons.saichania_spawn_egg": "Saichania Spawn Egg",
+    "entity.ancienthorizons.saichania": "Saichania",
+
+    "item.minecraft.panda_spawn_egg": "Giant Panda Spawn Egg",
+    "entity.minecraft.panda": "Giant Panda",
+    "subtitles.entity.panda.aggressive_ambient": "Giant Panda huffs",
+    "subtitles.entity.panda.ambient": "Giant Panda pants",
+    "subtitles.entity.panda.bite": "Giant Panda bites",
+    "subtitles.entity.panda.cant_breed": "Giant Panda bleats",
+    "subtitles.entity.panda.death": "Giant Panda dies",
+    "subtitles.entity.panda.eat": "Giant Panda eats",
+    "subtitles.entity.panda.hurt": "Giant Panda hurts",
+    "subtitles.entity.panda.pre_sneeze": "Giant Panda's nose tickles",
+    "subtitles.entity.panda.sneeze": "Giant Panda sneezes",
+    "subtitles.entity.panda.worried_ambient": "Giant Panda whimpers",
+
+    "item.ancienthorizons.red_panda_spawn_egg": "Red Panda Spawn Egg",
+    "entity.ancienthorizons.red_panda": "Red Panda",
+    "ancienthorizons.subtitles.entity.red_panda.idle": "Red Panda twitters",
+    "ancienthorizons.subtitles.entity.red_panda.hurt": "Red Panda is hurt",
+    "ancienthorizons.subtitles.entity.red_panda.death": "Red Panda dies",
 
     "effect.ancienthorizons.tranquilized": "Tranquilized",
     "effect.ancienthorizons.tranquilized.description": "Tranquilizes player",
@@ -764,5 +794,8 @@
     "tooltip.ancienthorizons.key_id": "Key ID: ",
 
     "tooltip.ancienthorizons.fossil_of": "Fossil Of: ",
-    "tooltip.ancienthorizons.fossil_unidentified": "Unidentified Fossil"
+    "tooltip.ancienthorizons.fossil_unidentified": "Unidentified Fossil",
+    "ancienthorizons.gui.bestiary.not_discovered": "This creature has not yet been discovered.",
+    "ancienthorizons.gui.bestiary.period": "Period:",
+    "ancienthorizons.gui.bestiary.discovered": "Discovered:"
 }

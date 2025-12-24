@@ -664,6 +664,7 @@
     "ancienthorizons.subtitles.entity.crocodile.death": "Крокодил гине",
     "item.ancienthorizons.hippopotamus_spawn_egg": "Яйце виклику бегемота",
     "entity.ancienthorizons.hippopotamus": "Бегемот",
+
     "advancement.ancienthorizons.professional_ornithologist.title": "Слово — не горобець",
     "advancement.ancienthorizons.professional_ornithologist.description": "Приручіть всіх горобцеподібних!",
 
@@ -676,6 +677,9 @@
     "effect.ancienthorizons.tranquilized.description": "Транквілізує гравця",
     "item.ancienthorizons.beipiaosaurus_spawn_egg": "Яйце виклику бейпяозавра",
     "entity.ancienthorizons.beipiaosaurus": "Бейпяозавр",
+    "ancienthorizons.subtitles.entity.beipiaosaurus.idle": "Бейпяозавр ґельґоче",
+    "ancienthorizons.subtitles.entity.beipiaosaurus.hurt": "Бейпяозавра поранено",
+    "ancienthorizons.subtitles.entity.beipiaosaurus.death": "Бейпяозавр гине",
     "item.ancienthorizons.white_shark_spawn_egg": "Яйце виклику білої акули",
     "entity.ancienthorizons.white_shark": "Біла акула",
     "item.ancienthorizons.dearc_spawn_egg": "Яйце виклику дьярка",
@@ -710,6 +714,33 @@
 
     "item.ancienthorizons.maip_spawn_egg": "Яйце виклику маїпа",
     "entity.ancienthorizons.maip": "Маїп",
+    "ancienthorizons.subtitles.entity.maip.idle": "Маїп клацає",
+    "ancienthorizons.subtitles.entity.maip.hurt": "Маїпа поранено",
+    "ancienthorizons.subtitles.entity.maip.death": "Маїп гине",
+    "ancienthorizons.subtitles.entity.maip.roar": "Маїп ричить",
+    "ancienthorizons.subtitles.entity.maip.attack": "Маїп атакує",
+
+    "item.ancienthorizons.saichania_spawn_egg": "Яйце виклику сайшанії",
+    "entity.ancienthorizons.saichania": "Сайшанія",
+
+    "item.minecraft.panda_spawn_egg": "Яйце виклику великої панди",
+    "entity.minecraft.panda": "Велика панда",
+    "subtitles.entity.panda.aggressive_ambient": "Велика панда пихтить",
+    "subtitles.entity.panda.ambient": "Велика панда пихтить",
+    "subtitles.entity.panda.bite": "Велика панда кусає",
+    "subtitles.entity.panda.cant_breed": "Велика панда стогне",
+    "subtitles.entity.panda.death": "Велика панда гине",
+    "subtitles.entity.panda.eat": "Велика панда їсть",
+    "subtitles.entity.panda.hurt": "Велику панду поранено",
+    "subtitles.entity.panda.pre_sneeze": "Велика панда чеше ніс",
+    "subtitles.entity.panda.sneeze": "Велика панда чхає",
+    "subtitles.entity.panda.worried_ambient": "Велика панда скулить",
+
+    "item.ancienthorizons.red_panda_spawn_egg": "Яйце виклику малої панди",
+    "entity.ancienthorizons.red_panda": "Мала панда",
+    "ancienthorizons.subtitles.entity.red_panda.idle": "Мала панда щебече",
+    "ancienthorizons.subtitles.entity.red_panda.hurt": "Малу панду поранено",
+    "ancienthorizons.subtitles.entity.red_panda.death": "Мала панда гине",
 
     "message.ancienthorizons.bad_omen_eagle": "Ви вбили особину виду, що знаходиться під охороною!",
 
@@ -726,5 +757,8 @@
     "tooltip.ancienthorizons.key_id": "ID Ключа: ",
 
     "tooltip.ancienthorizons.fossil_of": "Скам'янілість: ",
-    "tooltip.ancienthorizons.fossil_unidentified": "Неідентифікована скам'янілість"
+    "tooltip.ancienthorizons.fossil_unidentified": "Неідентифікована скам'янілість",
+    "ancienthorizons.gui.bestiary.not_discovered": "Цю істоту ще не було виявлено.",
+    "ancienthorizons.gui.bestiary.period": "Період:",
+    "ancienthorizons.gui.bestiary.discovered": "Відкрито:"
 }

@@ -1,12 +1,10 @@
 {
-    "type": "neoforge:add_spawns",
-    "biomes": "#neoforge:is_snowy",
-    "spawners": [
-        {
-            "type": "ancienthorizons:waxwing",
-            "weight": 4,
-            "minCount": 1,
-            "maxCount": 2
-        }
-    ]
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_snowy",
+  "spawners": {
+    "type": "ancienthorizons:waxwing",
+    "maxCount": 2,
+    "minCount": 1,
+    "weight": 4
+  }
 }

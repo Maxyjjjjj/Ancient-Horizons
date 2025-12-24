@@ -1,12 +1,10 @@
 {
-    "type": "neoforge:add_spawns",
-    "biomes": "#c:is_plains",
-    "spawners": [
-        {
-            "type": "ancienthorizons:goldfinch",
-            "weight": 8,
-            "minCount": 1,
-            "maxCount": 3
-        }
-    ]
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_plains",
+  "spawners": {
+    "type": "ancienthorizons:goldfinch",
+    "maxCount": 3,
+    "minCount": 1,
+    "weight": 8
+  }
 }

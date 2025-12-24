@@ -11,6 +11,7 @@ import oshi.util.tuples.Pair;
 
 public class ModSoundEvents {
 
+
     public static void init() {
         for (Pair<ResourceLocation, SoundEvent> registry : SOUND_EVENTS) {
             try {
@@ -161,6 +162,18 @@ public class ModSoundEvents {
     public static final SoundEvent MAIP_DEATH = registerSoundEvent("maip_death", createSoundEvent("entity.maip.death"));
     public static final SoundEvent MAIP_ATTACK = registerSoundEvent("maip_attack", createSoundEvent("entity.maip.attack"));
     public static final SoundEvent MAIP_ROAR = registerSoundEvent("maip_roar", createSoundEvent("entity.maip.roar"));
+
+    // BEIPIAOSAURUS
+
+    public static final SoundEvent BEIPIAOSAURUS_AMBIENT = registerSoundEvent("beipiaosaurus_idle", createSoundEvent("entity.beipiaosaurus.idle"));
+    public static final SoundEvent BEIPIAOSAURUS_HURT = registerSoundEvent("beipiaosaurus_hurt", createSoundEvent("entity.beipiaosaurus.hurt"));
+    public static final SoundEvent BEIPIAOSAURUS_DEATH = registerSoundEvent("beipiaosaurus_death", createSoundEvent("entity.beipiaosaurus.death"));
+
+    // RED PANDA
+
+    public static final SoundEvent RED_PANDA_AMBIENT = registerSoundEvent("red_panda_idle", createSoundEvent("entity.red_panda.idle"));
+    public static final SoundEvent RED_PANDA_HURT = registerSoundEvent("red_panda_hurt", createSoundEvent("entity.red_panda.hurt"));
+    public static final SoundEvent RED_PANDA_DEATH = registerSoundEvent("red_panda_death", createSoundEvent("entity.red_panda.death"));
 
     private static SoundEvent createSoundEvent(String path) {
         ResourceLocation rl = ResourceLocation.fromNamespaceAndPath("ancienthorizons", path);

@@ -65,6 +65,8 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> SPAWN_WOLVERINE = registerKey("spawn_wolverine");
     public static final ResourceKey<BiomeModifier> SPAWN_MERGANSER = registerKey("spawn_merganser");
     public static final ResourceKey<BiomeModifier> SPAWN_WORM = registerKey("spawn_worm");
+    public static final ResourceKey<BiomeModifier> SPAWN_WILDEBEEST = registerKey("spawn_wildebeest");
+    public static final ResourceKey<BiomeModifier> SPAWN_ROADRUNNER = registerKey("spawn_roadrunner");
 
     public static final ResourceKey<BiomeModifier> SPAWN_BLACKCAP = registerKey("spawn_blackcap");
     public static final ResourceKey<BiomeModifier> SPAWN_BLUETHROAT = registerKey("spawn_bluethroat");
@@ -149,6 +151,10 @@ public class ModBiomeModifiers {
         context.register(SPAWN_ZEBRA, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_SAVANNA),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.ZEBRA.get(), 10, 3, 5))));
+
+        context.register(SPAWN_WILDEBEEST, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_SAVANNA),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.WILDEBEEST.get(), 10, 3, 5))));
 
         context.register(SPAWN_SEAGULL, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_BEACH),
@@ -254,7 +260,6 @@ public class ModBiomeModifiers {
                 biomes.getOrThrow(Tags.Biomes.IS_SNOWY),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.WAXWING.get(), 4, 1, 2))));
 
-
         context.register(SPAWN_FLAMINGO, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_BEACH),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.FLAMINGO.get(), 8, 3, 5))));
@@ -324,11 +329,6 @@ public class ModBiomeModifiers {
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.LION.get(), 3, 1, 3))
         ));
 
-        context.register(SPAWN_MANTIS, new BiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
-                List.of(new MobSpawnSettings.SpawnerData(ModEntities.MANTIS.get(), 8, 1, 3))
-        ));
-
         context.register(SPAWN_PHILIPPINE_EAGLE, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_JUNGLE),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.PHILIPPINE_EAGLE.get(), 2, 1, 1))
@@ -362,6 +362,11 @@ public class ModBiomeModifiers {
         context.register(SPAWN_WORM, new BiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_RAIN),
                 List.of(new MobSpawnSettings.SpawnerData(ModEntities.EARTHWORM.get(), 10, 1, 2))
+        ));
+
+        context.register(SPAWN_ROADRUNNER, new BiomeModifiers.AddSpawnsBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.IS_DESERT),
+                List.of(new MobSpawnSettings.SpawnerData(ModEntities.ROADRUNNER.get(), 6, 1, 3))
         ));
     }
 

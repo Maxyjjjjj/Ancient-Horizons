@@ -8,7 +8,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
-import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = "ancienthorizons", bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class MountAttackHandler {
@@ -47,7 +46,7 @@ public class MountAttackHandler {
         Entity vehicle = player.getVehicle();
 
         // Alternative key-based input detection
-        if (vehicle instanceof MaipEntity maip) {
+        if (vehicle instanceof MaipEntity) {
             // Check for left mouse button (attack)
             boolean isAttackKeyPressed = mc.options.keyAttack.isDown();
 

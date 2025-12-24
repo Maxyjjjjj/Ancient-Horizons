@@ -1,11 +1,1 @@
-Name: Tiger
-Scientific: Panthera tigris tigris
-Period: Modern
-Description:
-The tiger is the largest modern cat, distinguished by its striped fur and immense strength. It can be found exclusively in the taiga.
-They hunt cows, pigs, sheep and other animals, using their strength and keen eyesight.
-Tigers are solitary animals that occupy large territories. They are known for their ability to swim and often bathe in rivers and lakes to cool off in hot weather.
-A tiger can be tamed with meat, and a tamed tiger is stronger than a tamed wolf or snow leopard.
-But be careful: if you hit a wild tiger, it will become hostile and attack you.
-Tigers are excellent parents who protect their cubs from any threat.
-Tigers naturally come in different colors, including orange, white, golden, and even blue! And there is a purple tiger, but it requires naming a tiger "Legends".
+"Name: Tiger\nScientific: Panthera tigris tigris\nPeriod: Modern\nDescription:\nThe tiger is the largest modern cat, distinguished by its striped fur and immense strength. It can be found exclusively in the taiga.\nThey hunt cows, pigs, sheep and other animals, using their strength and keen eyesight.\nTigers are solitary animals that occupy large territories. They are known for their ability to swim and often bathe in rivers and lakes to cool off in hot weather.\nA tiger can be tamed with meat, and a tamed tiger is stronger than a tamed wolf or snow leopard.\nBut be careful: if you hit a wild tiger, it will become hostile and attack you.\nTigers are excellent parents who protect their cubs from any threat.\nTigers naturally come in different colors, including orange, white, golden, and even blue! And there is a purple tiger, but it requires naming a tiger \"Legends\"."

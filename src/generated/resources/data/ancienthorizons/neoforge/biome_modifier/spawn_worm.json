@@ -1,12 +1,10 @@
 {
-    "type": "neoforge:add_spawns",
-    "biomes": "#ancienthorizons:has_rain",
-    "spawners": [
-        {
-            "type": "ancienthorizons:earthworm",
-            "weight": 10,
-            "minCount": 1,
-            "maxCount": 2
-        }
-    ]
+  "type": "neoforge:add_spawns",
+  "biomes": "#ancienthorizons:has_rain",
+  "spawners": {
+    "type": "ancienthorizons:earthworm",
+    "maxCount": 2,
+    "minCount": 1,
+    "weight": 10
+  }
 }

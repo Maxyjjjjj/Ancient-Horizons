@@ -1,12 +1,10 @@
 {
-    "type": "neoforge:add_spawns",
-    "biomes": "#c:is_plains",
-    "spawners": [
-        {
-            "type": "ancienthorizons:sparrow",
-            "weight": 12,
-            "minCount": 2,
-            "maxCount": 4
-        }
-    ]
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_plains",
+  "spawners": {
+    "type": "ancienthorizons:sparrow",
+    "maxCount": 4,
+    "minCount": 2,
+    "weight": 12
+  }
 }

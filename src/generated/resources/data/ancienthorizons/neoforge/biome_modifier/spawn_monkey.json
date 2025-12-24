@@ -3,8 +3,8 @@
   "biomes": "#minecraft:is_taiga",
   "spawners": {
     "type": "ancienthorizons:monkey",
-    "weight": 8,
+    "maxCount": 5,
     "minCount": 2,
-    "maxCount": 5
+    "weight": 8
   }
 }

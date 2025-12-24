@@ -1,5 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
+import com.fungoussoup.ancienthorizons.entity.interfaces.ArborealAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -20,10 +21,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class MonkeyEntity extends Animal {
+public class MonkeyEntity extends Animal implements ArborealAnimal {
     private static final EntityDataAccessor<Boolean> DATA_SITTING =
             SynchedEntityData.defineId(MonkeyEntity.class, EntityDataSerializers.BOOLEAN);
-
 
     private int curiosityCooldown = 0; // cooldown to prevent over-interaction with players
     private int groomingTimer = 0;
@@ -90,6 +90,21 @@ public class MonkeyEntity extends Animal {
             if (curiosityCooldown > 0) curiosityCooldown--;
             if (groomingTimer > 0) groomingTimer--;
         }
+
+        // Handle climbing behavior through ArborealAnimal interface
+        handleClimbing(this);
+    }
+
+    // --- ArborealAnimal Implementation ---
+    @Override
+    public double getClimbingSpeed() {
+        return 0.12; // Monkeys are good climbers, slightly slower than chimps
+    }
+
+    @Override
+    public boolean canClimb() {
+        // Don't climb while sitting, grooming, or in powder snow
+        return !this.isSitting() && !this.isInPowderSnow;
     }
 
     // --- Sounds ---

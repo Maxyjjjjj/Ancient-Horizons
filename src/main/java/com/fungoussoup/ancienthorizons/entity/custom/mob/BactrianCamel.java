@@ -128,7 +128,6 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
     @Override
     protected void customServerAiStep() {
         this.level().getProfiler().push("bactrianCamelBrain");
-        Brain<BactrianCamel> brain = (Brain<BactrianCamel>) this.getBrain();
         this.level().getProfiler().pop();
         this.level().getProfiler().push("camelActivityUpdate");
         BactrianCamelAi.updateActivity(this);
@@ -145,7 +144,7 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         if (this.dashCooldown > 0) {
             --this.dashCooldown;
             if (this.dashCooldown == 0) {
-                this.level().playSound((Player)null, this.blockPosition(), SoundEvents.CAMEL_DASH_READY, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                this.level().playSound(null, this.blockPosition(), SoundEvents.CAMEL_DASH_READY, SoundSource.NEUTRAL, 1.0F, 1.0F);
             }
         }
 
@@ -323,7 +322,7 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             } else if (this.isFood(itemstack)) {
                 return this.fedFood(player, itemstack);
             } else {
-                if (this.getPassengers().size() < 2 && !this.isBaby()) {
+                if (!this.isBaby()) {
                     this.doPlayerRide(player);
                 }
 

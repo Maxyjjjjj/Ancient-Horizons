@@ -1,12 +1,10 @@
 {
-    "type": "neoforge:add_spawns",
-    "biomes": "#minecraft:is_snowy",
-    "spawners": [
-        {
-            "type": "ancienthorizons:penguin",
-            "weight": 10,
-            "minCount": 3,
-            "maxCount": 6
-        }
-    ]
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_snowy",
+  "spawners": {
+    "type": "ancienthorizons:penguin",
+    "maxCount": 6,
+    "minCount": 3,
+    "weight": 10
+  }
 }

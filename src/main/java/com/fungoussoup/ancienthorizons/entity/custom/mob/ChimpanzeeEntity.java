@@ -1,6 +1,7 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
+import com.fungoussoup.ancienthorizons.entity.interfaces.ArborealAnimal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.CuriousAndIntelligentAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
@@ -24,12 +26,10 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 
-public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAnimal {
+public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAnimal, ArborealAnimal {
 
     private static final EntityDataAccessor<Boolean> SITTING =
             SynchedEntityData.defineId(ChimpanzeeEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Byte> CLIMBING =
-            SynchedEntityData.defineId(ChimpanzeeEntity.class, EntityDataSerializers.BYTE);
 
     public ChimpanzeeEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
@@ -40,7 +40,6 @@ public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAni
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(0, new SitGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(1, new ClimbGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.15D, Ingredient.of(ModItems.BANANA), false));
@@ -66,7 +65,6 @@ public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAni
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(SITTING, false);
-        builder.define(CLIMBING, (byte) 0);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -105,12 +103,25 @@ public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAni
     }
 
     private boolean isBarterCurrency(ItemStack stack) {
-        return stack.is(ModItems.BANANA);
+        return stack.is(ModItems.BANANA) || stack.is(Items.APPLE);
     }
 
     @Override
     public void tick() {
         super.tick();
+        // Handle climbing behavior through ArborealAnimal interface
+        handleClimbing(this);
+    }
+
+    @Override
+    public double getClimbingSpeed() {
+        return 0.15; // Chimps are agile climbers
+    }
+
+    @Override
+    public boolean canClimb() {
+        // Don't climb while sitting or if panicking
+        return !this.entityData.get(SITTING) && !this.isInPowderSnow;
     }
 
     public static class SitGoal extends Goal {
@@ -134,27 +145,6 @@ public class ChimpanzeeEntity extends Animal implements CuriousAndIntelligentAni
         @Override
         public void tick() {
             chimp.getLookControl().setLookAt(chimp.getX() + 1, chimp.getEyeY(), chimp.getZ());
-        }
-    }
-
-    public static class ClimbGoal extends Goal {
-        private final ChimpanzeeEntity chimp;
-
-        public ClimbGoal(ChimpanzeeEntity chimp) {
-            this.chimp = chimp;
-            this.setFlags(EnumSet.of(Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            return chimp.horizontalCollision;
-        }
-
-        @Override
-        public void tick() {
-            if (chimp.getDeltaMovement().y < 0.1) {
-                chimp.setDeltaMovement(chimp.getDeltaMovement().add(0, 0.1, 0));
-            }
         }
     }
 }

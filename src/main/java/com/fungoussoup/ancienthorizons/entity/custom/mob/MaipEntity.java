@@ -43,7 +43,6 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
     private static final EntityDataAccessor<Boolean> MAIP_SADDLED = SynchedEntityData.defineId(MaipEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> MAIP_SITTING = SynchedEntityData.defineId(MaipEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> COLLAR_COLOR_ID = SynchedEntityData.defineId(MaipEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> SIZE_VARIANT = SynchedEntityData.defineId(MaipEntity.class, EntityDataSerializers.INT);
 
     public AnimationState roarAnimationState = new AnimationState();
     private int roarAnimationTimeout = 0;
@@ -82,7 +81,6 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
         builder.define(MAIP_SADDLED, false);
         builder.define(MAIP_SITTING, false);
         builder.define(COLLAR_COLOR_ID, DyeColor.RED.getId());
-        builder.define(SIZE_VARIANT, 1); // 0=small, 1=medium, 2=large
     }
 
     @Override
@@ -178,7 +176,7 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
 
         LivingEntity target = findNearestTarget();
         if (target != null && this.distanceTo(target) < 4.0D) {
-            performAttackBySize();
+            performAttackByTargetSize(target);
             this.doHurtTarget(target);
             mountAttackCooldown = 20;
         }
@@ -194,19 +192,32 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
         );
     }
 
-    private void performAttackBySize() {
-        int size = getSizeVariant();
-        switch (size) {
-            case 0: // Small
-                this.setAnimation(MaipAnimations.ATTACK_S);
-                break;
-            case 1: // Medium
-                this.setAnimation(MaipAnimations.ATTACK_M);
-                break;
-            case 2: // Large
+    private void performAttackByTargetSize(LivingEntity target) {
+        // Calculate target size based on bounding box
+        float targetWidth = target.getBbWidth();
+        float targetHeight = target.getBbHeight();
+        float targetSize = (targetWidth + targetHeight) / 2.0F;
+
+        // Determine attack animation based on target size
+        // Small: < 0.8 (chicken, rabbit, small mobs)
+        // Medium: 0.8 - 1.5 (player, sheep, cow sized)
+        // Large: > 1.5 (large creatures)
+
+        if (targetSize < 0.8F) {
+            // Small target - quick downward bite
+            this.setAnimation(MaipAnimations.ATTACK_S);
+        } else if (targetSize < 1.5F) {
+            // Medium target - forward lunge bite
+            this.setAnimation(MaipAnimations.ATTACK_M);
+        } else {
+            // Large target - claw swipe and bite combo
+            if (random.nextBoolean()){
                 this.setAnimation(MaipAnimations.ATTACK_L);
-                break;
+            } else {
+                this.setAnimation(MaipAnimations.ATTACK_B);
+            }
         }
+
         this.playSound(ModSoundEvents.MAIP_ATTACK, 1.0F, 1.0F);
     }
 
@@ -309,11 +320,9 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
             } else if (anim == MaipAnimations.ATTACK_M) {
                 this.attackMediumAnimationState.start(this.tickCount);
             } else if (anim == MaipAnimations.ATTACK_L) {
-                if (random.nextBoolean()) {
-                    this.attackOneLargeAnimationState.start(this.tickCount);
-                } else {
-                    this.attackTwoLargeAnimationState.start(this.tickCount);
-                }
+                this.attackOneLargeAnimationState.start(this.tickCount);
+            } else if (anim == MaipAnimations.ATTACK_B) {
+                this.attackTwoLargeAnimationState.start(this.tickCount);
             }
         }
     }
@@ -326,7 +335,6 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
 
     @Override
     public void equipSaddle(ItemStack itemStack, @Nullable SoundSource soundSource) {
-        setSaddled(true);
     }
 
     @Override
@@ -362,14 +370,6 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
         if (color != null) {
             this.entityData.set(COLLAR_COLOR_ID, color.getId());
         }
-    }
-
-    public int getSizeVariant() {
-        return this.entityData.get(SIZE_VARIANT);
-    }
-
-    public void setSizeVariant(int size) {
-        this.entityData.set(SIZE_VARIANT, Mth.clamp(size, 0, 2));
     }
 
     @Override
@@ -416,7 +416,6 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
         tag.putBoolean("Saddled", this.isSaddled());
         tag.putBoolean("Sitting", this.isSitting());
         tag.putInt("CollarColor", this.getCollarColor().getId());
-        tag.putInt("SizeVariant", this.getSizeVariant());
     }
 
     @Override
@@ -426,7 +425,6 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
         this.setSaddled(tag.getBoolean("Saddled"));
         this.setOrderedToSit(tag.getBoolean("Sitting"));
         this.setCollarColor(DyeColor.byId(tag.getInt("CollarColor")));
-        this.setSizeVariant(tag.getInt("SizeVariant"));
     }
 
     @Nullable
@@ -437,22 +435,8 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
             baby.setOwnerUUID(this.getOwnerUUID());
             baby.setTame(true, true);
             baby.setCollarColor(DyeColor.values()[level.getRandom().nextInt(DyeColor.values().length)]);
-
-            // Inherit size variant with slight variation
-            int parentSize = this.getSizeVariant();
-            if (level.getRandom().nextInt(10) == 0) {
-                parentSize = level.getRandom().nextInt(3);
-            }
-            baby.setSizeVariant(parentSize);
         }
         return baby;
-    }
-
-    @Override
-    public float getAgeScale() {
-        float baseScale = super.getAgeScale();
-        int size = getSizeVariant();
-        return baseScale * (0.8f + (size * 0.2f)); // Small: 0.8x, Medium: 1.0x, Large: 1.2x
     }
 
     // AI Goals
@@ -465,7 +449,7 @@ public class MaipEntity extends TamableAnimal implements Saddleable, NeutralMob 
         protected void checkAndPerformAttack(LivingEntity target) {
             if (this.canPerformAttack(target)) {
                 this.resetAttackCooldown();
-                MaipEntity.this.performAttackBySize();
+                MaipEntity.this.performAttackByTargetSize(target);
                 this.mob.doHurtTarget(target);
             } else if (this.mob.distanceToSqr(target) < (double)((target.getBbWidth() + 3.0F) * (target.getBbWidth() + 3.0F))) {
                 if (this.isTimeToAttack()) {

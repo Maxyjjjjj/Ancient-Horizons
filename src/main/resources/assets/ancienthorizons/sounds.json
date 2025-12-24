@@ -566,5 +566,63 @@
             "ancienthorizons:entity/maip_death_1"
         ],
         "subtitle": "ancienthorizons.subtitles.entity.maip.death"
+    },
+    "entity.maip.roar": {
+        "sounds": [
+            "ancienthorizons:entity/maip_roar"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.maip.roar"
+    },
+    "entity.maip.attack": {
+        "sounds": [
+            "ancienthorizons:entity/maip_attack_0",
+            "ancienthorizons:entity/maip_attack_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.maip.attack"
+    },
+    "entity.beipiaosaurus.idle": {
+        "sounds": [
+            "ancienthorizons:entity/beipiaosaurus_idle_0",
+            "ancienthorizons:entity/beipiaosaurus_idle_1",
+            "ancienthorizons:entity/beipiaosaurus_idle_2"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.beipiaosaurus.idle"
+    },
+    "entity.beipiaosaurus.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/beipiaosaurus_hurt_0",
+            "ancienthorizons:entity/beipiaosaurus_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.beipiaosaurus.hurt"
+    },
+    "entity.beipiaosaurus.death": {
+        "sounds": [
+            "ancienthorizons:entity/beipiaosaurus_hurt_0",
+            "ancienthorizons:entity/beipiaosaurus_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.beipiaosaurus.death"
+    },
+    "entity.red_panda.idle": {
+        "sounds": [
+            "ancienthorizons:entity/red_panda_idle_0",
+            "ancienthorizons:entity/red_panda_idle_1",
+            "ancienthorizons:entity/red_panda_idle_2",
+            "ancienthorizons:entity/red_panda_idle_3"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.red_panda.idle"
+    },
+    "entity.red_panda.hurt": {
+        "sounds": [
+            "ancienthorizons:entity/red_panda_hurt_0",
+            "ancienthorizons:entity/red_panda_hurt_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.red_panda.hurt"
+    },
+    "entity.red_panda.death": {
+        "sounds": [
+            "ancienthorizons:entity/red_panda_death_0",
+            "ancienthorizons:entity/red_panda_death_1"
+        ],
+        "subtitle": "ancienthorizons.subtitles.entity.red_panda.death"
     }
 }

@@ -2,6 +2,7 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.interfaces.ILootsChests;
+import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -9,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Container;
 import net.minecraft.world.DifficultyInstance;
@@ -185,6 +187,21 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
                 break;
             }
         }
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return ModSoundEvents.BEIPIAOSAURUS_AMBIENT;
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+        return ModSoundEvents.BEIPIAOSAURUS_HURT;
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return ModSoundEvents.BEIPIAOSAURUS_DEATH;
     }
 
     // Public getter for stolen item (used by renderer)

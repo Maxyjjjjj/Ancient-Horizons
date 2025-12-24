@@ -85,24 +85,6 @@ public class GiraffeEntity extends Animal implements PlayerRideable {
         return ModEntities.GIRAFFE.get().create(serverLevel);
     }
 
-    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        // Base on the entity's current bounding-box height so it scales if you tweak dimensions elsewhere
-        float baseHeight = dimensions.height();
-
-        if (this.isBaby()) {
-            return baseHeight * 0.6F;
-        }
-
-        float eye = baseHeight * 0.85F;
-
-        if (this.isSneezing()) {
-            eye += 0.4F;
-        }
-
-        return eye;
-    }
-
-
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);

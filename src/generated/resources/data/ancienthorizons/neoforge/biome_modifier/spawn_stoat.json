@@ -1,12 +1,10 @@
 {
-    "type": "neoforge:add_spawns",
-    "biomes": "#c:is_cold",
-    "spawners": [
-        {
-            "type": "ancienthorizons:stoat",
-            "weight": 8,
-            "minCount": 2,
-            "maxCount": 3
-        }
-    ]
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_cold",
+  "spawners": {
+    "type": "ancienthorizons:stoat",
+    "maxCount": 3,
+    "minCount": 2,
+    "weight": 8
+  }
 }

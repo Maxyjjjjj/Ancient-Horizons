@@ -88,9 +88,7 @@ neoForge {
         }
 
         tasks.named('runData').configure {
-            doFirst {
-                delete file('src/generated/resources/')
-            }
+
         }
 
         // applies to all the run configs above

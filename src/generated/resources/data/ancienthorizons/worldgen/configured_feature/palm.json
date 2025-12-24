@@ -8,29 +8,25 @@
         "Name": "minecraft:dirt"
       }
     },
+    "foliage_placer": {
+      "type": "ancienthorizons:palm_foliage_placer",
+      "frond_length": 6,
+      "offset": 0,
+      "radius": 2
+    },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "ancienthorizons:palm_leaves"
-      }
-    },
-    "foliage_placer": {
-      "type": "ancienthorizons:palm_foliage_placer",
-      "radius": {
-        "type": "minecraft:constant",
-        "value": 2
-      },
-      "offset": {
-        "type": "minecraft:constant",
-        "value": 0
-      },
-      "frond_length": {
-        "type": "minecraft:constant",
-        "value": 6
+        "Name": "ancienthorizons:palm_leaves",
+        "Properties": {
+          "distance": "7",
+          "persistent": "false",
+          "waterlogged": "false"
+        }
       }
     },
     "force_dirt": false,
-    "ignore_vines": true,
+    "ignore_vines": false,
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",
       "limit": 1,

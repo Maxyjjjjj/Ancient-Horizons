@@ -3,8 +3,8 @@
   "biomes": "#minecraft:is_savanna",
   "spawners": {
     "type": "ancienthorizons:giraffe",
-    "maxCount": 4,
+    "maxCount": 3,
     "minCount": 2,
-    "weight": 3
+    "weight": 5
   }
 }

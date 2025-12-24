@@ -584,13 +584,25 @@ public class ModItems {
             () -> new DeferredSpawnEggItem(ModEntities.WOLVERINE, 0x3e3730, 0x88735d,
                     new Item.Properties()));
 
-    // MONKEY
+    // MERGANSER
 
     public static final DeferredItem<Item> MERGANSER_SPAWN_EGG = ITEMS.register("merganser_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.MERGANSER, 0x1b1b1b, 0x856456,
                     new Item.Properties()));
 
-    // CRYODRAKON and other extinct critters
+    // WILDEBEEST
+
+    public static final DeferredItem<Item> WILDEBEEST_SPAWN_EGG = ITEMS.register("wildebeest_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.WILDEBEEST, 0x716e60, 0x3c312b,
+                    new Item.Properties()));
+
+    // RED PANDA
+
+    public static final DeferredItem<Item> RED_PANDA_SPAWN_EGG = ITEMS.register("red_panda_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.RED_PANDA, 0xb46c35, 0x141414,
+                    new Item.Properties()));
+
+    // EXTINCT CRITTERS
 
     public static final DeferredItem<Item> CRYODRAKON_SPAWN_EGG = ITEMS.register("cryodrakon_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.CRYODRAKON, 0xf7f4ef, 0x8d3824,
@@ -632,6 +644,10 @@ public class ModItems {
             () -> new DeferredSpawnEggItem(ModEntities.MAIP, 0x9ea9a3, 0x47534d,
                     new Item.Properties()));
 
+    public static final DeferredItem<Item> SAICHANIA_SPAWN_EGG = ITEMS.register("saichania_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.SAICHANIA, 0xd0c1b6, 0x937e75,
+                    new Item.Properties()));
+
     // FOODSTUFFS
     public static final DeferredItem<Item> RAW_CHEVON = ITEMS.register("raw_chevon",
             () -> new Item((new Item.Properties()).food(Foods.MUTTON)));
@@ -657,16 +673,18 @@ public class ModItems {
 
     // FOSSILS, PALAEONTOLOGY AND REVIVAL
     public static final DeferredItem<Item> FOSSIL = ITEMS.register("fossil",
-            () -> new FossilItem(new Item.Properties()));
+            () -> new FossilItem(new Item.Properties().stacksTo(1)));
 
-    // KEYS
-
+    // KEYS!
     public static final DeferredItem<Item> KEY = ITEMS.register("chest_key",
             () -> new KeyItem(new Item.Properties()));
 
     // MISC
     public static final DeferredItem<Item> SPIKED_HEAVY_CORE = ITEMS.register("spiked_heavy_core",
             () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> BESTIARY = ITEMS.register("bestiary",
+            () -> new BestiaryItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> OBSIDIAN_SHARD = ITEMS.register("obsidian_shard",
             () -> new Item(new Item.Properties()));
@@ -680,9 +698,6 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(ModFoodProperties.RAW_SHRIMP)));
 
     public static final DeferredItem<Item> IVORY = ITEMS.register("ivory",
-            () -> new Item(new Item.Properties()));
-
-    public static final DeferredItem<Item> BESTIARY = ITEMS.register("bestiary",
             () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> CHAKRAM = ITEMS.register("chakram",

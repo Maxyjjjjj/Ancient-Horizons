@@ -1,12 +1,10 @@
 {
-    "type": "neoforge:add_spawns",
-    "biomes": "#c:is_plains",
-    "spawners": [
-        {
-            "type": "ancienthorizons:ruff",
-            "weight": 6,
-            "minCount": 1,
-            "maxCount": 3
-        }
-    ]
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_plains",
+  "spawners": {
+    "type": "ancienthorizons:ruff",
+    "maxCount": 3,
+    "minCount": 1,
+    "weight": 6
+  }
 }

@@ -1,6 +1,7 @@
 package com.fungoussoup.ancienthorizons.registry;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
+import com.fungoussoup.ancienthorizons.bestiary.BestiaryData;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.*;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.azhdarchidae.CryodrakonEntity;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.sauropoda.DiplodocusEntity;
@@ -290,6 +291,14 @@ public class ModEntities {
             ENTITY_TYPES.register("maip", () -> EntityType.Builder.of(MaipEntity::new, MobCategory.CREATURE)
                     .sized(1f, 2.7f).build("maip"));
 
+    public static final Supplier<EntityType<SaichaniaEntity>> SAICHANIA =
+            ENTITY_TYPES.register("saichania", () -> EntityType.Builder.of(SaichaniaEntity::new, MobCategory.CREATURE)
+                    .sized(1f, 1.44f).build("saichania"));
+
+    public static final Supplier<EntityType<KoalaEntity>> KOALA =
+            ENTITY_TYPES.register("koala", () -> EntityType.Builder.of(KoalaEntity::new, MobCategory.CREATURE)
+                    .sized(0.375f, 0.565f).build("koala"));
+
     public static Supplier<EntityType<GallimimusEntity>> GALLIMIMUS =
             ENTITY_TYPES.register("gallimimus", () -> EntityType.Builder.of(GallimimusEntity::new, MobCategory.CREATURE)
                     .sized(1.4f, 2f).build("gallimimus"));
@@ -317,6 +326,10 @@ public class ModEntities {
     public static final Supplier<EntityType<MerganserEntity>> MERGANSER =
             ENTITY_TYPES.register("merganser", () -> EntityType.Builder.of(MerganserEntity::new, MobCategory.CREATURE)
                     .sized(0.25f, 0.53f).build("merganser"));
+
+    public static final Supplier<EntityType<RedPandaEntity>> RED_PANDA =
+            ENTITY_TYPES.register("red_panda", () -> EntityType.Builder.of(RedPandaEntity::new, MobCategory.CREATURE)
+                    .sized(0.375f, 0.625f).build("red_panda"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
