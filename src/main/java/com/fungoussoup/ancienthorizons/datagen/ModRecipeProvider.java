@@ -38,6 +38,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 ModBlocks.COBALT_ORE, ModBlocks.DEEPSLATE_COBALT_ORE);
         List<ItemLike> TUNGSTEN_SMELTABLES = List.of(ModItems.RAW_TUNGSTEN,
                 ModBlocks.TUNGSTEN_ORE, ModBlocks.DEEPSLATE_TUNGSTEN_ORE);
+        List<ItemLike> LEAD_SMELTABLES = List.of(ModItems.RAW_LEAD,
+                ModBlocks.LEAD_ORE, ModBlocks.DEEPSLATE_LEAD_ORE);
+        List<ItemLike> NICKEL_SMELTABLES = List.of(ModItems.RAW_NICKEL,
+                ModBlocks.NICKEL_ORE, ModBlocks.DEEPSLATE_NICKEL_ORE);
+        List<ItemLike> OSMIUM_SMELTABLES = List.of(ModItems.RAW_OSMIUM,
+                ModBlocks.OSMIUM_ORE, ModBlocks.DEEPSLATE_OSMIUM_ORE);
 
         // TIMESTONE
 
@@ -594,6 +600,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('/', Items.STICK)
                 .unlockedBy("has_platinum", has(ModItems.PLATINUM_INGOT)).save(recipeOutput, "platinum_hoe_alt");
 
+        oreSmelting(recipeOutput, PLATINUM_SMELTABLES, RecipeCategory.MISC, ModItems.PLATINUM_INGOT.get(), 0.25f,200,"platinum_ingot");
+        oreBlasting(recipeOutput, PLATINUM_SMELTABLES, RecipeCategory.MISC, ModItems.PLATINUM_INGOT.get(), 0.25f,100,"platinum_ingot");
+
         // COBALT
 
         // cobalt ingot
@@ -695,8 +704,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('/', Items.STICK)
                 .unlockedBy("has_cobalt", has(ModItems.COBALT_INGOT)).save(recipeOutput, "cobalt_hoe_alt");
 
-        oreSmelting(recipeOutput, PLATINUM_SMELTABLES, RecipeCategory.MISC, ModItems.PLATINUM_INGOT.get(), 0.25f,200,"platinum_ingot");
-        oreBlasting(recipeOutput, PLATINUM_SMELTABLES, RecipeCategory.MISC, ModItems.PLATINUM_INGOT.get(), 0.25f,100,"platinum_ingot");
+        oreSmelting(recipeOutput, COBALT_SMELTABLES, RecipeCategory.MISC, ModItems.COBALT_INGOT.get(), 0.25f,200,"cobalt_ingot");
+        oreBlasting(recipeOutput, COBALT_SMELTABLES, RecipeCategory.MISC, ModItems.COBALT_INGOT.get(), 0.25f,100,"cobalt_ingot");
 
         // TUNGSTEN
 
@@ -850,6 +859,313 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ZIRCON.get(), 9)
                 .requires(ModBlocks.ZIRCON_BLOCK)
                 .unlockedBy("has_zircon_block", has(ModBlocks.ZIRCON_BLOCK)).save(recipeOutput);
+
+        // LEAD
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.LEAD_INGOT.get(), 9)
+                .requires(ModBlocks.LEAD_BLOCK)
+                .unlockedBy("has_lead_block", has(ModBlocks.LEAD_BLOCK)).save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.RAW_LEAD.get(), 9)
+                .requires(ModBlocks.LEAD_BLOCK)
+                .unlockedBy("has_raw_lead_block", has(ModBlocks.RAW_LEAD_BLOCK)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.LEAD_BLOCK.get())
+                .pattern("XXX")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.RAW_LEAD_BLOCK.get())
+                .pattern("XXX")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.RAW_LEAD.get())
+                .unlockedBy("has_raw_lead", has(ModItems.RAW_LEAD)).save(recipeOutput);
+
+        // lead tools
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LEAD_SWORD.get())
+                .pattern("X")
+                .pattern("X")
+                .pattern("/")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LEAD_PICKAXE.get())
+                .pattern("XXX")
+                .pattern(" / ")
+                .pattern(" / ")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LEAD_AXE.get())
+                .pattern("XX")
+                .pattern("X/")
+                .pattern(" /")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LEAD_AXE.get())
+                .pattern("XX")
+                .pattern("/X")
+                .pattern("/ ")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput, "lead_axe_alt");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LEAD_SHOVEL.get())
+                .pattern("X")
+                .pattern("/")
+                .pattern("/")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LEAD_HOE.get())
+                .pattern("XX")
+                .pattern("/ ")
+                .pattern("/ ")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LEAD_HOE.get())
+                .pattern("XX")
+                .pattern(" /")
+                .pattern(" /")
+                .define('X', ModItems.LEAD_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_lead", has(ModItems.LEAD_INGOT)).save(recipeOutput, "lead_hoe_alt");
+
+        oreSmelting(recipeOutput, LEAD_SMELTABLES, RecipeCategory.MISC, ModItems.LEAD_INGOT.get(), 0.25f,200,"lead_ingot");
+        oreBlasting(recipeOutput, LEAD_SMELTABLES, RecipeCategory.MISC, ModItems.LEAD_INGOT.get(), 0.25f,100,"lead_ingot");
+
+        // NICKEL
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.NICKEL_INGOT.get(), 9)
+                .requires(ModBlocks.NICKEL_BLOCK)
+                .unlockedBy("has_nickel_block", has(ModBlocks.NICKEL_BLOCK)).save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.RAW_NICKEL.get(), 9)
+                .requires(ModBlocks.LEAD_BLOCK)
+                .unlockedBy("has_raw_nickel_block", has(ModBlocks.RAW_NICKEL_BLOCK)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.NICKEL_BLOCK.get())
+                .pattern("XXX")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.RAW_NICKEL_BLOCK.get())
+                .pattern("XXX")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.RAW_NICKEL.get())
+                .unlockedBy("has_raw_nickel", has(ModItems.RAW_NICKEL)).save(recipeOutput);
+
+        // nickel tools
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_SWORD.get())
+                .pattern("X")
+                .pattern("X")
+                .pattern("/")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_PICKAXE.get())
+                .pattern("XXX")
+                .pattern(" / ")
+                .pattern(" / ")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_AXE.get())
+                .pattern("XX")
+                .pattern("X/")
+                .pattern(" /")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_AXE.get())
+                .pattern("XX")
+                .pattern("/X")
+                .pattern("/ ")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput, "nickel_axe_alt");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_SHOVEL.get())
+                .pattern("X")
+                .pattern("/")
+                .pattern("/")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_HOE.get())
+                .pattern("XX")
+                .pattern("/ ")
+                .pattern("/ ")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_HOE.get())
+                .pattern("XX")
+                .pattern(" /")
+                .pattern(" /")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput, "nickel_hoe_alt");
+
+        // tungsten armour
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_HELMET.get())
+                .pattern("XXX")
+                .pattern("X X")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_CHESTPLATE.get())
+                .pattern("X X")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_LEGGINGS.get())
+                .pattern("XXX")
+                .pattern("X X")
+                .pattern("X X")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NICKEL_BOOTS.get())
+                .pattern("X X")
+                .pattern("X X")
+                .define('X', ModItems.NICKEL_INGOT.get())
+                .unlockedBy("has_nickel", has(ModItems.NICKEL_INGOT)).save(recipeOutput);
+
+
+        oreSmelting(recipeOutput, NICKEL_SMELTABLES, RecipeCategory.MISC, ModItems.NICKEL_INGOT.get(), 0.25f,200,"lead_ingot");
+        oreBlasting(recipeOutput, NICKEL_SMELTABLES, RecipeCategory.MISC, ModItems.NICKEL_INGOT.get(), 0.25f,100,"lead_ingot");
+
+        // OSMIUM
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.OSMIUM_INGOT.get(), 9)
+                .requires(ModBlocks.OSMIUM_BLOCK)
+                .unlockedBy("has_osmium_block", has(ModBlocks.OSMIUM_BLOCK))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.RAW_OSMIUM.get(), 9)
+                .requires(ModBlocks.RAW_OSMIUM_BLOCK)
+                .unlockedBy("has_raw_osmium_block", has(ModBlocks.RAW_OSMIUM_BLOCK))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.OSMIUM_BLOCK.get())
+                .pattern("XXX")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.RAW_OSMIUM_BLOCK.get())
+                .pattern("XXX")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.RAW_OSMIUM.get())
+                .unlockedBy("has_raw_osmium", has(ModItems.RAW_OSMIUM))
+                .save(recipeOutput);
+
+        // osmium tools
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_SWORD.get())
+                .pattern("X")
+                .pattern("X")
+                .pattern("/")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_PICKAXE.get())
+                .pattern("XXX")
+                .pattern(" / ")
+                .pattern(" / ")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_AXE.get())
+                .pattern("XX")
+                .pattern("X/")
+                .pattern(" /")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_AXE.get())
+                .pattern("XX")
+                .pattern("/X")
+                .pattern("/ ")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput, "osmium_axe_alt");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_SHOVEL.get())
+                .pattern("X")
+                .pattern("/")
+                .pattern("/")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_HOE.get())
+                .pattern("XX")
+                .pattern("/ ")
+                .pattern("/ ")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_HOE.get())
+                .pattern("XX")
+                .pattern(" /")
+                .pattern(" /")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .define('/', Items.STICK)
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput, "osmium_hoe_alt");
+
+// osmium armour
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_HELMET.get())
+                .pattern("XXX")
+                .pattern("X X")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_CHESTPLATE.get())
+                .pattern("X X")
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_LEGGINGS.get())
+                .pattern("XXX")
+                .pattern("X X")
+                .pattern("X X")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OSMIUM_BOOTS.get())
+                .pattern("X X")
+                .pattern("X X")
+                .define('X', ModItems.OSMIUM_INGOT.get())
+                .unlockedBy("has_osmium", has(ModItems.OSMIUM_INGOT))
+                .save(recipeOutput);
+
+        oreSmelting(recipeOutput, OSMIUM_SMELTABLES, RecipeCategory.MISC,
+                ModItems.OSMIUM_INGOT.get(), 0.4f, 200, "osmium_ingot");
+
+        oreBlasting(recipeOutput, OSMIUM_SMELTABLES, RecipeCategory.MISC,
+                ModItems.OSMIUM_INGOT.get(), 0.4f, 100, "osmium_ingot");
 
         // WILLOW
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.WILLOW_WOOD.get(),3)

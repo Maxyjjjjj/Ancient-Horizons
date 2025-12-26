@@ -33,9 +33,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.RAW_TIMESTONE_BLOCK.get());
 
         add(ModBlocks.TIMESTONE_ORE.get(),
-                block -> createMultipleOreDrops(ModBlocks.TIMESTONE_ORE.get(), ModItems.RAW_TIME_STONE.get(), 0,3));
+                createMultipleOreDrops(ModBlocks.TIMESTONE_ORE.get(), ModItems.RAW_TIME_STONE.get(), 0,3));
         add(ModBlocks.DEEPSLATE_TIMESTONE_ORE.get(),
-                block -> createMultipleOreDrops(ModBlocks.DEEPSLATE_TIMESTONE_ORE.get(), ModItems.RAW_TIME_STONE.get(), 0,3));
+                createMultipleOreDrops(ModBlocks.DEEPSLATE_TIMESTONE_ORE.get(), ModItems.RAW_TIME_STONE.get(), 0,3));
 
 
         // ALUMINIUM
@@ -43,9 +43,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.RAW_ALUMINIUM_BLOCK.get());
 
         add(ModBlocks.ALUMINIUM_ORE.get(),
-                block -> createOreDrop(ModBlocks.ALUMINIUM_ORE.get(), ModItems.RAW_ALUMINIUM.get()));
+                createOreDrop(ModBlocks.ALUMINIUM_ORE.get(), ModItems.RAW_ALUMINIUM.get()));
         add(ModBlocks.DEEPSLATE_ALUMINIUM_ORE.get(),
-                block -> createOreDrop(ModBlocks.DEEPSLATE_ALUMINIUM_ORE.get(), ModItems.RAW_ALUMINIUM.get()));
+                createOreDrop(ModBlocks.DEEPSLATE_ALUMINIUM_ORE.get(), ModItems.RAW_ALUMINIUM.get()));
 
 
         // TIN
@@ -54,18 +54,18 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.CUT_TIN_STAIRS.get());
         add(ModBlocks.CUT_TIN_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.CUT_TIN_SLAB.get()));
+                createSlabItemTable(ModBlocks.CUT_TIN_SLAB.get()));
         dropSelf(ModBlocks.CUT_TIN.get());
         dropSelf(ModBlocks.CHISELED_TIN.get());
         dropSelf(ModBlocks.TIN_GRATE.get());
         dropSelf(ModBlocks.TIN_TRAPDOOR.get());
         add(ModBlocks.TIN_DOOR.get(),
-                block -> createDoorTable(ModBlocks.TIN_DOOR.get()));
+                createDoorTable(ModBlocks.TIN_DOOR.get()));
 
         add(ModBlocks.TIN_ORE.get(),
-                block -> createOreDrop(ModBlocks.TIN_ORE.get(), ModItems.RAW_TIN.get()));
+                createOreDrop(ModBlocks.TIN_ORE.get(), ModItems.RAW_TIN.get()));
         add(ModBlocks.DEEPSLATE_TIN_ORE.get(),
-                block -> createOreDrop(ModBlocks.DEEPSLATE_TIN_ORE.get(), ModItems.RAW_TIN.get()));
+                createOreDrop(ModBlocks.DEEPSLATE_TIN_ORE.get(), ModItems.RAW_TIN.get()));
 
 
         // BRONZE
@@ -77,9 +77,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.SILVER_BLOCK.get());
 
         add(ModBlocks.SILVER_ORE.get(),
-                block -> createOreDrop(ModBlocks.SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
+                createOreDrop(ModBlocks.SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
         add(ModBlocks.DEEPSLATE_SILVER_ORE.get(),
-                block -> createOreDrop(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
+                createOreDrop(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
 
 
         // PLATINUM
@@ -88,9 +88,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
 
         add(ModBlocks.PLATINUM_ORE.get(),
-                block -> createOreDrop(ModBlocks.PLATINUM_ORE.get(), ModItems.RAW_PLATINUM.get()));
+                createOreDrop(ModBlocks.PLATINUM_ORE.get(), ModItems.RAW_PLATINUM.get()));
         add(ModBlocks.DEEPSLATE_PLATINUM_ORE.get(),
-                block -> createOreDrop(ModBlocks.DEEPSLATE_PLATINUM_ORE.get(), ModItems.RAW_PLATINUM.get()));
+                createOreDrop(ModBlocks.DEEPSLATE_PLATINUM_ORE.get(), ModItems.RAW_PLATINUM.get()));
 
 
         // COBALT
@@ -98,9 +98,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.COBALT_BLOCK.get());
 
         add(ModBlocks.COBALT_ORE.get(),
-                block -> createOreDrop(ModBlocks.COBALT_ORE.get(), ModItems.RAW_COBALT.get()));
+                createOreDrop(ModBlocks.COBALT_ORE.get(), ModItems.RAW_COBALT.get()));
         add(ModBlocks.DEEPSLATE_COBALT_ORE.get(),
-                block -> createOreDrop(ModBlocks.DEEPSLATE_COBALT_ORE.get(), ModItems.RAW_COBALT.get()));
+                createOreDrop(ModBlocks.DEEPSLATE_COBALT_ORE.get(), ModItems.RAW_COBALT.get()));
 
 
         // TUNGSTEN
@@ -109,28 +109,54 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.CUT_TUNGSTEN_STAIRS.get());
         add(ModBlocks.CUT_TUNGSTEN_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.CUT_TUNGSTEN_SLAB.get()));
+                createSlabItemTable(ModBlocks.CUT_TUNGSTEN_SLAB.get()));
         dropSelf(ModBlocks.CUT_TUNGSTEN.get());
         dropSelf(ModBlocks.CHISELED_TUNGSTEN.get());
         dropSelf(ModBlocks.TUNGSTEN_GRATE.get());
         dropSelf(ModBlocks.TUNGSTEN_TRAPDOOR.get());
         add(ModBlocks.TUNGSTEN_DOOR.get(),
-                block -> createDoorTable(ModBlocks.TUNGSTEN_DOOR.get()));
+                createDoorTable(ModBlocks.TUNGSTEN_DOOR.get()));
 
         add(ModBlocks.TUNGSTEN_ORE.get(),
-                block -> createOreDrop(ModBlocks.TUNGSTEN_ORE.get(), ModItems.RAW_TUNGSTEN.get()));
+                createOreDrop(ModBlocks.TUNGSTEN_ORE.get(), ModItems.RAW_TUNGSTEN.get()));
         add(ModBlocks.DEEPSLATE_TUNGSTEN_ORE.get(),
-                block -> createOreDrop(ModBlocks.DEEPSLATE_TUNGSTEN_ORE.get(), ModItems.RAW_TUNGSTEN.get()));
+                createOreDrop(ModBlocks.DEEPSLATE_TUNGSTEN_ORE.get(), ModItems.RAW_TUNGSTEN.get()));
 
 
         // ZIRCON
         dropSelf(ModBlocks.ZIRCON_BLOCK.get());
 
         add(ModBlocks.ZIRCON_ORE.get(),
-                block -> createOreDrop(ModBlocks.ZIRCON_ORE.get(), ModItems.ZIRCON.get()));
+                createOreDrop(ModBlocks.ZIRCON_ORE.get(), ModItems.ZIRCON.get()));
         add(ModBlocks.DEEPSLATE_ZIRCON_ORE.get(),
-                block -> createOreDrop(ModBlocks.DEEPSLATE_ZIRCON_ORE.get(), ModItems.ZIRCON.get()));
+                createOreDrop(ModBlocks.DEEPSLATE_ZIRCON_ORE.get(), ModItems.ZIRCON.get()));
 
+        // NICKEL
+        dropSelf(ModBlocks.RAW_NICKEL_BLOCK.get());
+        dropSelf(ModBlocks.NICKEL_BLOCK.get());
+
+        add(ModBlocks.NICKEL_ORE.get(),
+                createOreDrop(ModBlocks.NICKEL_ORE.get(), ModItems.RAW_NICKEL.get()));
+        add(ModBlocks.DEEPSLATE_NICKEL_ORE.get(),
+                createOreDrop(ModBlocks.DEEPSLATE_NICKEL_ORE.get(), ModItems.RAW_NICKEL.get()));
+
+        // OSMIUM
+        dropSelf(ModBlocks.RAW_OSMIUM_BLOCK.get());
+        dropSelf(ModBlocks.OSMIUM_BLOCK.get());
+
+        add(ModBlocks.OSMIUM_ORE.get(),
+                createOreDrop(ModBlocks.OSMIUM_ORE.get(), ModItems.RAW_OSMIUM.get()));
+        add(ModBlocks.DEEPSLATE_OSMIUM_ORE.get(),
+                createOreDrop(ModBlocks.DEEPSLATE_OSMIUM_ORE.get(), ModItems.RAW_OSMIUM.get()));
+
+        // LEAD
+        dropSelf(ModBlocks.RAW_LEAD_BLOCK.get());
+        dropSelf(ModBlocks.LEAD_BLOCK.get());
+
+        add(ModBlocks.LEAD_ORE.get(),
+                createOreDrop(ModBlocks.LEAD_ORE.get(), ModItems.RAW_LEAD.get()));
+        add(ModBlocks.DEEPSLATE_LEAD_ORE.get(),
+                createOreDrop(ModBlocks.DEEPSLATE_LEAD_ORE.get(), ModItems.RAW_LEAD.get()));
 
         // WILLOW
         dropSelf(ModBlocks.WILLOW_LOG.get());
@@ -145,7 +171,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.WILLOW_STAIRS.get());
         add(ModBlocks.WILLOW_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.WILLOW_SLAB.get()));
+                createSlabItemTable(ModBlocks.WILLOW_SLAB.get()));
         dropSelf(ModBlocks.WILLOW_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.WILLOW_BUTTON.get());
         dropSelf(ModBlocks.WILLOW_FENCE.get());
@@ -153,7 +179,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.WILLOW_TRAPDOOR.get());
 
         add(ModBlocks.WILLOW_DOOR.get(),
-                block -> createDoorTable(ModBlocks.WILLOW_DOOR.get()));
+                createDoorTable(ModBlocks.WILLOW_DOOR.get()));
 
         // HORNBEAM
         dropSelf(ModBlocks.HORNBEAM_LOG.get());
@@ -168,7 +194,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.HORNBEAM_STAIRS.get());
         add(ModBlocks.HORNBEAM_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.HORNBEAM_SLAB.get()));
+                createSlabItemTable(ModBlocks.HORNBEAM_SLAB.get()));
         dropSelf(ModBlocks.HORNBEAM_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.HORNBEAM_BUTTON.get());
         dropSelf(ModBlocks.HORNBEAM_FENCE.get());
@@ -176,7 +202,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.HORNBEAM_TRAPDOOR.get());
 
         add(ModBlocks.HORNBEAM_DOOR.get(),
-                block -> createDoorTable(ModBlocks.HORNBEAM_DOOR.get()));
+                createDoorTable(ModBlocks.HORNBEAM_DOOR.get()));
 
         // LINDEN
         dropSelf(ModBlocks.LINDEN_LOG.get());
@@ -191,7 +217,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.LINDEN_STAIRS.get());
         add(ModBlocks.LINDEN_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.LINDEN_SLAB.get()));
+                createSlabItemTable(ModBlocks.LINDEN_SLAB.get()));
         dropSelf(ModBlocks.LINDEN_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.LINDEN_BUTTON.get());
         dropSelf(ModBlocks.LINDEN_FENCE.get());
@@ -199,7 +225,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.LINDEN_TRAPDOOR.get());
 
         add(ModBlocks.LINDEN_DOOR.get(),
-                block -> createDoorTable(ModBlocks.LINDEN_DOOR.get()));
+                createDoorTable(ModBlocks.LINDEN_DOOR.get()));
         
         // GINGKO
         dropSelf(ModBlocks.GINKGO_LOG.get());
@@ -214,7 +240,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.GINKGO_STAIRS.get());
         add(ModBlocks.GINKGO_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.GINKGO_SLAB.get()));
+                createSlabItemTable(ModBlocks.GINKGO_SLAB.get()));
         dropSelf(ModBlocks.GINKGO_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.GINKGO_BUTTON.get());
         dropSelf(ModBlocks.GINKGO_FENCE.get());
@@ -222,7 +248,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.GINKGO_TRAPDOOR.get());
 
         add(ModBlocks.GINKGO_DOOR.get(),
-                block -> createDoorTable(ModBlocks.GINKGO_DOOR.get()));
+                createDoorTable(ModBlocks.GINKGO_DOOR.get()));
         
         // POPLAR
         dropSelf(ModBlocks.POPLAR_LOG.get());
@@ -237,7 +263,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.POPLAR_STAIRS.get());
         add(ModBlocks.POPLAR_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.POPLAR_SLAB.get()));
+                createSlabItemTable(ModBlocks.POPLAR_SLAB.get()));
         dropSelf(ModBlocks.POPLAR_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.POPLAR_BUTTON.get());
         dropSelf(ModBlocks.POPLAR_FENCE.get());
@@ -245,7 +271,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.POPLAR_TRAPDOOR.get());
 
         add(ModBlocks.POPLAR_DOOR.get(),
-                block -> createDoorTable(ModBlocks.POPLAR_DOOR.get()));
+                createDoorTable(ModBlocks.POPLAR_DOOR.get()));
         
         // MAPLE
         dropSelf(ModBlocks.MAPLE_LOG.get());
@@ -260,7 +286,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.MAPLE_STAIRS.get());
         add(ModBlocks.MAPLE_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.MAPLE_SLAB.get()));
+                createSlabItemTable(ModBlocks.MAPLE_SLAB.get()));
         dropSelf(ModBlocks.MAPLE_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.MAPLE_BUTTON.get());
         dropSelf(ModBlocks.MAPLE_FENCE.get());
@@ -268,7 +294,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.MAPLE_TRAPDOOR.get());
 
         add(ModBlocks.MAPLE_DOOR.get(),
-                block -> createDoorTable(ModBlocks.MAPLE_DOOR.get()));
+                createDoorTable(ModBlocks.MAPLE_DOOR.get()));
         
         // BAOBAB
         dropSelf(ModBlocks.BAOBAB_LOG.get());
@@ -283,7 +309,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.BAOBAB_STAIRS.get());
         add(ModBlocks.BAOBAB_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.BAOBAB_SLAB.get()));
+                createSlabItemTable(ModBlocks.BAOBAB_SLAB.get()));
         dropSelf(ModBlocks.BAOBAB_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.BAOBAB_BUTTON.get());
         dropSelf(ModBlocks.BAOBAB_FENCE.get());
@@ -291,7 +317,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BAOBAB_TRAPDOOR.get());
 
         add(ModBlocks.BAOBAB_DOOR.get(),
-                block -> createDoorTable(ModBlocks.BAOBAB_DOOR.get()));
+                createDoorTable(ModBlocks.BAOBAB_DOOR.get()));
 
         // PALM
         dropSelf(ModBlocks.PALM_LOG.get());
@@ -306,7 +332,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.PALM_STAIRS.get());
         add(ModBlocks.PALM_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.PALM_SLAB.get()));
+                createSlabItemTable(ModBlocks.PALM_SLAB.get()));
         dropSelf(ModBlocks.PALM_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.PALM_BUTTON.get());
         dropSelf(ModBlocks.PALM_FENCE.get());
@@ -314,7 +340,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.PALM_TRAPDOOR.get());
 
         add(ModBlocks.PALM_DOOR.get(),
-                block -> createDoorTable(ModBlocks.PALM_DOOR.get()));
+                createDoorTable(ModBlocks.PALM_DOOR.get()));
 
         // ASPEN
         dropSelf(ModBlocks.ASPEN_LOG.get());
@@ -329,7 +355,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.ASPEN_STAIRS.get());
         add(ModBlocks.ASPEN_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.ASPEN_SLAB.get()));
+                createSlabItemTable(ModBlocks.ASPEN_SLAB.get()));
         dropSelf(ModBlocks.ASPEN_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.ASPEN_BUTTON.get());
         dropSelf(ModBlocks.ASPEN_FENCE.get());
@@ -337,7 +363,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.ASPEN_TRAPDOOR.get());
 
         add(ModBlocks.ASPEN_DOOR.get(),
-                block -> createDoorTable(ModBlocks.ASPEN_DOOR.get()));
+                createDoorTable(ModBlocks.ASPEN_DOOR.get()));
 
         // ASH
         dropSelf(ModBlocks.ASH_LOG.get());
@@ -352,7 +378,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.ASH_STAIRS.get());
         add(ModBlocks.ASH_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.ASH_SLAB.get()));
+                createSlabItemTable(ModBlocks.ASH_SLAB.get()));
         dropSelf(ModBlocks.ASH_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.ASH_BUTTON.get());
         dropSelf(ModBlocks.ASH_FENCE.get());
@@ -360,7 +386,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.ASH_TRAPDOOR.get());
 
         add(ModBlocks.ASH_DOOR.get(),
-                block -> createDoorTable(ModBlocks.ASH_DOOR.get()));
+                createDoorTable(ModBlocks.ASH_DOOR.get()));
 
         // BEECH
         dropSelf(ModBlocks.BEECH_LOG.get());
@@ -375,7 +401,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.BEECH_STAIRS.get());
         add(ModBlocks.BEECH_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.BEECH_SLAB.get()));
+                createSlabItemTable(ModBlocks.BEECH_SLAB.get()));
         dropSelf(ModBlocks.BEECH_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.BEECH_BUTTON.get());
         dropSelf(ModBlocks.BEECH_FENCE.get());
@@ -383,7 +409,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BEECH_TRAPDOOR.get());
 
         add(ModBlocks.BEECH_DOOR.get(),
-                block -> createDoorTable(ModBlocks.BEECH_DOOR.get()));
+                createDoorTable(ModBlocks.BEECH_DOOR.get()));
 
         // EUCALYPTUS
         dropSelf(ModBlocks.EUCALYPTUS_LOG.get());
@@ -398,7 +424,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.EUCALYPTUS_STAIRS.get());
         add(ModBlocks.EUCALYPTUS_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.EUCALYPTUS_SLAB.get()));
+                createSlabItemTable(ModBlocks.EUCALYPTUS_SLAB.get()));
         dropSelf(ModBlocks.EUCALYPTUS_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.EUCALYPTUS_BUTTON.get());
         dropSelf(ModBlocks.EUCALYPTUS_FENCE.get());
@@ -406,7 +432,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.EUCALYPTUS_TRAPDOOR.get());
 
         add(ModBlocks.EUCALYPTUS_DOOR.get(),
-                block -> createDoorTable(ModBlocks.EUCALYPTUS_DOOR.get()));
+                createDoorTable(ModBlocks.EUCALYPTUS_DOOR.get()));
 
         // SYCAMORE
         dropSelf(ModBlocks.SYCAMORE_LOG.get());
@@ -421,7 +447,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.SYCAMORE_STAIRS.get());
         add(ModBlocks.SYCAMORE_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.SYCAMORE_SLAB.get()));
+                createSlabItemTable(ModBlocks.SYCAMORE_SLAB.get()));
         dropSelf(ModBlocks.SYCAMORE_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.SYCAMORE_BUTTON.get());
         dropSelf(ModBlocks.SYCAMORE_FENCE.get());
@@ -429,7 +455,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.SYCAMORE_TRAPDOOR.get());
 
         add(ModBlocks.SYCAMORE_DOOR.get(),
-                block -> createDoorTable(ModBlocks.SYCAMORE_DOOR.get()));
+                createDoorTable(ModBlocks.SYCAMORE_DOOR.get()));
 
         // REDWOOD
         dropSelf(ModBlocks.REDWOOD_LOG.get());
@@ -444,7 +470,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.REDWOOD_STAIRS.get());
         add(ModBlocks.REDWOOD_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.REDWOOD_SLAB.get()));
+                createSlabItemTable(ModBlocks.REDWOOD_SLAB.get()));
         dropSelf(ModBlocks.REDWOOD_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.REDWOOD_BUTTON.get());
         dropSelf(ModBlocks.REDWOOD_FENCE.get());
@@ -452,7 +478,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.REDWOOD_TRAPDOOR.get());
 
         add(ModBlocks.REDWOOD_DOOR.get(),
-                block -> createDoorTable(ModBlocks.REDWOOD_DOOR.get()));
+                createDoorTable(ModBlocks.REDWOOD_DOOR.get()));
 
         // MONKEY_PUZZLE
         dropSelf(ModBlocks.MONKEY_PUZZLE_LOG.get());
@@ -467,7 +493,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.MONKEY_PUZZLE_STAIRS.get());
         add(ModBlocks.MONKEY_PUZZLE_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.MONKEY_PUZZLE_SLAB.get()));
+                createSlabItemTable(ModBlocks.MONKEY_PUZZLE_SLAB.get()));
         dropSelf(ModBlocks.MONKEY_PUZZLE_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.MONKEY_PUZZLE_BUTTON.get());
         dropSelf(ModBlocks.MONKEY_PUZZLE_FENCE.get());
@@ -475,7 +501,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.MONKEY_PUZZLE_TRAPDOOR.get());
 
         add(ModBlocks.MONKEY_PUZZLE_DOOR.get(),
-                block -> createDoorTable(ModBlocks.MONKEY_PUZZLE_DOOR.get()));
+                createDoorTable(ModBlocks.MONKEY_PUZZLE_DOOR.get()));
 
         // YEW
         dropSelf(ModBlocks.YEW_LOG.get());
@@ -490,7 +516,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.YEW_STAIRS.get());
         add(ModBlocks.YEW_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.YEW_SLAB.get()));
+                createSlabItemTable(ModBlocks.YEW_SLAB.get()));
         dropSelf(ModBlocks.YEW_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.YEW_BUTTON.get());
         dropSelf(ModBlocks.YEW_FENCE.get());
@@ -498,9 +524,11 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.YEW_TRAPDOOR.get());
 
         add(ModBlocks.YEW_DOOR.get(),
-                block -> createDoorTable(ModBlocks.YEW_DOOR.get()));
+                createDoorTable(ModBlocks.YEW_DOOR.get()));
 
         dropSelf(ModBlocks.PENGUIN_EGG.get());
+        dropSelf(ModBlocks.STINKHORN.get());
+        add(ModBlocks.STINKHORN_BLOCK.get(), p_249169_ -> createMushroomBlockDrop(p_249169_, ModBlocks.STINKHORN));
 
     }
 

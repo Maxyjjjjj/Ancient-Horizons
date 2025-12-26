@@ -1,7 +1,17 @@
 {
-  "replace": false,
   "values": [
     "ancienthorizons:tiger",
-    "ancienthorizons:snow_leopard"
+    "ancienthorizons:snow_leopard",
+    "ancienthorizons:monkey",
+    "ancienthorizons:bactrian_camel",
+    "ancienthorizons:brown_bear",
+    "ancienthorizons:stoat",
+    "ancienthorizons:fisher",
+    "ancienthorizons:wolverine",
+    "ancienthorizons:red_panda",
+    "ancienthorizons:penguin",
+    "ancienthorizons:hare",
+    "ancienthorizons:roe_deer",
+    "ancienthorizons:deer"
   ]
 }

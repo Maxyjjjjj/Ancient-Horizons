@@ -1,18 +1,10 @@
 {
   "values": [
-    "minecraft:armadillo",
     "minecraft:chicken",
-    "ancienthorizons:domestic_goat",
-    "minecraft:goat",
     "minecraft:rabbit",
-    "ancienthorizons:pheasant",
+    "minecraft:cod",
+    "minecraft:salmon",
     "ancienthorizons:hare",
-    "minecraft:sheep",
-    "minecraft:cow",
-    "minecraft:mooshroom",
-    "minecraft:pig",
-    "ancienthorizons:deer",
-    "ancienthorizons:roe_deer",
-    "ancienthorizons:hypnovenator"
+    "ancienthorizons:pheasant"
   ]
 }

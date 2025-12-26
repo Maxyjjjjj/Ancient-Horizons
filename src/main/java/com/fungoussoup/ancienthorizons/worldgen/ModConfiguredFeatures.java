@@ -2,11 +2,13 @@ package com.fungoussoup.ancienthorizons.worldgen;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.registry.ModBlocks;
+import com.fungoussoup.ancienthorizons.registry.ModFeatures;
 import com.fungoussoup.ancienthorizons.worldgen.feature.PalmFoliagePlacer;
 import com.fungoussoup.ancienthorizons.worldgen.feature.PalmTrunkPlacer;
 import com.fungoussoup.ancienthorizons.worldgen.feature.WillowTrunkPlacer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -16,9 +18,12 @@ import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.util.valueproviders.WeightedListInt;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HugeMushroomBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.ThreeLayersFeatureSize;
@@ -59,6 +64,8 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> REDWOOD_KEY = registerKey("redwood");
     public static final ResourceKey<ConfiguredFeature<?, ?>> MONKEY_PUZZLE_KEY = registerKey("monkey_puzzle");
     public static final ResourceKey<ConfiguredFeature<?, ?>> YEW_KEY = registerKey("yew");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HUGE_STINKHORN = registerKey("huge_stinkhorn");
+
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
@@ -218,6 +225,12 @@ public class ModConfiguredFeatures {
                 new BushFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 3),
                 new TwoLayersFeatureSize(1, 0, 1)).build());
 
+        register(
+                context,
+                HUGE_STINKHORN,
+                ModFeatures.HUGE_STINKHORN_MUSHROOM.get(),
+                new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(ModBlocks.STINKHORN_BLOCK.get()), BlockStateProvider.simple(Blocks.MUSHROOM_STEM), 3)
+        );
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {

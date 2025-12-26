@@ -1,7 +1,8 @@
 {
   "values": [
-    "ancienthorizons:earthworm",
     "minecraft:bee",
-    "minecraft:silverfish"
+    "minecraft:silverfish",
+    "ancienthorizons:earthworm",
+    "ancienthorizons:cicada"
   ]
 }

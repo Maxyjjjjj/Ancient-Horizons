@@ -25,6 +25,7 @@ import com.fungoussoup.ancienthorizons.entity.client.hare.HareModel;
 import com.fungoussoup.ancienthorizons.entity.client.hippo.HippopotamusModel;
 import com.fungoussoup.ancienthorizons.entity.client.hoatzin.HoatzinModel;
 import com.fungoussoup.ancienthorizons.entity.client.hypnovenator.HypnovenatorModel;
+import com.fungoussoup.ancienthorizons.entity.client.koala.KoalaModel;
 import com.fungoussoup.ancienthorizons.entity.client.large_azhdarchid.CryodrakonModel;
 import com.fungoussoup.ancienthorizons.entity.client.latenivenatrix.LatenivenatrixModel;
 import com.fungoussoup.ancienthorizons.entity.client.lion.LionModel;
@@ -38,9 +39,11 @@ import com.fungoussoup.ancienthorizons.entity.client.penguin.PenguinModel;
 import com.fungoussoup.ancienthorizons.entity.client.pheasant.PheasantModel;
 import com.fungoussoup.ancienthorizons.entity.client.philippine_eagle.PhilippineEagleModel;
 import com.fungoussoup.ancienthorizons.entity.client.raccoon.RaccoonModel;
+import com.fungoussoup.ancienthorizons.entity.client.red_panda.RedPandaModel;
 import com.fungoussoup.ancienthorizons.entity.client.roadrunner.RoadrunnerModel;
 import com.fungoussoup.ancienthorizons.entity.client.roe_deer.RoeDeerModel;
 import com.fungoussoup.ancienthorizons.entity.client.ruff.RuffModel;
+import com.fungoussoup.ancienthorizons.entity.client.saichania.SaichaniaModel;
 import com.fungoussoup.ancienthorizons.entity.client.saola.SaolaModel;
 import com.fungoussoup.ancienthorizons.entity.client.sauropod.DiplodocusModel;
 import com.fungoussoup.ancienthorizons.entity.client.seagull.SeagullModel;
@@ -126,6 +129,9 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(LatenivenatrixModel.LAYER_LOCATION, LatenivenatrixModel::createBodyLayer);
         event.registerLayerDefinition(WildebeestModel.LAYER_LOCATION, WildebeestModel::createBodyLayer);
         event.registerLayerDefinition(MaipModel.LAYER_LOCATION, MaipModel::createBodyLayer);
+        event.registerLayerDefinition(SaichaniaModel.LAYER_LOCATION, SaichaniaModel::createBodyLayer);
+        event.registerLayerDefinition(RedPandaModel.LAYER_LOCATION, RedPandaModel::createBodyLayer);
+        event.registerLayerDefinition(KoalaModel.LAYER_LOCATION, KoalaModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -198,6 +204,9 @@ public class ModEventBusEvents {
         event.put(LATENIVENATRIX.get(), LatenivenatrixEntity.createAttributes().build());
         event.put(WILDEBEEST.get(), WildebeestEntity.createAttributes().build());
         event.put(MAIP.get(), MaipEntity.createAttributes().build());
+        event.put(SAICHANIA.get(), SaichaniaEntity.createAttributes().build());
+        event.put(RED_PANDA.get(), RedPandaEntity.createAttributes().build());
+        event.put(KOALA.get(), KoalaEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -244,7 +253,7 @@ public class ModEventBusEvents {
         event.register(FISHER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(HOATZIN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(DIPLODOCUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(ROADRUNNER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(ROADRUNNER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RoadrunnerEntity::checkRoadrunnerSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(HARE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(CICADA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(HYPNOVENATOR.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
@@ -268,5 +277,8 @@ public class ModEventBusEvents {
         event.register(LATENIVENATRIX.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(WILDEBEEST.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(MAIP.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(SAICHANIA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(RED_PANDA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(KOALA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }

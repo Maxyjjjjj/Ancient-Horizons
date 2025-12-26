@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.25,
+  "group": "cobalt_ingot",
+  "ingredient": {
+    "item": "ancienthorizons:cobalt_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "ancienthorizons:cobalt_ingot"
+  }
+}

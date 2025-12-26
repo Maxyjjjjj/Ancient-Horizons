@@ -83,40 +83,6 @@ public class SeagullEntity extends Animal implements SemiFlyer {
         builder.define(CARRYING_FOOD, false);
     }
 
-    @Override
-    public void startFlying() {
-        if (this.isFlying()) return;
-        this.setFlying(true);
-        this.setNoGravity(true);
-        this.playSound(SoundEvents.PARROT_FLY, 0.8F, 1.2F);
-        this.setDeltaMovement(this.getDeltaMovement().add(0, 0.5, 0));
-    }
-
-    @Override
-    public void stopFlying() {
-        if (!this.isFlying()) return;
-        this.setFlying(false);
-        this.setNoGravity(false);
-        this.isLanding = false;
-    }
-
-    private void updateFlightState() {
-        boolean wasFlying = this.isFlying();
-        boolean shouldFly = this.shouldStartFlying();
-        boolean shouldLand = this.shouldLand();
-
-        if (!wasFlying && shouldFly) {
-            this.startFlying();
-        } else if (wasFlying && shouldLand) {
-            this.stopFlying();
-        }
-
-        // Update navigation based on flight state
-        if (this.isFlying() != wasFlying) {
-            this.navigation = this.isFlying() ? this.flyingNavigation : this.groundNavigation;
-        }
-    }
-
     private boolean shouldStartFlying() {
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             return this.onGround() && this.getDeltaMovement().horizontalDistance() > 0.1;
@@ -162,6 +128,17 @@ public class SeagullEntity extends Animal implements SemiFlyer {
     public boolean isFlying() {
         return this.entityData.get(FLYING);
     }
+
+    @Override
+    public void startFlying() {
+        setFlying(true);
+    }
+
+    @Override
+    public void stopFlying() {
+        setFlying(false);
+    }
+
 
     @Override
     public boolean canFly() {
@@ -328,10 +305,6 @@ public class SeagullEntity extends Animal implements SemiFlyer {
 
         if (this.isFlying() && this.getHungerLevel() < 10) {
             this.tryToLand();
-        }
-
-        if (!this.level().isClientSide) {
-            this.updateFlightState();
         }
     }
 
@@ -534,6 +507,19 @@ public class SeagullEntity extends Animal implements SemiFlyer {
             this.roostPos = BlockPos.of(tag.getLong("RoostPos"));
         }
     }
+
+    public boolean wantsToFly() {
+        if (this.isSitting()) return false;
+        if (this.isHungry && this.getHungerLevel() < 10) return false;
+        return this.onGround() || this.getDeltaMovement().y < -0.1;
+    }
+
+    public boolean wantsToLand() {
+        return this.isHungry
+                || this.idleFlightTimer > 1200
+                || this.isLanding;
+    }
+
 
     @Override
     public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource damageSource) {

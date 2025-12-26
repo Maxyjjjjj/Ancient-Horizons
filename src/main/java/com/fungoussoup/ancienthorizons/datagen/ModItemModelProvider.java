@@ -53,12 +53,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ALUMINIUM_INGOT.get());
         basicItem(ModItems.ALUMINIUM_NUGGET.get());
 
-        handheldItem(ModItems.ALUMINIUM_SWORD.get());
-        handheldItem(ModItems.ALUMINIUM_PICKAXE.get());
-        handheldItem(ModItems.ALUMINIUM_AXE.get());
-        handheldItem(ModItems.ALUMINIUM_SHOVEL.get());
-        handheldItem(ModItems.ALUMINIUM_HOE.get());
-        handheldItem(ModItems.ALUMINIUM_HAMMER.get());
+        handheldItem(ModItems.ALUMINIUM_SWORD);
+        handheldItem(ModItems.ALUMINIUM_PICKAXE);
+        handheldItem(ModItems.ALUMINIUM_AXE);
+        handheldItem(ModItems.ALUMINIUM_SHOVEL);
+        handheldItem(ModItems.ALUMINIUM_HOE);
+        handheldItem(ModItems.ALUMINIUM_HAMMER);
 
         trimmedArmorItem(ModItems.ALUMINIUM_HELMET);
         trimmedArmorItem(ModItems.ALUMINIUM_CHESTPLATE);
@@ -76,11 +76,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.BRONZE_ALLOY.get());
         basicItem(ModItems.BRONZE_NUGGET.get());
 
-        handheldItem(ModItems.BRONZE_SWORD.get());
-        handheldItem(ModItems.BRONZE_PICKAXE.get());
-        handheldItem(ModItems.BRONZE_AXE.get());
-        handheldItem(ModItems.BRONZE_SHOVEL.get());
-        handheldItem(ModItems.BRONZE_HOE.get());
+        handheldItem(ModItems.BRONZE_SWORD);
+        handheldItem(ModItems.BRONZE_PICKAXE);
+        handheldItem(ModItems.BRONZE_AXE);
+        handheldItem(ModItems.BRONZE_SHOVEL);
+        handheldItem(ModItems.BRONZE_HOE);
 
         trimmedArmorItem(ModItems.BRONZE_HELMET);
         trimmedArmorItem(ModItems.BRONZE_CHESTPLATE);
@@ -92,12 +92,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.SILVER_NUGGET.get());
         basicItem(ModItems.RAW_SILVER.get());
 
-        handheldItem(ModItems.SILVER_SWORD.get());
-        handheldItem(ModItems.SILVER_PICKAXE.get());
-        handheldItem(ModItems.SILVER_AXE.get());
-        handheldItem(ModItems.SILVER_SHOVEL.get());
-        handheldItem(ModItems.SILVER_HOE.get());
-        handheldItem(ModItems.SILVER_KATANA.get());
+        handheldItem(ModItems.SILVER_SWORD);
+        handheldItem(ModItems.SILVER_PICKAXE);
+        handheldItem(ModItems.SILVER_AXE);
+        handheldItem(ModItems.SILVER_SHOVEL);
+        handheldItem(ModItems.SILVER_HOE);
+        handheldItem(ModItems.SILVER_KATANA);
 
         trimmedArmorItem(ModItems.SILVER_HELMET);
         trimmedArmorItem(ModItems.SILVER_CHESTPLATE);
@@ -109,11 +109,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.PLATINUM_NUGGET.get());
         basicItem(ModItems.RAW_PLATINUM.get());
 
-        handheldItem(ModItems.PLATINUM_SWORD.get());
-        handheldItem(ModItems.PLATINUM_PICKAXE.get());
-        handheldItem(ModItems.PLATINUM_AXE.get());
-        handheldItem(ModItems.PLATINUM_SHOVEL.get());
-        handheldItem(ModItems.PLATINUM_HOE.get());
+        handheldItem(ModItems.PLATINUM_SWORD);
+        handheldItem(ModItems.PLATINUM_PICKAXE);
+        handheldItem(ModItems.PLATINUM_AXE);
+        handheldItem(ModItems.PLATINUM_SHOVEL);
+        handheldItem(ModItems.PLATINUM_HOE);
 
         trimmedArmorItem(ModItems.PLATINUM_HELMET);
         trimmedArmorItem(ModItems.PLATINUM_CHESTPLATE);
@@ -125,11 +125,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.COBALT_NUGGET.get());
         basicItem(ModItems.RAW_COBALT.get());
 
-        handheldItem(ModItems.COBALT_SWORD.get());
-        handheldItem(ModItems.COBALT_PICKAXE.get());
-        handheldItem(ModItems.COBALT_AXE.get());
-        handheldItem(ModItems.COBALT_SHOVEL.get());
-        handheldItem(ModItems.COBALT_HOE.get());
+        handheldItem(ModItems.COBALT_SWORD);
+        handheldItem(ModItems.COBALT_PICKAXE);
+        handheldItem(ModItems.COBALT_AXE);
+        handheldItem(ModItems.COBALT_SHOVEL);
+        handheldItem(ModItems.COBALT_HOE);
 
         trimmedArmorItem(ModItems.COBALT_HELMET);
         trimmedArmorItem(ModItems.COBALT_CHESTPLATE);
@@ -141,12 +141,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.TUNGSTEN_NUGGET.get());
         basicItem(ModItems.RAW_TUNGSTEN.get());
 
-        handheldItem(ModItems.TUNGSTEN_SWORD.get());
-        handheldItem(ModItems.TUNGSTEN_PICKAXE.get());
-        handheldItem(ModItems.TUNGSTEN_AXE.get());
-        handheldItem(ModItems.TUNGSTEN_SHOVEL.get());
-        handheldItem(ModItems.TUNGSTEN_HOE.get());
-        handheldItem(ModItems.TUNGSTEN_FLAIL.get());
+        handheldItem(ModItems.TUNGSTEN_SWORD);
+        handheldItem(ModItems.TUNGSTEN_PICKAXE);
+        handheldItem(ModItems.TUNGSTEN_AXE);
+        handheldItem(ModItems.TUNGSTEN_SHOVEL);
+        handheldItem(ModItems.TUNGSTEN_HOE);
+        handheldItem(ModItems.TUNGSTEN_FLAIL);
 
         trimmedArmorItem(ModItems.TUNGSTEN_HELMET);
         trimmedArmorItem(ModItems.TUNGSTEN_CHESTPLATE);
@@ -155,147 +155,256 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         basicItem(ModBlocks.TUNGSTEN_DOOR.asItem());
 
+        // LEAD
+        basicItem(ModItems.RAW_LEAD.get());
+        basicItem(ModItems.LEAD_INGOT.get());
+        handheldItem(ModItems.LEAD_SWORD);
+        handheldItem(ModItems.LEAD_PICKAXE);
+        handheldItem(ModItems.LEAD_AXE);
+        handheldItem(ModItems.LEAD_SHOVEL);
+        handheldItem(ModItems.LEAD_HOE);
+
+        // NICKEL & OSMIUM
+        basicItem(ModItems.RAW_NICKEL.get());
+        basicItem(ModItems.NICKEL_INGOT.get());
+        trimmedArmorItem(ModItems.NICKEL_HELMET);
+        trimmedArmorItem(ModItems.NICKEL_CHESTPLATE);
+        trimmedArmorItem(ModItems.NICKEL_LEGGINGS);
+        trimmedArmorItem(ModItems.NICKEL_BOOTS);
+        handheldItem(ModItems.NICKEL_SWORD);
+        handheldItem(ModItems.NICKEL_PICKAXE);
+        handheldItem(ModItems.NICKEL_AXE);
+        handheldItem(ModItems.NICKEL_SHOVEL);
+        handheldItem(ModItems.NICKEL_HOE);
+        basicItem(ModItems.RAW_OSMIUM.get());
+        basicItem(ModItems.OSMIUM_INGOT.get());
+        trimmedArmorItem(ModItems.OSMIUM_HELMET);
+        trimmedArmorItem(ModItems.OSMIUM_CHESTPLATE);
+        trimmedArmorItem(ModItems.OSMIUM_LEGGINGS);
+        trimmedArmorItem(ModItems.OSMIUM_BOOTS);
+        handheldItem(ModItems.OSMIUM_SWORD);
+        handheldItem(ModItems.OSMIUM_PICKAXE);
+        handheldItem(ModItems.OSMIUM_AXE);
+        handheldItem(ModItems.OSMIUM_SHOVEL);
+        handheldItem(ModItems.OSMIUM_HOE);
+
         // ZIRCON
         basicItem(ModItems.ZIRCON.get());
 
         // WILLOW
         saplingItem(ModBlocks.WILLOW_SAPLING);
-
         buttonItem(ModBlocks.WILLOW_BUTTON, ModBlocks.WILLOW_PLANKS);
         fenceItem(ModBlocks.WILLOW_FENCE, ModBlocks.WILLOW_PLANKS);
-
         basicItem(ModBlocks.WILLOW_DOOR.asItem());
-        
+
         // HORNBEAM
         saplingItem(ModBlocks.HORNBEAM_SAPLING);
-
         buttonItem(ModBlocks.HORNBEAM_BUTTON, ModBlocks.HORNBEAM_PLANKS);
         fenceItem(ModBlocks.HORNBEAM_FENCE, ModBlocks.HORNBEAM_PLANKS);
-
         basicItem(ModBlocks.HORNBEAM_DOOR.asItem());
 
         // LINDEN
         saplingItem(ModBlocks.LINDEN_SAPLING);
-
         buttonItem(ModBlocks.LINDEN_BUTTON, ModBlocks.LINDEN_PLANKS);
         fenceItem(ModBlocks.LINDEN_FENCE, ModBlocks.LINDEN_PLANKS);
-
         basicItem(ModBlocks.LINDEN_DOOR.asItem());
-        
+
         // GINKGO
         saplingItem(ModBlocks.GINKGO_SAPLING);
-
         buttonItem(ModBlocks.GINKGO_BUTTON, ModBlocks.GINKGO_PLANKS);
         fenceItem(ModBlocks.GINKGO_FENCE, ModBlocks.GINKGO_PLANKS);
-
         basicItem(ModBlocks.GINKGO_DOOR.asItem());
-        
+
         // POPLAR
         saplingItem(ModBlocks.POPLAR_SAPLING);
-
         buttonItem(ModBlocks.POPLAR_BUTTON, ModBlocks.POPLAR_PLANKS);
         fenceItem(ModBlocks.POPLAR_FENCE, ModBlocks.POPLAR_PLANKS);
-
         basicItem(ModBlocks.POPLAR_DOOR.asItem());
-        
+
         // MAPLE
         saplingItem(ModBlocks.MAPLE_SAPLING);
-
         buttonItem(ModBlocks.MAPLE_BUTTON, ModBlocks.MAPLE_PLANKS);
         fenceItem(ModBlocks.MAPLE_FENCE, ModBlocks.MAPLE_PLANKS);
-
         basicItem(ModBlocks.MAPLE_DOOR.asItem());
 
         // BAOBAB
         saplingItem(ModBlocks.BAOBAB_SAPLING);
-
         buttonItem(ModBlocks.BAOBAB_BUTTON, ModBlocks.BAOBAB_PLANKS);
         fenceItem(ModBlocks.BAOBAB_FENCE, ModBlocks.BAOBAB_PLANKS);
-
         basicItem(ModBlocks.BAOBAB_DOOR.asItem());
 
         // PALM
         saplingItem(ModBlocks.PALM_SAPLING);
-
         buttonItem(ModBlocks.PALM_BUTTON, ModBlocks.PALM_PLANKS);
         fenceItem(ModBlocks.PALM_FENCE, ModBlocks.PALM_PLANKS);
-
         basicItem(ModBlocks.PALM_DOOR.asItem());
 
         // ASPEN
         saplingItem(ModBlocks.ASPEN_SAPLING);
-
         buttonItem(ModBlocks.ASPEN_BUTTON, ModBlocks.ASPEN_PLANKS);
         fenceItem(ModBlocks.ASPEN_FENCE, ModBlocks.ASPEN_PLANKS);
-
         basicItem(ModBlocks.ASPEN_DOOR.asItem());
 
         // ASH
         saplingItem(ModBlocks.ASH_SAPLING);
-
         buttonItem(ModBlocks.ASH_BUTTON, ModBlocks.ASH_PLANKS);
         fenceItem(ModBlocks.ASH_FENCE, ModBlocks.ASH_PLANKS);
-
         basicItem(ModBlocks.ASH_DOOR.asItem());
 
         // BEECH
         saplingItem(ModBlocks.BEECH_SAPLING);
-
         buttonItem(ModBlocks.BEECH_BUTTON, ModBlocks.BEECH_PLANKS);
         fenceItem(ModBlocks.BEECH_FENCE, ModBlocks.BEECH_PLANKS);
-
         basicItem(ModBlocks.BEECH_DOOR.asItem());
 
         // EUCALYPTUS
         saplingItem(ModBlocks.EUCALYPTUS_SAPLING);
-
         buttonItem(ModBlocks.EUCALYPTUS_BUTTON, ModBlocks.EUCALYPTUS_PLANKS);
         fenceItem(ModBlocks.EUCALYPTUS_FENCE, ModBlocks.EUCALYPTUS_PLANKS);
-
         basicItem(ModBlocks.EUCALYPTUS_DOOR.asItem());
 
         // SYCAMORE
         saplingItem(ModBlocks.SYCAMORE_SAPLING);
-
         buttonItem(ModBlocks.SYCAMORE_BUTTON, ModBlocks.SYCAMORE_PLANKS);
         fenceItem(ModBlocks.SYCAMORE_FENCE, ModBlocks.SYCAMORE_PLANKS);
-
         basicItem(ModBlocks.SYCAMORE_DOOR.asItem());
 
         // REDWOOD
         saplingItem(ModBlocks.REDWOOD_SAPLING);
-
         buttonItem(ModBlocks.REDWOOD_BUTTON, ModBlocks.REDWOOD_PLANKS);
         fenceItem(ModBlocks.REDWOOD_FENCE, ModBlocks.REDWOOD_PLANKS);
-
         basicItem(ModBlocks.REDWOOD_DOOR.asItem());
 
         // MONKEY_PUZZLE
         saplingItem(ModBlocks.MONKEY_PUZZLE_SAPLING);
-
         buttonItem(ModBlocks.MONKEY_PUZZLE_BUTTON, ModBlocks.MONKEY_PUZZLE_PLANKS);
         fenceItem(ModBlocks.MONKEY_PUZZLE_FENCE, ModBlocks.MONKEY_PUZZLE_PLANKS);
-
         basicItem(ModBlocks.MONKEY_PUZZLE_DOOR.asItem());
 
         // YEW
         saplingItem(ModBlocks.YEW_SAPLING);
-
         buttonItem(ModBlocks.YEW_BUTTON, ModBlocks.YEW_PLANKS);
         fenceItem(ModBlocks.YEW_FENCE, ModBlocks.YEW_PLANKS);
-
         basicItem(ModBlocks.YEW_DOOR.asItem());
 
-        // TIGER
+        // SPAWN EGGS - ALL ENTITIES
         withExistingParent(ModItems.TIGER_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.SNOW_LEOPARD_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.RACCOON_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.EARTHWORM_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.PANGOLIN_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.DOMESTIC_GOAT_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.SEAGULL_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
 
-        // MISC
+        // PASSERINE SPAWN EGGS
+        withExistingParent(ModItems.BLACKCAP_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.BLUETHROAT_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.BULLFINCH_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.CANARY_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.CARDINAL_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.CHAFFINCH_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.GOLDCREST_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.GOLDFINCH_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.NIGHTINGALE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.REDSTART_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.REEDLING_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.ROBIN_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.SISKIN_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.SKYLARK_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.SPARROW_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.TIT_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.WAGTAIL_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.WAXWING_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+
+        // MORE SPAWN EGGS
+        withExistingParent(ModItems.ZEBRA_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.ZORSE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.ZONKEY_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.ELEPHANT_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.GIRAFFE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.BROWN_BEAR_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.MANTIS_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.PENGUIN_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.EAGLE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.BACTRIAN_CAMEL_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.BELUGA_STURGEON_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.STOAT_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.PHEASANT_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.SAOLA_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.CHIMPANZEE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.CICADA_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.HARE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.FISHER_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.ROADRUNNER_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.RUFF_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.DEER_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.ROE_DEER_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.HOATZIN_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.CROCODILE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.HIPPOPOTAMUS_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.WHITE_SHARK_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.LION_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.PHILIPPINE_EAGLE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.MONKEY_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.WOLVERINE_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.MERGANSER_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.WILDEBEEST_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.RED_PANDA_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.KOALA_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+
+        // EXTINCT CRITTERS SPAWN EGGS
+        withExistingParent(ModItems.CRYODRAKON_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.VELOCIRAPTOR_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.HYPNOVENATOR_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.GALLIMIMUS_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.DIPLODOCUS_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.EROMANGASAURUS_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.BEIPIAOSAURUS_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.DEARC_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.LATENIVENATRIX_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.MAIP_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.SAICHANIA_SPAWN_EGG.getId().getPath(),mcLoc("item/template_spawn_egg"));
+
+        // ANIMAL ARMOR
+        basicItem(ModItems.TIGER_ARMOR.get());
+        basicItem(ModItems.SNOW_LEOPARD_ARMOR.get());
+
+        // FOODSTUFFS
+        basicItem(ModItems.RAW_CHEVON.get());
+        basicItem(ModItems.COOKED_CHEVON.get());
+        basicItem(ModItems.VODKA.get());
+        basicItem(ModItems.RAW_PHEASANT.get());
+        basicItem(ModItems.COOKED_PHEASANT.get());
+        basicItem(ModItems.BELUGA_STURGEON_CAVIAR.get());
+        basicItem(ModItems.RAW_SHRIMP.get());
+        basicItem(ModItems.BANANA.get());
+
+        // MISC ITEMS
         basicItem(ModItems.SPIKED_HEAVY_CORE.get());
         basicItem(ModItems.OBSIDIAN_SHARD.get());
+        basicItem(ModItems.PANGOLIN_SCALE.get());
+        basicItem(ModItems.CROCODILE_SCALE.get());
+        basicItem(ModItems.IVORY.get());
+        basicItem(ModItems.SAOLA_HORN.get());
 
+        // DART GUN AND DARTS
+        handheldItem(ModItems.DART_GUN);
+        basicItem(ModItems.TRANQ_DART.get());
 
+        // UNTIERED WEAPONS
+        basicItem(ModItems.COBALT_CHAKRAM.get());
+        handheldItem(ModItems.GOLDEN_KHOPESH);
+        handheldItem(ModItems.IRON_WARFANS);
+        handheldItem(ModItems.WOODEN_CLUB);
+        handheldItem(ModItems.DIAMOND_WARSCYTHE);
+        handheldItem(ModItems.BRONZE_HALBERD);
+        handheldItem(ModItems.STONE_MACUAHUITL);
 
-
+        // SPECIAL ITEMS
+        basicItem(ModItems.FOSSIL.get());
+        basicItem(ModItems.KEY.get());
+        basicItem(ModItems.BESTIARY.get());
+        basicItem(ModItems.BELUGA_STURGEON_BUCKET.get());
     }
     private ItemModelBuilder saplingItem(DeferredBlock<Block> item) {
         return withExistingParent(item.getId().getPath(),

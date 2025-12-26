@@ -88,14 +88,55 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 // ZIRCON
                 .add(ModBlocks.ZIRCON_ORE.get())
                 .add(ModBlocks.DEEPSLATE_ZIRCON_ORE.get())
-                .add(ModBlocks.ZIRCON_BLOCK.get());
+                .add(ModBlocks.ZIRCON_BLOCK.get())
 
+                // LEAD
+                .add(ModBlocks.LEAD_ORE.get())
+                .add(ModBlocks.DEEPSLATE_LEAD_ORE.get())
+                .add(ModBlocks.RAW_LEAD_BLOCK.get())
+                .add(ModBlocks.LEAD_BLOCK.get())
 
+                // NICKEL
+                .add(ModBlocks.NICKEL_ORE.get())
+                .add(ModBlocks.DEEPSLATE_NICKEL_ORE.get())
+                .add(ModBlocks.RAW_NICKEL_BLOCK.get())
+                .add(ModBlocks.NICKEL_BLOCK.get())
 
-
+                // OSMIUM
+                .add(ModBlocks.OSMIUM_ORE.get())
+                .add(ModBlocks.DEEPSLATE_OSMIUM_ORE.get())
+                .add(ModBlocks.RAW_OSMIUM_BLOCK.get())
+                .add(ModBlocks.OSMIUM_BLOCK.get());
 
         tag(BlockTags.NEEDS_IRON_TOOL)
-                .add(ModBlocks.TIME_MATRIX.get());
+                .add(ModBlocks.TIME_MATRIX.get())
+
+
+                // TUNGSTEN
+                .add(ModBlocks.TUNGSTEN_ORE.get())
+                .add(ModBlocks.DEEPSLATE_TUNGSTEN_ORE.get())
+                .add(ModBlocks.RAW_TUNGSTEN_BLOCK.get())
+                .add(ModBlocks.TUNGSTEN_BLOCK.get())
+
+                .add(ModBlocks.CHISELED_TUNGSTEN.get())
+                .add(ModBlocks.TUNGSTEN_GRATE.get())
+                .add(ModBlocks.CUT_TUNGSTEN.get())
+                .add(ModBlocks.CUT_TUNGSTEN_STAIRS.get())
+                .add(ModBlocks.CUT_TUNGSTEN_SLAB.get())
+                .add(ModBlocks.TUNGSTEN_DOOR.get())
+                .add(ModBlocks.TUNGSTEN_TRAPDOOR.get())
+
+                // PLATINUM
+                .add(ModBlocks.PLATINUM_ORE.get())
+                .add(ModBlocks.DEEPSLATE_PLATINUM_ORE.get())
+                .add(ModBlocks.RAW_PLATINUM_BLOCK.get())
+                .add(ModBlocks.PLATINUM_BLOCK.get())
+
+                // COBALT
+                .add(ModBlocks.COBALT_ORE.get())
+                .add(ModBlocks.DEEPSLATE_COBALT_ORE.get())
+                .add(ModBlocks.RAW_COBALT_BLOCK.get())
+                .add(ModBlocks.COBALT_BLOCK.get());
 
         tag(BlockTags.NEEDS_STONE_TOOL)
                 // ALUMINIUM
@@ -126,39 +167,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.RAW_SILVER_BLOCK.get())
                 .add(ModBlocks.SILVER_BLOCK.get())
 
-                // PLATINUM
-                .add(ModBlocks.PLATINUM_ORE.get())
-                .add(ModBlocks.DEEPSLATE_PLATINUM_ORE.get())
-                .add(ModBlocks.RAW_PLATINUM_BLOCK.get())
-                .add(ModBlocks.PLATINUM_BLOCK.get())
-
-                // COBALT
-                .add(ModBlocks.COBALT_ORE.get())
-                .add(ModBlocks.DEEPSLATE_COBALT_ORE.get())
-                .add(ModBlocks.RAW_COBALT_BLOCK.get())
-                .add(ModBlocks.COBALT_BLOCK.get())
-
-                // TUNGSTEN
-                .add(ModBlocks.TUNGSTEN_ORE.get())
-                .add(ModBlocks.DEEPSLATE_TUNGSTEN_ORE.get())
-                .add(ModBlocks.RAW_TUNGSTEN_BLOCK.get())
-                .add(ModBlocks.TUNGSTEN_BLOCK.get())
-
-                .add(ModBlocks.CHISELED_TUNGSTEN.get())
-                .add(ModBlocks.TUNGSTEN_GRATE.get())
-                .add(ModBlocks.CUT_TUNGSTEN.get())
-                .add(ModBlocks.CUT_TUNGSTEN_STAIRS.get())
-                .add(ModBlocks.CUT_TUNGSTEN_SLAB.get())
-                .add(ModBlocks.TUNGSTEN_DOOR.get())
-                .add(ModBlocks.TUNGSTEN_TRAPDOOR.get())
-
                 // ZIRCON
                 .add(ModBlocks.ZIRCON_ORE.get())
                 .add(ModBlocks.DEEPSLATE_ZIRCON_ORE.get())
                 .add(ModBlocks.ZIRCON_BLOCK.get());
-
-        tag(BlockTags.INCORRECT_FOR_IRON_TOOL)
-                .add(Blocks.DIAMOND_ORE);
 
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.TIMESTONE_BLOCK.get())
@@ -302,6 +314,86 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.MONKEY_PUZZLE_FENCE_GATE.get())
                 .add(ModBlocks.YEW_FENCE_GATE.get());
 
-        
+        tag(BlockTags.LEAVES)
+                .add(ModBlocks.WILLOW_LEAVES.get())
+                .add(ModBlocks.HORNBEAM_LEAVES.get())
+                .add(ModBlocks.LINDEN_LEAVES.get())
+                .add(ModBlocks.GINKGO_LEAVES.get())
+                .add(ModBlocks.POPLAR_LEAVES.get())
+                .add(ModBlocks.MAPLE_LEAVES.get())
+                .add(ModBlocks.BAOBAB_LEAVES.get())
+                .add(ModBlocks.PALM_LEAVES.get())
+                .add(ModBlocks.ASPEN_LEAVES.get())
+                .add(ModBlocks.ASH_LEAVES.get())
+                .add(ModBlocks.BEECH_LEAVES.get())
+                .add(ModBlocks.EUCALYPTUS_LEAVES.get())
+                .add(ModBlocks.SYCAMORE_LEAVES.get())
+                .add(ModBlocks.REDWOOD_LEAVES.get())
+                .add(ModBlocks.MONKEY_PUZZLE_LEAVES.get())
+                .add(ModBlocks.YEW_LEAVES.get());
+
+        tag(ModTags.Blocks.NEEDS_ALUMINIUM_TOOL)
+                .addTag(BlockTags.NEEDS_IRON_TOOL);
+
+        tag(ModTags.Blocks.INCORRECT_FOR_ALUMINIUM_TOOL)
+                .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL)
+                .remove(ModTags.Blocks.NEEDS_ALUMINIUM_TOOL);
+
+        tag(ModTags.Blocks.NEEDS_SILVER_TOOL)
+                .addTag(BlockTags.NEEDS_IRON_TOOL)
+                .add(Blocks.DIAMOND_ORE);
+
+        tag(ModTags.Blocks.INCORRECT_FOR_SILVER_TOOL)
+                .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL)
+                .remove(ModTags.Blocks.NEEDS_SILVER_TOOL);
+
+        tag(ModTags.Blocks.NEEDS_PLATINUM_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+
+        tag(ModTags.Blocks.INCORRECT_FOR_PLATINUM_TOOL)
+                .addTag(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)
+                .remove(ModTags.Blocks.NEEDS_PLATINUM_TOOL);
+
+        tag(ModTags.Blocks.NEEDS_TUNGSTEN_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+
+        tag(ModTags.Blocks.INCORRECT_FOR_TUNGSTEN_TOOL)
+                .addTag(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)
+                .remove(ModTags.Blocks.NEEDS_TUNGSTEN_TOOL);
+
+        // INCORRECT FOR WEAKER TOOLS
+        tag(ModTags.Blocks.INCORRECT_FOR_LEAD_TOOL)
+                .addTag(BlockTags.NEEDS_IRON_TOOL);
+
+        tag(ModTags.Blocks.INCORRECT_FOR_BRONZE_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+
+        tag(ModTags.Blocks.INCORRECT_FOR_NICKEL_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+
+        tag(ModTags.Blocks.INCORRECT_FOR_COBALT_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+
+        // ORE TAGS
+        tag(ModTags.Blocks.ALUMINIUM_ORES)
+                .add(ModBlocks.ALUMINIUM_ORE.get())
+                .add(ModBlocks.DEEPSLATE_ALUMINIUM_ORE.get());
+
+        // SPAWN SURFACE TAGS
+        tag(ModTags.Blocks.PENGUINS_SPAWN_ON)
+                .add(Blocks.ICE)
+                .add(Blocks.PACKED_ICE)
+                .add(Blocks.BLUE_ICE)
+                .add(Blocks.SNOW_BLOCK)
+                .add(Blocks.POWDER_SNOW);
+
+        tag(ModTags.Blocks.ROADRUNNERS_SPAWN_ON)
+                .add(Blocks.SAND)
+                .add(Blocks.RED_SAND)
+                .add(Blocks.SANDSTONE)
+                .add(Blocks.RED_SANDSTONE)
+                .add(Blocks.TERRACOTTA)
+                .addTag(BlockTags.SAND)
+                .addTag(BlockTags.TERRACOTTA);
     }
 }

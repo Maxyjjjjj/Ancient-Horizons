@@ -1,8 +1,10 @@
 {
   "remove": [
+    "#ancienthorizons:needs_aluminium_tool",
     "#ancienthorizons:needs_aluminium_tool"
   ],
   "values": [
+    "#minecraft:incorrect_for_iron_tool",
     "#minecraft:incorrect_for_iron_tool"
   ]
 }

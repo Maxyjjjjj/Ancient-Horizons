@@ -28,6 +28,8 @@ public class ModTags {
         public static final TagKey<Block> INCORRECT_FOR_BRONZE_TOOL = createTag("incorrect_for_bronze_tool");
         public static final TagKey<Block> INCORRECT_FOR_NICKEL_TOOL = createTag("incorrect_for_nickel_tool");
         public static final TagKey<Block> INCORRECT_FOR_COBALT_TOOL = createTag("incorrect_for_cobalt_tool");
+
+        public static final TagKey<Block> NEEDS_OSMIUM_TOOL = createTag("needs_osmium_tool");
         public static final TagKey<Block> INCORRECT_FOR_OSMIUM_TOOL = createTag("incorrect_for_osmium_tool");
 
         public static final TagKey<Block> ALUMINIUM_ORES = createTag("aluminium_ores");
@@ -53,6 +55,7 @@ public class ModTags {
         public static final TagKey<Item> SAOLA_FOOD = createTag("saola_food");
         public static final TagKey<Item> AZHDARCHID_FOOD = createTag("azhdarchid_food");
         public static final TagKey<Item> PENGUIN_FOOD = createTag("penguin_food");
+        public static final TagKey<Item> BEAR_FOOD = createTag("bear_food");
 
         public static final TagKey<Item> KATANA_ENCHANTABLE = createTag("enchantable/katana");
         public static final TagKey<Item> WARFANS_ENCHANTABLE = createTag("enchantable/warfans");
@@ -94,9 +97,6 @@ public class ModTags {
 
         // DIET TYPES
         public static final TagKey<EntityType<?>> CARNIVORES = createTag("carnivores");
-        public static final TagKey<EntityType<?>> HERBIVORES = createTag("herbivores");
-        public static final TagKey<EntityType<?>> OMNIVORES = createTag("omnivores");
-        public static final TagKey<EntityType<?>> SPECIALISTS = createTag("dietary_specialists");
 
         public static final TagKey<EntityType<?>> MAIP_PREY = createTag("maip_prey");
         public static final TagKey<EntityType<?>> MAIP_ENEMIES = createTag("maip_enemies");

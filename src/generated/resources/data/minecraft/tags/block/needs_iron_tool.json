@@ -1,5 +1,24 @@
 {
   "values": [
-    "ancienthorizons:time_matrix"
+    "ancienthorizons:time_matrix",
+    "ancienthorizons:tungsten_ore",
+    "ancienthorizons:deepslate_tungsten_ore",
+    "ancienthorizons:raw_tungsten_block",
+    "ancienthorizons:tungsten_block",
+    "ancienthorizons:chiseled_tungsten",
+    "ancienthorizons:tungsten_grate",
+    "ancienthorizons:cut_tungsten",
+    "ancienthorizons:cut_tungsten_stairs",
+    "ancienthorizons:cut_tungsten_slab",
+    "ancienthorizons:tungsten_door",
+    "ancienthorizons:tungsten_trapdoor",
+    "ancienthorizons:platinum_ore",
+    "ancienthorizons:deepslate_platinum_ore",
+    "ancienthorizons:raw_platinum_block",
+    "ancienthorizons:platinum_block",
+    "ancienthorizons:cobalt_ore",
+    "ancienthorizons:deepslate_cobalt_ore",
+    "ancienthorizons:raw_cobalt_block",
+    "ancienthorizons:cobalt_block"
   ]
 }

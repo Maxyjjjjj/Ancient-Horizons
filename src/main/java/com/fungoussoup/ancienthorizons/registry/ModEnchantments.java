@@ -169,7 +169,7 @@ public class ModEnchantments {
                         1,
                         EquipmentSlotGroup.MAINHAND)));
 
-        // Aluminium Hammer enchantments
+        // Hammer enchantments
         register(context, TREMOR, Enchantment.enchantment(
                 Enchantment.definition(items.getOrThrow(ModTags.Items.HAMMER_ENCHANTABLE),
                         3, 2,

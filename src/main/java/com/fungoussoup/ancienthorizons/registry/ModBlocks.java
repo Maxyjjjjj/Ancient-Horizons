@@ -3,10 +3,13 @@ package com.fungoussoup.ancienthorizons.registry;
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.block.custom.ModFlammableRotatedPillarBlock;
 import com.fungoussoup.ancienthorizons.block.custom.PenguinEggBlock;
+import com.fungoussoup.ancienthorizons.block.custom.StinkhornBlock;
+import com.fungoussoup.ancienthorizons.worldgen.ModConfiguredFeatures;
 import com.fungoussoup.ancienthorizons.worldgen.tree.ModTreeGrowers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -17,15 +20,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
-
-import static com.fungoussoup.ancienthorizons.AncientHorizons.LOGGER;
-import static com.fungoussoup.ancienthorizons.AncientHorizons.NAME;
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
@@ -187,6 +188,48 @@ public class ModBlocks {
             () -> new DoorBlock(BlockSetType.COPPER, BlockBehaviour.Properties.of().strength(3f).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL)));
     public static final DeferredBlock<TrapDoorBlock> TUNGSTEN_TRAPDOOR = registerBlock("tungsten_trapdoor",
             () -> new TrapDoorBlock(BlockSetType.COPPER, BlockBehaviour.Properties.of().strength(3f).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL)));
+
+    // NICKEL
+    public static final DeferredBlock<Block> NICKEL_ORE = registerBlock("nickel_ore",
+            () -> new DropExperienceBlock(UniformInt.of(0,0),
+                    BlockBehaviour.Properties.of().strength(3f).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> DEEPSLATE_NICKEL_ORE = registerBlock("deepslate_nickel_ore",
+            () -> new DropExperienceBlock(UniformInt.of(0,0),
+                    BlockBehaviour.Properties.of().strength(4f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = registerBlock("raw_nickel_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NICKEL_BLOCK = registerBlock("nickel_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+    // OSMIUM
+    public static final DeferredBlock<Block> OSMIUM_ORE = registerBlock("osmium_ore",
+            () -> new DropExperienceBlock(UniformInt.of(0,0),
+                    BlockBehaviour.Properties.of().strength(3f).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> DEEPSLATE_OSMIUM_ORE = registerBlock("deepslate_osmium_ore",
+            () -> new DropExperienceBlock(UniformInt.of(0,0),
+                    BlockBehaviour.Properties.of().strength(4f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> RAW_OSMIUM_BLOCK = registerBlock("raw_osmium_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> OSMIUM_BLOCK = registerBlock("osmium_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+    // LEAD
+    public static final DeferredBlock<Block> LEAD_ORE = registerBlock("lead_ore",
+            () -> new DropExperienceBlock(UniformInt.of(0,0),
+                    BlockBehaviour.Properties.of().strength(3f).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> DEEPSLATE_LEAD_ORE = registerBlock("deepslate_lead_ore",
+            () -> new DropExperienceBlock(UniformInt.of(0,0),
+                    BlockBehaviour.Properties.of().strength(4f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> RAW_LEAD_BLOCK = registerBlock("raw_lead_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> LEAD_BLOCK = registerBlock("lead_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
 
 
     // ZIRCON
@@ -1369,7 +1412,13 @@ public class ModBlocks {
     // EGGS
 
     public static final DeferredBlock<Block> PENGUIN_EGG = registerBlock("penguin_egg",
-            () -> new PenguinEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).strength(0.5F).sound(SoundType.METAL).noOcclusion()));
+            () -> new PenguinEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).strength(0.5F).sound(SoundType.EMPTY).noOcclusion()));
+
+    public static final DeferredBlock<Block> STINKHORN = registerBlock("stinkhorn_mushroom",
+            () -> new StinkhornBlock(ModConfiguredFeatures.HUGE_STINKHORN, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final DeferredBlock<Block> STINKHORN_BLOCK = registerBlock("stinkhorn_mushroom_block",
+            () -> new HugeMushroomBlock(BlockBehaviour.Properties.of()));
 
     public static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);
@@ -1383,6 +1432,5 @@ public class ModBlocks {
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
-        LOGGER.info("Loaded {} mod blocks", NAME);
     }
 }

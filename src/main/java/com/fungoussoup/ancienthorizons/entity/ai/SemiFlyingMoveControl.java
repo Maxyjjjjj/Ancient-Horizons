@@ -6,15 +6,13 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * Custom move control for semi-flying entities that handles both
- * ground-based and aerial movement
- */
 public class SemiFlyingMoveControl extends MoveControl {
     private final SemiFlyer flyer;
     private final float flyingSpeed;
     private final float glidingSpeed;
     private int ticksSinceLastMove = 0;
+    private Vec3 lastPosition = Vec3.ZERO;
+    private static final double MIN_MOVEMENT_THRESHOLD = 0.001;
 
     public SemiFlyingMoveControl(SemiFlyer flyer, float flyingSpeed, float glidingSpeed) {
         super((Mob) flyer);
@@ -32,137 +30,115 @@ public class SemiFlyingMoveControl extends MoveControl {
         if (this.flyer.isFlying()) {
             tickFlyingMovement();
         } else {
-            // Ground behavior - use default move control
             super.tick();
             ticksSinceLastMove = 0;
+            lastPosition = ((Mob) flyer).position();
         }
     }
 
     private void tickFlyingMovement() {
         Mob mob = (Mob) this.flyer;
-        
-        // Prevent stuck state
-        ticksSinceLastMove++;
-        
-        if (null == this.operation) {
-            // Hovering or idle - gentle descent if not actively moving
+        Vec3 currentPos = mob.position();
+
+        // Update stuck detection
+        if (currentPos.distanceToSqr(lastPosition) < MIN_MOVEMENT_THRESHOLD) {
+            ticksSinceLastMove++;
+        } else {
+            ticksSinceLastMove = 0;
+        }
+        lastPosition = currentPos;
+
+        if (this.operation != Operation.MOVE_TO) {
+            // Idle flying - maintain altitude with minimal drift
             Vec3 movement = mob.getDeltaMovement();
 
-            if (!this.flyer.shouldGlide()) {
-                // Apply gentle hover (reduced oscillation)
-                double targetY = movement.y * 0.95;
-                mob.setDeltaMovement(movement.x * 0.9, targetY, movement.z * 0.9);
+            if (this.flyer.shouldGlide()) {
+                // Gentle glide descent
+                mob.setDeltaMovement(
+                        movement.x * 0.95,
+                        Math.max(movement.y - 0.03, -0.5),
+                        movement.z * 0.95
+                );
             } else {
-                // Gliding descent
-                mob.setDeltaMovement(movement.x * 0.98, movement.y - 0.04, movement.z * 0.98);
+                // Hovering - very gentle oscillation
+                double targetY = movement.y * 0.92;
+                if (Math.abs(targetY) < 0.01) {
+                    targetY = 0.005 * Math.sin(mob.tickCount * 0.05);
+                }
+                mob.setDeltaMovement(movement.x * 0.88, targetY, movement.z * 0.88);
             }
-            
+
             ticksSinceLastMove = 0;
-        } else switch (this.operation) {
-            case MOVE_TO:
-                Vec3 targetPos = new Vec3(this.wantedX, this.wantedY, this.wantedZ);
-                Vec3 currentPos = mob.position();
-                Vec3 delta = targetPos.subtract(currentPos);
-                double distanceSq = delta.lengthSqr();
-                // Check if we've reached the destination
-                if (distanceSq < 2.5D) {
-                    this.operation = Operation.WAIT;
-                    mob.setSpeed(0.0F);
-                    ticksSinceLastMove = 0;
-                    return;
-                }   // If stuck for too long, give up on this target
-                if (ticksSinceLastMove > 100) {
-                    this.operation = Operation.WAIT;
-                    ticksSinceLastMove = 0;
-                    return;
-                }   // Normalize direction and apply speed
-                Vec3 direction = delta.normalize();
-                float speed = this.flyer.shouldGlide() ? this.glidingSpeed : this.flyingSpeed;
-                speed *= (float) this.speedModifier;
-                // Clamp speed to prevent excessive values
-                speed = Mth.clamp(speed, 0.1F, 2.0F);
-                // Apply movement with smoother acceleration
-                Vec3 currentMovement = mob.getDeltaMovement();
-                Vec3 targetMovement = direction.scale(speed * 0.1);
-                // Lerp towards target movement (reduced factor for stability)
-                Vec3 newMovement = currentMovement.lerp(targetMovement, 0.1);
-                // Clamp total velocity
-                double maxVelocity = 1.5;
-                if (newMovement.lengthSqr() > maxVelocity * maxVelocity) {
-                    newMovement = newMovement.normalize().scale(maxVelocity);
-                }   mob.setDeltaMovement(newMovement);
-                // Face movement direction
-                if (delta.horizontalDistanceSqr() > 1.0E-5) {
-                    float targetYaw = (float) (Mth.atan2(direction.z, direction.x) * 180.0 / Math.PI) - 90.0F;
-                    mob.setYRot(this.rotlerp(mob.getYRot(), targetYaw, 5.0F)); // Reduced rotation speed
-                }   // Adjust pitch based on vertical movement (gentler)
-                double horizontalDist = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
-                if (horizontalDist > 0.001) {
-                    float targetPitch = (float) -(Mth.atan2(delta.y, horizontalDist) * 180.0 / Math.PI);
-                    targetPitch = Mth.clamp(targetPitch, -45.0F, 45.0F); // Reduced pitch range
-                    mob.setXRot(this.rotlerp(mob.getXRot(), targetPitch, 3.0F));
-                }   // Maintain forward momentum
-                mob.setSpeed(speed * 0.5F); // Reduced for stability
-                break;
-            case STRAFE:
-                // Handle strafing while flying (for combat, etc.)
-                this.handleFlyingStrafe();
-                break;
-            default:
-                // Hovering or idle - gentle descent if not actively moving
-                Vec3 movement = mob.getDeltaMovement();
-                if (!this.flyer.shouldGlide()) {
-                    // Apply gentle hover (reduced oscillation)
-                    double targetY = movement.y * 0.95;
-                    mob.setDeltaMovement(movement.x * 0.9, targetY, movement.z * 0.9);
-                } else {
-                    // Gliding descent
-                    mob.setDeltaMovement(movement.x * 0.98, movement.y - 0.04, movement.z * 0.98);
-                }   ticksSinceLastMove = 0;
-                break;
-        }
-    }
-
-    /**
-     * Handles strafing movement while flying
-     */
-    private void handleFlyingStrafe() {
-        Mob mob = (Mob) this.flyer;
-        float speed = (float) this.speedModifier * (this.flyer.shouldGlide() ? this.glidingSpeed : this.flyingSpeed);
-        speed = Mth.clamp(speed, 0.1F, 1.0F);
-
-        float forward = this.strafeForwards;
-        float strafe = this.strafeRight;
-        float totalMovement = Mth.sqrt(forward * forward + strafe * strafe);
-
-        if (totalMovement < 1.0F) {
-            totalMovement = 1.0F;
+            return;
         }
 
-        forward = forward / totalMovement;
-        strafe = strafe / totalMovement;
+        // Active movement toward target
+        Vec3 targetPos = new Vec3(this.wantedX, this.wantedY, this.wantedZ);
+        Vec3 delta = targetPos.subtract(currentPos);
+        double distanceSq = delta.lengthSqr();
 
-        float sin = Mth.sin(mob.getYRot() * ((float) Math.PI / 180F));
-        float cos = Mth.cos(mob.getYRot() * ((float) Math.PI / 180F));
-
-        float moveX = (forward * cos - strafe * sin) * speed;
-        float moveZ = (strafe * cos + forward * sin) * speed;
-
-        Vec3 movement = mob.getDeltaMovement();
-        Vec3 newMovement = movement.add(moveX * 0.15, 0, moveZ * 0.15);
-        
-        // Clamp velocity
-        double maxVelocity = 1.0;
-        if (newMovement.lengthSqr() > maxVelocity * maxVelocity) {
-            newMovement = newMovement.normalize().scale(maxVelocity);
+        // Check if reached destination
+        if (distanceSq < 2.0D) {
+            this.operation = Operation.WAIT;
+            mob.setSpeed(0.0F);
+            // Apply gentle braking
+            Vec3 vel = mob.getDeltaMovement();
+            mob.setDeltaMovement(vel.x * 0.5, vel.y * 0.7, vel.z * 0.5);
+            ticksSinceLastMove = 0;
+            return;
         }
-        
+
+        // Give up if stuck too long
+        if (ticksSinceLastMove > 120) {
+            this.operation = Operation.WAIT;
+            ticksSinceLastMove = 0;
+            return;
+        }
+
+        // Calculate movement
+        Vec3 direction = delta.normalize();
+        float speed = this.flyer.shouldGlide() ? this.glidingSpeed : this.flyingSpeed;
+        speed *= (float) this.speedModifier;
+        speed = Mth.clamp(speed, 0.05F, 1.2F);
+
+        // Smooth acceleration toward target velocity
+        Vec3 currentMovement = mob.getDeltaMovement();
+        Vec3 targetMovement = direction.scale(speed * 0.08);
+
+        // Gentle lerp - prevents snappy movements
+        double lerpFactor = 0.08;
+        Vec3 newMovement = new Vec3(
+                Mth.lerp(lerpFactor, currentMovement.x, targetMovement.x),
+                Mth.lerp(lerpFactor, currentMovement.y, targetMovement.y),
+                Mth.lerp(lerpFactor, currentMovement.z, targetMovement.z)
+        );
+
+        // Velocity limiting
+        double maxSpeed = 1.0;
+        double currentSpeed = newMovement.length();
+        if (currentSpeed > maxSpeed) {
+            newMovement = newMovement.normalize().scale(maxSpeed);
+        }
+
         mob.setDeltaMovement(newMovement);
+
+        // Smooth rotation toward movement direction
+        if (delta.horizontalDistanceSqr() > 1.0E-5) {
+            float targetYaw = (float) (Mth.atan2(direction.z, direction.x) * 180.0 / Math.PI) - 90.0F;
+            mob.setYRot(this.rotlerp(mob.getYRot(), targetYaw, 3.0F));
+        }
+
+        // Smooth pitch adjustment
+        double horizontalDist = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
+        if (horizontalDist > 0.01) {
+            float targetPitch = (float) -(Mth.atan2(delta.y, horizontalDist) * 180.0 / Math.PI);
+            targetPitch = Mth.clamp(targetPitch, -35.0F, 35.0F);
+            mob.setXRot(this.rotlerp(mob.getXRot(), targetPitch, 2.0F));
+        }
+
+        mob.setSpeed(speed * 0.3F);
     }
 
-    /**
-     * Sets the entity to move to a position with flight-aware pathing
-     */
     @Override
     public void setWantedPosition(double x, double y, double z, double speed) {
         super.setWantedPosition(x, y, z, speed);
@@ -170,26 +146,17 @@ public class SemiFlyingMoveControl extends MoveControl {
         ticksSinceLastMove = 0;
     }
 
-    /**
-     * Checks if the entity can reach the target position
-     */
     public boolean canReachTarget(Vec3 targetPos) {
         if (!this.flyer.canFly()) {
             return false;
         }
-
         Mob mob = (Mob) this.flyer;
         double distance = mob.position().distanceTo(targetPos);
-
-        // Flying entities can reach further
-        return distance < 64.0; // Reduced from 128 for better performance
+        return distance < 48.0;
     }
 
-    /**
-     * Gets the current movement speed modifier
-     */
     public float getCurrentSpeedModifier() {
         float base = this.flyer.shouldGlide() ? this.glidingSpeed : this.flyingSpeed;
-        return Mth.clamp(base, 0.1F, 2.0F);
+        return Mth.clamp(base, 0.1F, 1.5F);
     }
 }

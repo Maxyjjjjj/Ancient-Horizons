@@ -1,7 +1,9 @@
 {
   "values": [
-    "minecraft:rabbit",
+    "minecraft:cod",
+    "minecraft:salmon",
+    "minecraft:wolf",
     "ancienthorizons:penguin",
-    "ancienthorizons:hare"
+    "ancienthorizons:beluga_sturgeon"
   ]
 }

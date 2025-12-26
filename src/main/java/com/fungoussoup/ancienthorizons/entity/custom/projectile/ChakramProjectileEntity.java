@@ -27,7 +27,7 @@ public class ChakramProjectileEntity extends ThrowableItemProjectile {
 
     @Override
     protected Item getDefaultItem() {
-        return ModItems.CHAKRAM.get(); // assumes you registered ChakramItem
+        return ModItems.COBALT_CHAKRAM.get(); // assumes you registered ChakramItem
     }
 
     @Override
@@ -48,8 +48,8 @@ public class ChakramProjectileEntity extends ThrowableItemProjectile {
         if (!this.level().isClientSide) {
             if (thrower != null) {
                 // return to thrower’s inventory (like a boomerang)
-                if (!thrower.getInventory().add(new ItemStack(ModItems.CHAKRAM.get()))) {
-                    thrower.drop(new ItemStack(ModItems.CHAKRAM.get()), false);
+                if (!thrower.getInventory().add(new ItemStack(ModItems.COBALT_CHAKRAM.get()))) {
+                    thrower.drop(new ItemStack(ModItems.COBALT_CHAKRAM.get()), false);
                 }
             }
             this.discard();
@@ -62,8 +62,8 @@ public class ChakramProjectileEntity extends ThrowableItemProjectile {
 
         if (this.tickCount > 40 && !this.level().isClientSide && thrower != null) {
             // auto-return after 2 seconds if no hit
-            if (!thrower.getInventory().add(new ItemStack(ModItems.CHAKRAM.get()))) {
-                thrower.drop(new ItemStack(ModItems.CHAKRAM.get()), false);
+            if (!thrower.getInventory().add(new ItemStack(ModItems.COBALT_CHAKRAM.get()))) {
+                thrower.drop(new ItemStack(ModItems.COBALT_CHAKRAM.get()), false);
             }
             this.discard();
         }

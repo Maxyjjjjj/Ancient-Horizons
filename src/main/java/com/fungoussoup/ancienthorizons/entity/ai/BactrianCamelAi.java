@@ -3,6 +3,7 @@ package com.fungoussoup.ancienthorizons.entity.ai;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import com.fungoussoup.ancienthorizons.entity.ai.sensing.ModSensorType;
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.custom.mob.BactrianCamel;
 import com.google.common.collect.ImmutableList;
@@ -106,7 +107,7 @@ public class BactrianCamelAi {
     }
 
     static {
-        SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, SensorType.CAMEL_TEMPTATIONS, SensorType.NEAREST_ADULT);
+        SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, ModSensorType.BACTRIAN_CAMEL_TEMPTATIONS, SensorType.NEAREST_ADULT);
         MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.TEMPTING_PLAYER, MemoryModuleType.TEMPTATION_COOLDOWN_TICKS, MemoryModuleType.GAZE_COOLDOWN_TICKS, MemoryModuleType.IS_TEMPTED, MemoryModuleType.BREED_TARGET, MemoryModuleType.NEAREST_VISIBLE_ADULT, MemoryModuleType.ATTACK_TARGET);
     }
 

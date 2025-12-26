@@ -1,9 +1,11 @@
 package com.fungoussoup.ancienthorizons;
 
 import com.fungoussoup.ancienthorizons.bestiary.BestiaryManager;
-import com.fungoussoup.ancienthorizons.entity.client.latenivenatrix.LatenivenatrixModel;
+import com.fungoussoup.ancienthorizons.entity.client.koala.KoalaRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.latenivenatrix.LatenivenatrixRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.maip.MaipRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.red_panda.RedPandaRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.saichania.SaichaniaRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.wildebeest.WildebeestRenderer;
 import com.fungoussoup.ancienthorizons.network.BestiaryNetworking;
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
@@ -53,9 +55,7 @@ import com.fungoussoup.ancienthorizons.entity.client.tiger.TigerRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.snow_leopard.SnowLeopardRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.velociraptor.VelociraptorRenderer;
 import com.fungoussoup.ancienthorizons.entity.client.wolverine.WolverineRenderer;
-import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZebraRenderer;
-import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZonkeyRenderer;
-import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.ZorseRenderer;
+import com.fungoussoup.ancienthorizons.entity.client.zebra_and_zebroid.*;
 import com.fungoussoup.ancienthorizons.registry.*;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -77,7 +77,6 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.LoggerFactory;
 
-
 @Mod(AncientHorizons.MOD_ID)
 public class AncientHorizons {
 
@@ -96,6 +95,7 @@ public class AncientHorizons {
         ModFoliagePlacerTypes.FOLIAGE_PLACERS.register(modEventBus);
         ModEffects.MOB_EFFECTS.register(modEventBus);
         ModAdvancements.TRIGGERS.register(modEventBus);
+        ModFeatures.FEATURES.register(modEventBus);
 
         ModSoundEvents.init();
 
@@ -107,23 +107,6 @@ public class AncientHorizons {
             NeoForge.EVENT_BUS.register(this);
             ModStrippables.register();
         });
-    }
-
-    @SubscribeEvent
-    public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar(AncientHorizons.MOD_ID);
-
-        registrar.playToClient(
-                BestiaryNetworking.SyncBestiaryPacket.TYPE,
-                BestiaryNetworking.SyncBestiaryPacket.STREAM_CODEC,
-                BestiaryNetworking.SyncBestiaryPacket::handle
-        );
-
-        registrar.playToClient(
-                BestiaryNetworking.DiscoveryNotificationPacket.TYPE,
-                BestiaryNetworking.DiscoveryNotificationPacket.STREAM_CODEC,
-                BestiaryNetworking.DiscoveryNotificationPacket::handle
-        );
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {}
@@ -205,20 +188,21 @@ public class AncientHorizons {
             EntityRenderers.register(ModEntities.LATENIVENATRIX.get(), LatenivenatrixRenderer::new);
             EntityRenderers.register(ModEntities.MAIP.get(), MaipRenderer::new);
             EntityRenderers.register(ModEntities.WILDEBEEST.get(), WildebeestRenderer::new);
+            EntityRenderers.register(ModEntities.SAICHANIA.get(), SaichaniaRenderer::new);
+            EntityRenderers.register(ModEntities.RED_PANDA.get(), RedPandaRenderer::new);
+            EntityRenderers.register(ModEntities.KOALA.get(), KoalaRenderer::new);
             event.enqueueWork(() -> {
                 BestiaryManager.loadBestiaryEntries();
             });
         }
-    }
-
-    // Also reload on language change
-    @SubscribeEvent
-    public static void onResourceReload(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener((preparationBarrier, resourceManager,
-                                      profilerFiller, profilerFiller2, executor, executor2) -> {
-            return preparationBarrier.wait(null).thenRunAsync(() -> {
-                BestiaryManager.reload();
-            }, executor2);
-        });
+        @SubscribeEvent
+        public static void onResourceReload(RegisterClientReloadListenersEvent event) {
+            event.registerReloadListener((preparationBarrier, resourceManager,
+                                          profilerFiller, profilerFiller2, executor, executor2) -> {
+                return preparationBarrier.wait(null).thenRunAsync(() -> {
+                    BestiaryManager.reload();
+                }, executor2);
+            });
+        }
     }
 }

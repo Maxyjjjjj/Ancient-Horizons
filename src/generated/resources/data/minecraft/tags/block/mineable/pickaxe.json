@@ -47,6 +47,18 @@
     "ancienthorizons:tungsten_trapdoor",
     "ancienthorizons:zircon_ore",
     "ancienthorizons:deepslate_zircon_ore",
-    "ancienthorizons:zircon_block"
+    "ancienthorizons:zircon_block",
+    "ancienthorizons:lead_ore",
+    "ancienthorizons:deepslate_lead_ore",
+    "ancienthorizons:raw_lead_block",
+    "ancienthorizons:lead_block",
+    "ancienthorizons:nickel_ore",
+    "ancienthorizons:deepslate_nickel_ore",
+    "ancienthorizons:raw_nickel_block",
+    "ancienthorizons:nickel_block",
+    "ancienthorizons:osmium_ore",
+    "ancienthorizons:deepslate_osmium_ore",
+    "ancienthorizons:raw_osmium_block",
+    "ancienthorizons:osmium_block"
   ]
 }

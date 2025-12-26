@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-24T19:26:37.8754813	Block States: ancienthorizons
+// 1.21.1	2025-12-26T15:46:59.6559857	Block States: ancienthorizons
 3412eb773c199d20a42497b5b99fa1f5b14d6a3e assets/ancienthorizons/blockstates/aluminium_block.json
 c486d23c5d3f6a0041748e15cc8bc2c05d0d9ac0 assets/ancienthorizons/blockstates/aluminium_ore.json
 d344c7e16b4f603e38227298078dbd241fae3a75 assets/ancienthorizons/blockstates/ash_button.json
@@ -1069,6 +1069,7 @@ ce1f0371adb8bd38ac31f97bb5fe2f87b431b0b0 assets/ancienthorizons/models/item/palm
 92dad34958550023370417d2d883ca9f9eea26c1 assets/ancienthorizons/models/item/palm_stairs.json
 36f4d8cd33564c004ff912054e6b970a1410108c assets/ancienthorizons/models/item/palm_trapdoor.json
 ad643a030783048327531f375e356d50179b190b assets/ancienthorizons/models/item/palm_wood.json
+1db4a335a59cba5ea821c750672cb467442043d3 assets/ancienthorizons/models/item/penguin_egg.json
 c68f313f1e6b659b77c30aff0f8dab50f6902436 assets/ancienthorizons/models/item/platinum_block.json
 1d718f862158a434d6094fbc4d7c9a51370ad900 assets/ancienthorizons/models/item/platinum_ore.json
 f636d15fc1b01e209c2320df99014d7464b82d69 assets/ancienthorizons/models/item/poplar_fence_gate.json

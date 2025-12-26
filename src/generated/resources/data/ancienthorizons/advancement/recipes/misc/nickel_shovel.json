@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nickel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "ancienthorizons:nickel_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ancienthorizons:nickel_shovel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_nickel"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ancienthorizons:nickel_shovel"
+    ]
+  }
+}

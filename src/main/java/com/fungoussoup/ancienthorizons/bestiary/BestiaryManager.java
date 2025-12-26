@@ -49,8 +49,7 @@ public class BestiaryManager {
                 "latenivenatrix", "maip", "red_panda", "pheasant", "roadrunner", "saichania",
                 "pig", "cow", "sheep", "chicken", "wolf", "squid", "armadillo", "axolotl",
                 "bee", "camel", "cat", "cod", "dolphin", "fox", "frog", "donkey", "horse",
-                "goat", "llama", "ocelot", "panda", "parrot", "polar_bear", "rabbit", "turtle",
-                "eagle_owl", "snowy_owl", "grey_owl", "little_owl"
+                "goat", "llama", "ocelot", "panda", "parrot", "polar_bear", "rabbit", "turtle", "koala"
         );
 
         for (String entityName : knownEntities) {

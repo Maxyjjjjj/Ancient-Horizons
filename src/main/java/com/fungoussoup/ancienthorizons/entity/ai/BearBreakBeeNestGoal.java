@@ -28,7 +28,7 @@ public class BearBreakBeeNestGoal extends Goal {
 
         @Override
         public boolean canUse() {
-            if (bear.getCurrentGene() == BrownBearEntity.Gene.LAZY) {
+            if (bear.getGene() == BrownBearEntity.Gene.LAZY) {
                 return false; // Too lazy
             }
 

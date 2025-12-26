@@ -2,14 +2,15 @@
   "values": [
     "minecraft:sniffer",
     "ancienthorizons:cryodrakon",
-    "ancienthorizons:diplodocus",
-    "ancienthorizons:hypnovenator",
     "ancienthorizons:velociraptor",
+    "ancienthorizons:hypnovenator",
     "ancienthorizons:gallimimus",
+    "ancienthorizons:diplodocus",
     "ancienthorizons:eromangasaurus",
     "ancienthorizons:beipiaosaurus",
     "ancienthorizons:dearc",
     "ancienthorizons:latenivenatrix",
-    "ancienthorizons:maip"
+    "ancienthorizons:maip",
+    "ancienthorizons:saichania"
   ]
 }

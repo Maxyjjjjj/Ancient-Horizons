@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.25,
+  "group": "lead_ingot",
+  "ingredient": {
+    "item": "ancienthorizons:raw_nickel"
+  },
+  "result": {
+    "count": 1,
+    "id": "ancienthorizons:nickel_ingot"
+  }
+}

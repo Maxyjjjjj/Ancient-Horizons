@@ -43,6 +43,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -58,38 +59,42 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
     private static final int STANDUP_DURATION_TICKS = 52;
     private static final int IDLE_MINIMAL_DURATION_TICKS = 80;
     private static final float SITTING_HEIGHT_DIFFERENCE = 1.43F;
+
     public static final EntityDataAccessor<Boolean> DASH;
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK;
+
     public final AnimationState sitAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState dashAnimationState = new AnimationState();
+
     private static final EntityDimensions SITTING_DIMENSIONS;
     private int dashCooldown = 0;
     private int idleAnimationTimeout = 0;
 
     public BactrianCamel(EntityType<? extends BactrianCamel> entityType, Level level) {
         super(entityType, level);
-        this.moveControl = new BactrianCamel.BactrianCamelMoveControl();
-        this.lookControl = new BactrianCamel.BactrianCamelLookControl();
+        this.moveControl = new BactrianCamelMoveControl();
+        this.lookControl = new BactrianCamelLookControl();
         GroundPathNavigation groundpathnavigation = (GroundPathNavigation)this.getNavigation();
         groundpathnavigation.setCanFloat(true);
         groundpathnavigation.setCanWalkOverFences(true);
     }
 
+    @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
     }
 
+    @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         long i = compound.getLong("LastPoseTick");
         if (i < 0L) {
             this.setPose(Pose.SITTING);
         }
-
         this.resetLastPoseChangeTick(i);
     }
 
@@ -101,12 +106,14 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
                 .add(Attributes.STEP_HEIGHT, 1.5D);
     }
 
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DASH, false);
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
     }
 
+    @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         BactrianCamelAi.initMemories(this, level.getRandom());
         this.resetLastPoseChangeTickToFullStand(level.getLevel().getGameTime());
@@ -117,24 +124,24 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         return BactrianCamelAi.brainProvider();
     }
 
+    @Override
     protected Brain<?> makeBrain(Dynamic<?> dynamic) {
         return BactrianCamelAi.makeBrain(this.brainProvider().makeBrain(dynamic));
     }
 
+    @Override
     public EntityDimensions getDefaultDimensions(Pose pose) {
         return pose == Pose.SITTING ? SITTING_DIMENSIONS.scale(this.getAgeScale()) : super.getDefaultDimensions(pose);
     }
 
     @Override
     protected void customServerAiStep() {
-        this.level().getProfiler().push("bactrianCamelBrain");
-        this.level().getProfiler().pop();
-        this.level().getProfiler().push("camelActivityUpdate");
         BactrianCamelAi.updateActivity(this);
-        this.level().getProfiler().pop();
         super.customServerAiStep();
     }
 
+
+    @Override
     public void tick() {
         super.tick();
         if (this.isDashing() && this.dashCooldown < 50 && (this.onGround() || this.isInLiquid() || this.isPassenger())) {
@@ -159,7 +166,6 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         if (this.isCamelSitting() && this.isInWater()) {
             this.standUpInstantly();
         }
-
     }
 
     private void setupAnimationStates() {
@@ -186,9 +192,9 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             this.dashAnimationState.animateWhen(this.isDashing(), this.tickCount);
             this.sitUpAnimationState.animateWhen(this.isInPoseTransition() && this.getPoseTime() >= 0L, this.tickCount);
         }
-
     }
 
+    @Override
     protected void updateWalkAnimation(float partialTick) {
         float f;
         if (this.getPose() == Pose.STANDING && !this.dashAnimationState.isStarted()) {
@@ -196,19 +202,19 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         } else {
             f = 0.0F;
         }
-
         this.walkAnimation.update(f, 0.2F);
     }
 
+    @Override
     public void travel(Vec3 travelVector) {
         if (this.refuseToMove() && this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.0D, 1.0D, 0.0D));
             travelVector = travelVector.multiply(0.0D, 1.0D, 0.0D);
         }
-
         super.travel(travelVector);
     }
 
+    @Override
     protected void tickRidden(Player player, Vec3 travelVector) {
         super.tickRidden(player, travelVector);
         if (player.zza > 0.0F && this.isCamelSitting() && !this.isInPoseTransition()) {
@@ -217,87 +223,97 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
     }
 
     public boolean refuseToMove() {
-        return this.isCamelSitting(); // or any sitting/locked AI state
+        return this.isCamelSitting();
     }
 
+    @Override
     protected float getRiddenSpeed(Player player) {
         double base = this.getAttributeValue(Attributes.MOVEMENT_SPEED);
-        // When player sprints (and camel's jump cooldown is 0) apply a proportional running bonus.
         if (player.isSprinting() && this.getJumpCooldown() == 0) {
-            // RUNNING_SPEED_BONUS is already defined as 0.1F — treat it as relative bonus (10%)
             return (float)(base * (1.0D + RUNNING_SPEED_BONUS));
-        } else {
-            return (float) base;
         }
+        return (float) base;
     }
 
-
+    @Override
     protected Vec2 getRiddenRotation(LivingEntity entity) {
         return this.refuseToMove() ? new Vec2(entity.getXRot(), entity.getYRot()) : super.getRiddenRotation(entity);
     }
 
-
+    @Override
     protected Vec3 getRiddenInput(Player player, Vec3 travelVector) {
         return this.refuseToMove() ? Vec3.ZERO : super.getRiddenInput(player, travelVector);
     }
 
+    @Override
     public boolean canJump() {
         return !this.refuseToMove() && super.canJump();
     }
 
+    @Override
     public void onPlayerJump(int jumpPower) {
         if (this.isSaddled() && this.dashCooldown <= 0 && this.onGround()) {
             super.onPlayerJump(jumpPower);
         }
-
     }
 
+    @Override
     public boolean canSprint() {
         return true;
     }
 
+    @Override
     protected void executeRidersJump(float playerJumpPendingScale, Vec3 travelVector) {
         double d0 = this.getJumpPower();
-        this.addDeltaMovement(this.getLookAngle().multiply(1.0D, 0.0D, 1.0D).normalize().scale((double)(22.2222F * playerJumpPendingScale) * this.getAttributeValue(Attributes.MOVEMENT_SPEED) * (double)this.getBlockSpeedFactor()).add(0.0D, (double)(1.4285F * playerJumpPendingScale) * d0, 0.0D));
-        this.dashCooldown = 55;
+        this.addDeltaMovement(this.getLookAngle().multiply(1.0D, 0.0D, 1.0D).normalize()
+                .scale((double)(DASH_HORIZONTAL_MOMENTUM * playerJumpPendingScale) * this.getAttributeValue(Attributes.MOVEMENT_SPEED) * (double)this.getBlockSpeedFactor())
+                .add(0.0D, (double)(DASH_VERTICAL_MOMENTUM * playerJumpPendingScale) * d0, 0.0D));
+        this.dashCooldown = DASH_COOLDOWN_TICKS;
         this.setDashing(true);
         this.hasImpulse = true;
         CommonHooks.onLivingJump(this);
     }
 
     public boolean isDashing() {
-        return (Boolean)this.entityData.get(DASH);
+        return this.entityData.get(DASH);
     }
 
     public void setDashing(boolean dashing) {
         this.entityData.set(DASH, dashing);
     }
 
+    @Override
     public void handleStartJump(int jumpPower) {
         this.makeSound(SoundEvents.CAMEL_DASH);
         this.gameEvent(GameEvent.ENTITY_ACTION);
         this.setDashing(true);
     }
 
+    @Override
     public void handleStopJump() {
     }
 
+    @Override
     public int getJumpCooldown() {
         return this.dashCooldown;
     }
 
+    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.CAMEL_AMBIENT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.CAMEL_DEATH;
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
         return SoundEvents.CAMEL_HURT;
     }
 
+    @Override
     protected void playStepSound(BlockPos pos, BlockState block) {
         if (block.is(BlockTags.CAMEL_SAND_STEP_SOUND_BLOCKS)) {
             this.playSound(SoundEvents.CAMEL_STEP_SAND, 1.0F, 1.0F);
@@ -306,10 +322,12 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         }
     }
 
+    @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(ItemTags.CAMEL_FOOD);
     }
 
+    @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if (player.isSecondaryUseActive() && !this.isBaby()) {
@@ -325,17 +343,16 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
                 if (!this.isBaby()) {
                     this.doPlayerRide(player);
                 }
-
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
     }
 
+    @Override
     public boolean handleLeashAtDistance(Entity leashHolder, float distance) {
         if (distance > 6.0F && this.isCamelSitting() && !this.isInPoseTransition() && this.canCamelChangePose()) {
             this.standUp();
         }
-
         return true;
     }
 
@@ -343,59 +360,60 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         return this.wouldNotSuffocateAtTargetPose(this.isCamelSitting() ? Pose.STANDING : Pose.SITTING);
     }
 
+    @Override
     protected boolean handleEating(Player player, ItemStack stack) {
         if (!this.isFood(stack)) {
             return false;
-        } else {
-            boolean flag = this.getHealth() < this.getMaxHealth();
-            if (flag) {
-                this.heal(2.0F);
-            }
+        }
 
-            boolean flag1 = this.isTamed() && this.getAge() == 0 && this.canFallInLove();
-            if (flag1) {
-                this.setInLove(player);
-            }
+        boolean flag = this.getHealth() < this.getMaxHealth();
+        if (flag) {
+            this.heal(2.0F);
+        }
 
-            boolean flag2 = this.isBaby();
-            if (flag2) {
-                this.level().addParticle(ParticleTypes.HAPPY_VILLAGER, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), 0.0D, 0.0D, 0.0D);
-                if (!this.level().isClientSide) {
-                    this.ageUp(10);
-                }
-            }
+        boolean flag1 = this.isTamed() && this.getAge() == 0 && this.canFallInLove();
+        if (flag1) {
+            this.setInLove(player);
+        }
 
-            if (!flag && !flag1 && !flag2) {
-                return false;
-            } else {
-                if (!this.isSilent()) {
-                    SoundEvent soundevent = this.getEatingSound();
-                    if (soundevent != null) {
-                        this.level().playSound((Player)null, this.getX(), this.getY(), this.getZ(), soundevent, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
-                    }
-                }
-
-                this.gameEvent(GameEvent.EAT);
-                return true;
+        boolean flag2 = this.isBaby();
+        if (flag2) {
+            this.level().addParticle(ParticleTypes.HAPPY_VILLAGER, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), 0.0D, 0.0D, 0.0D);
+            if (!this.level().isClientSide) {
+                this.ageUp(10);
             }
         }
+
+        if (!flag && !flag1 && !flag2) {
+            return false;
+        }
+
+        if (!this.isSilent()) {
+            SoundEvent soundevent = this.getEatingSound();
+            if (soundevent != null) {
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), soundevent, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
+            }
+        }
+
+        this.gameEvent(GameEvent.EAT);
+        return true;
     }
 
+    @Override
     protected boolean canPerformRearing() {
         return false;
     }
 
+    @Override
     public boolean canMate(Animal otherAnimal) {
         if (otherAnimal != this && otherAnimal instanceof BactrianCamel camel) {
-            if (this.canParent() && camel.canParent()) {
-                return true;
-            }
+            return this.canParent() && camel.canParent();
         }
-
         return false;
     }
 
     @Nullable
+    @Override
     public BactrianCamel getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         return ModEntities.BACTRIAN_CAMEL.get().create(level);
     }
@@ -405,11 +423,13 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         return SoundEvents.CAMEL_EAT;
     }
 
+    @Override
     protected void actuallyHurt(DamageSource damageSource, float damageAmount) {
         this.standUpInstantly();
         super.actuallyHurt(damageSource, damageAmount);
     }
 
+    @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
         int i = Math.max(this.getPassengers().indexOf(entity), 0);
         boolean flag = i == 0;
@@ -419,28 +439,28 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             if (!flag) {
                 f = -0.7F;
             }
-
             if (entity instanceof Animal) {
                 f += 0.2F;
             }
         }
-
         return (new Vec3(0.0D, (double)f1, (double)(f * partialTick))).yRot(-this.getYRot() * ((float)Math.PI / 180F));
     }
 
+    @Override
     public float getAgeScale() {
-        return this.isBaby() ? 0.45F : 1.0F;
+        return this.isBaby() ? BABY_SCALE : 1.0F;
     }
 
     private double getBodyAnchorAnimationYOffset(boolean firstPassenger, float partialTick, EntityDimensions dimensions, float scale) {
         double d0 = (double)(dimensions.height() - 0.375F * scale);
-        float f = scale * 1.43F;
+        float f = scale * SITTING_HEIGHT_DIFFERENCE;
         float f1 = f - scale * 0.2F;
         float f2 = f - f1;
         boolean flag = this.isInPoseTransition();
         boolean flag1 = this.isCamelSitting();
+
         if (flag) {
-            int i = flag1 ? 40 : 52;
+            int i = flag1 ? SITDOWN_DURATION_TICKS : STANDUP_DURATION_TICKS;
             int j;
             float f3;
             if (flag1) {
@@ -461,31 +481,34 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
         if (flag1 && !flag) {
             d0 += (double)f2;
         }
-
         return d0;
     }
 
+    @Override
     public Vec3 getLeashOffset(float partialTick) {
         EntityDimensions entitydimensions = this.getDimensions(this.getPose());
         float f = this.getAgeScale();
         return new Vec3(0.0D, this.getBodyAnchorAnimationYOffset(true, partialTick, entitydimensions, f) - (double)(0.2F * f), (double)(entitydimensions.width() * 0.56F));
     }
 
+    @Override
     public int getMaxHeadYRot() {
-        return 30;
+        return MAX_HEAD_Y_ROT;
     }
 
+    @Override
     protected boolean canAddPassenger(Entity passenger) {
         return this.getPassengers().size() <= 2;
     }
 
+    @Override
     protected void sendDebugPackets() {
         super.sendDebugPackets();
         DebugPackets.sendEntityBrain(this);
     }
 
     public boolean isCamelSitting() {
-        return (Long)this.entityData.get(LAST_POSE_CHANGE_TICK) < 0L;
+        return this.entityData.get(LAST_POSE_CHANGE_TICK) < 0L;
     }
 
     public boolean isCamelVisuallySitting() {
@@ -494,11 +517,11 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
 
     public boolean isInPoseTransition() {
         long i = this.getPoseTime();
-        return i < (long)(this.isCamelSitting() ? 40 : 52);
+        return i < (long)(this.isCamelSitting() ? SITDOWN_DURATION_TICKS : STANDUP_DURATION_TICKS);
     }
 
     private boolean isVisuallySittingDown() {
-        return this.isCamelSitting() && this.getPoseTime() < 40L && this.getPoseTime() >= 0L;
+        return this.isCamelSitting() && this.getPoseTime() < SITDOWN_DURATION_TICKS && this.getPoseTime() >= 0L;
     }
 
     public void sitDown() {
@@ -508,7 +531,6 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             this.gameEvent(GameEvent.ENTITY_ACTION);
             this.resetLastPoseChangeTick(-this.level().getGameTime());
         }
-
     }
 
     public void standUp() {
@@ -518,7 +540,6 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             this.gameEvent(GameEvent.ENTITY_ACTION);
             this.resetLastPoseChangeTick(this.level().getGameTime());
         }
-
     }
 
     public void standUpInstantly() {
@@ -533,48 +554,51 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
     }
 
     private void resetLastPoseChangeTickToFullStand(long lastPoseChangedTick) {
-        this.resetLastPoseChangeTick(Math.max(0L, lastPoseChangedTick - 52L - 1L));
+        this.resetLastPoseChangeTick(Math.max(0L, lastPoseChangedTick - STANDUP_DURATION_TICKS - 1L));
     }
 
     public long getPoseTime() {
-        return this.level().getGameTime() - Math.abs((Long)this.entityData.get(LAST_POSE_CHANGE_TICK));
+        return this.level().getGameTime() - Math.abs(this.entityData.get(LAST_POSE_CHANGE_TICK));
     }
 
+    @Override
     public SoundEvent getSaddleSoundEvent() {
         return SoundEvents.CAMEL_SADDLE;
     }
 
+    @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         if (!this.firstTick && DASH.equals(key)) {
-            this.dashCooldown = this.dashCooldown == 0 ? 55 : this.dashCooldown;
+            this.dashCooldown = this.dashCooldown == 0 ? DASH_COOLDOWN_TICKS : this.dashCooldown;
         }
-
         super.onSyncedDataUpdated(key);
     }
 
+    @Override
     public boolean isTamed() {
         return true;
     }
 
+    @Override
     public void openCustomInventoryScreen(Player player) {
         if (!this.level().isClientSide) {
             player.openHorseInventory(this, this.inventory);
         }
-
-    }
-
-    protected BodyRotationControl createBodyControl() {
-        return new BactrianCamel.BactrianCamelBodyRotationControl(this);
     }
 
     @Override
-    public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
+    protected BodyRotationControl createBodyControl() {
+        return new BactrianCamelBodyRotationControl(this);
+    }
+
+    @Override
+    public void performRangedAttack(LivingEntity target, float velocity) {
         BactrianCamelSpit spit = new BactrianCamelSpit(this.level(), this);
-        double d0 = pTarget.getX() - this.getX();
-        double d1 = pTarget.getY(0.3333333333333333D) - spit.getY();
-        double d2 = pTarget.getZ() - this.getZ();
+        double d0 = target.getX() - this.getX();
+        double d1 = target.getY(0.3333333333333333D) - spit.getY();
+        double d2 = target.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2) * 0.2D;
-        spit.shoot(d0, d1 + d3, d2, 1.5F, 10.0F); // Last two values are velocity and inaccuracy
+        spit.shoot(d0, d1 + d3, d2, 1.5F, 10.0F);
 
         if (!this.isSilent()) {
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_SPIT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
@@ -586,7 +610,7 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
     static {
         DASH = SynchedEntityData.defineId(BactrianCamel.class, EntityDataSerializers.BOOLEAN);
         LAST_POSE_CHANGE_TICK = SynchedEntityData.defineId(BactrianCamel.class, EntityDataSerializers.LONG);
-        SITTING_DIMENSIONS = EntityDimensions.scalable(1.7F, 2.375F - 1.43F).withEyeHeight(0.845F);
+        SITTING_DIMENSIONS = EntityDimensions.scalable(1.7F, 2.375F - SITTING_HEIGHT_DIFFERENCE).withEyeHeight(0.845F);
     }
 
     class BactrianCamelBodyRotationControl extends BodyRotationControl {
@@ -594,6 +618,7 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             super(camel);
         }
 
+        @Override
         public void clientTick() {
             if (!BactrianCamel.this.refuseToMove()) {
                 super.clientTick();
@@ -606,6 +631,7 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             super(BactrianCamel.this);
         }
 
+        @Override
         public void tick() {
             if (!BactrianCamel.this.hasControllingPassenger()) {
                 super.tick();
@@ -618,11 +644,11 @@ public class BactrianCamel extends AbstractHorse implements PlayerRideableJumpin
             super(BactrianCamel.this);
         }
 
+        @Override
         public void tick() {
             if (this.operation == Operation.MOVE_TO && !BactrianCamel.this.isLeashed() && BactrianCamel.this.isCamelSitting() && !BactrianCamel.this.isInPoseTransition() && BactrianCamel.this.canCamelChangePose()) {
                 BactrianCamel.this.standUp();
             }
-
             super.tick();
         }
     }

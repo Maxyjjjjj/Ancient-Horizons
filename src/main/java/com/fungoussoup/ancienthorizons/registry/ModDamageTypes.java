@@ -18,5 +18,4 @@ public class ModDamageTypes {
     static {
         TAIL_WHIP = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "tail_whip"));
     }
-
 }

@@ -1,7 +1,12 @@
 {
   "values": [
-    "minecraft:melon",
-    "minecraft:hay_bale",
-    "minecraft:cake"
+    "minecraft:wheat",
+    "minecraft:hay_block",
+    "minecraft:apple",
+    "minecraft:golden_apple",
+    "minecraft:golden_carrot",
+    "minecraft:carrot",
+    "minecraft:sugar_cane",
+    "ancienthorizons:banana"
   ]
 }

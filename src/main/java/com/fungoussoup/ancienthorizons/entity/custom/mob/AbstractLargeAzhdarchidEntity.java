@@ -95,6 +95,15 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     // Navigation
     private final PathNavigation groundNavigation;
     private final PathNavigation flyingNavigation;
+    private int pathCheckCooldown = 0;
+    private boolean cachedNoGroundPath = false;
+
+    private FlightState flightState = FlightState.GROUNDED;
+    private int flightStateTicks = 0;
+
+    private int airAttackCooldown = 0;
+    private int airAttackTicks = 0;
+
 
     public AbstractLargeAzhdarchidEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -133,8 +142,8 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     protected void registerGoals() {
         super.registerGoals();
         // Keep takeoff/land goals at low priority
-        this.goalSelector.addGoal(6, new AzhdarchidTakeoffGoal());
-        this.goalSelector.addGoal(7, new AzhdarchidLandGoal());
+        this.goalSelector.addGoal(6, new AzhdarchidTakeoffGoal(this));
+        this.goalSelector.addGoal(7, new AzhdarchidLandGoal(this));
 
         // Ground-based goals should be higher priority
         this.goalSelector.addGoal(0, new AzhdarchidAirAttackGoal(this)); // Highest priority for air attacks
@@ -157,60 +166,16 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
 
     @Override
     public void tick() {
-        // Safety: prevent overflow
-        if (this.tickCount > Integer.MAX_VALUE - 1000) {
-            this.tickCount = 0;
-        }
-
         super.tick();
-
-        if (this.level().isClientSide) {
-            if (this.clientSideStandAnimation != this.clientSideStandAnimationO) {
-                this.refreshDimensions();
-            }
-
-            this.setupAnimationStates();
-            this.clientSideStandAnimationO = this.clientSideStandAnimation;
-        }
-
-        if (!this.level().isClientSide) {
-            // Update takeoff cooldown
-            if (this.takeoffCooldown > 0) {
-                this.takeoffCooldown--;
-                this.entityData.set(DATA_TAKEOFF_COOLDOWN, this.takeoffCooldown);
-            }
-
-            // Handle flight mechanics with safety
-            try {
-                this.updateFlightState();
-            } catch (Exception e) {
-                // If flight update fails, stop flying to be safe
-                if (this.isFlying()) {
-                    this.stopFlying();
-                }
-            }
-        }
-
-        // Client-side visual effects
-        this.updateFlightAnimation();
-        this.updateRollAnimation();
+        tickFlightState();
+        if (airAttackCooldown > 0) airAttackCooldown--;
     }
 
-    private void updateFlightState() {
-        boolean wasFlying = this.isFlying();
-        boolean shouldFly = this.shouldStartFlying();
-        boolean shouldLand = this.shouldLand();
-
-        if (!wasFlying && shouldFly && this.takeoffCooldown <= 0) {
-            this.startFlying();
-        } else if (wasFlying && shouldLand) {
-            this.stopFlying();
-        }
-
-        // Update navigation based on flight state
-        if (this.isFlying() != wasFlying) {
-            this.navigation = this.isFlying() ? this.flyingNavigation : this.groundNavigation;
-        }
+    public enum FlightState {
+        GROUNDED,
+        TAKEOFF,
+        FLYING,
+        LANDING
     }
 
     @Override
@@ -222,45 +187,6 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
             this.updatePersistentAnger((ServerLevel) this.level(), true);
         }
 
-    }
-
-    private boolean shouldStartFlying() {
-        // Start flying if player is riding and wants to take off, or if jumping while moving
-        if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
-            return this.onGround() && this.getDeltaMovement().horizontalDistance() > 0.1;
-        }
-
-        // AI conditions for taking off
-        return this.onGround() && this.getTarget() != null &&
-                this.distanceToSqr(this.getTarget()) > 100 &&
-                this.random.nextInt(200) == 0;
-    }
-
-    private boolean shouldLand() {
-        // Always land when touching ground
-        if (this.onGround()) return true;
-
-        // Player controlled - land when shift is held and close to ground
-        if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
-            return this.getDeltaMovement().y < -0.2 && this.distanceToGround() < 10;
-        }
-
-        // AI landing conditions
-        LivingEntity target = this.getTarget();
-
-        // Land if no target
-        if (target == null) {
-            return this.distanceToGround() < 5 || this.random.nextInt(200) == 0;
-        }
-
-        // Land if target is now close enough for ground combat
-        double distanceSq = this.distanceToSqr(target);
-        if (distanceSq < 64) { // Within 8 blocks
-            return this.distanceToGround() < 8;
-        }
-
-        // Land if been flying too long without reaching target (prevent infinite flight)
-        return this.tickCount % 1200 == 0; // Every minute, consider landing
     }
 
     @Override
@@ -294,45 +220,8 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     }
 
     @Override
-    public boolean canFly() {
-        return true;
-    }
-
-    @Override
-    public boolean shouldGlide() {
-        return false;
-    }
-
-    @Override
     public boolean canStandOnFluid(FluidState fluidState) {
         return false; // Cannot stand on water - will sink
-    }
-
-    public void startFlying() {
-        // Require some ground speed to take off
-        double groundSpeed = Math.sqrt(
-                this.getDeltaMovement().x * this.getDeltaMovement().x +
-                        this.getDeltaMovement().z * this.getDeltaMovement().z
-        );
-
-        if (groundSpeed < 0.1 && !this.isVehicle()) {
-            // Not moving fast enough for takeoff
-            return;
-        }
-
-        this.entityData.set(DATA_FLYING, true);
-        this.takeoffCooldown = 200; // 10 second cooldown - longer to prevent frequent flying
-        this.playSound(this.getTakeoffSound(), 1.0F, 1.0F);
-
-        // Give initial upward velocity based on ground speed
-        Vec3 motion = this.getDeltaMovement();
-        this.setDeltaMovement(motion.x * 1.2, Math.max(motion.y, 0.4 + groundSpeed * 0.5), motion.z * 1.2);
-    }
-
-
-    public void stopFlying() {
-        this.entityData.set(DATA_FLYING, false);
-        this.playSound(this.getLandSound(), 1.0F, 1.0F);
     }
 
     private void updateFlightAnimation() {
@@ -517,11 +406,6 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     }
 
     @Override
-    public PathNavigation getNavigation() {
-        return this.isFlying() ? this.flyingNavigation : this.groundNavigation;
-    }
-
-    @Override
     public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return !this.isFlying() && super.causeFallDamage(fallDistance, damageMultiplier, damageSource);
     }
@@ -565,39 +449,23 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
         this.entityData.set(DATA_SADDLED, saddled);
     }
 
-    // SemiFlyer implementation
-    @Override
-    public boolean isFlying() {
-        return this.entityData.get(DATA_FLYING);
-    }
+    private void tickFlightState() {
+        flightStateTicks++;
 
-    @Override
-    public void setFlying(boolean flying) {
-        boolean currently = isFlying();
-        if (currently == flying) return;
-
-        this.entityData.set(DATA_FLYING, flying);
-
-        try {
-            if (flying) {
-                this.navigation = this.flyingNavigation;
-                this.moveControl = new SemiFlyingMoveControl(this);
-                this.lookControl = new SemiFlyingLookControl(this);
-                this.setNoGravity(true);
-                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
-                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2);
-                }
-            } else {
-                this.navigation = this.groundNavigation;
-                this.moveControl = new MoveControl(this);
-                this.setNoGravity(false);
-                if (this.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
-                    this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25);
+        switch (flightState) {
+            case GROUNDED, FLYING -> {
+                // nothing
+            }
+            case TAKEOFF -> {
+                if (flightStateTicks > 20) {
+                    setFlightState(FlightState.FLYING);
                 }
             }
-        } catch (Exception e) {
-            // Revert state if something goes wrong
-            this.entityData.set(DATA_FLYING, currently);
+            case LANDING -> {
+                if (this.onGround()) {
+                    setFlightState(FlightState.GROUNDED);
+                }
+            }
         }
     }
 
@@ -634,10 +502,19 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setFlying(compound.getBoolean("Flying"));
+
         this.setSaddled(compound.getBoolean("Saddled"));
         this.takeoffCooldown = compound.getInt("TakeoffCooldown");
+
+        if (compound.getBoolean("Flying")) {
+            this.flightState = FlightState.FLYING;
+            this.setNoGravity(true);
+        } else {
+            this.flightState = FlightState.GROUNDED;
+            this.setNoGravity(false);
+        }
     }
+
 
     public boolean isSoaring() {
         return this.entityData.get(DATA_SOARING);
@@ -781,50 +658,59 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
         this.entityData.set(DATA_ATTACKING, attacking);
     }
 
-    class AzhdarchidTakeoffGoal extends Goal {
-        private BlockPos targetPos;
+    public static class AzhdarchidTakeoffGoal extends Goal {
+        private final AbstractLargeAzhdarchidEntity mob;
 
-        public AzhdarchidTakeoffGoal() {
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        public AzhdarchidTakeoffGoal(AbstractLargeAzhdarchidEntity mob) {
+            this.mob = mob;
+            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override
         public boolean canUse() {
-            if (AbstractLargeAzhdarchidEntity.this.isFlying()) return false;
-            if (AbstractLargeAzhdarchidEntity.this.takeoffCooldown > 0) return false;
+            if (mob.getFlightState() != FlightState.GROUNDED) return false;
+            if (mob.getTarget() == null) return false;
 
-            LivingEntity target = AbstractLargeAzhdarchidEntity.this.getTarget();
-
-            // Only fly if target exists and is FAR away
-            if (target != null) {
-                double distanceSq = AbstractLargeAzhdarchidEntity.this.distanceToSqr(target);
-                // Must be at least 30 blocks away
-                if (distanceSq > 900) {
-                    targetPos = target.blockPosition();
-                    // Check if we can't reach via ground
-                    return !AbstractLargeAzhdarchidEntity.this.hasGroundPath(targetPos);
-                }
-            }
-
-            return false;
+            return mob.distanceToSqr(mob.getTarget()) > 16 * 16;
         }
 
         @Override
         public void start() {
-            AbstractLargeAzhdarchidEntity.this.startFlying();
+            mob.requestTakeoff();
+        }
+    }
+
+    public FlightState getFlightState() {
+        return flightState;
+    }
+
+    public void requestTakeoff() {
+        if (flightState == FlightState.GROUNDED) {
+            setFlightState(FlightState.TAKEOFF);
+        }
+    }
+
+    public static class AzhdarchidLandGoal extends Goal {
+        private final AbstractLargeAzhdarchidEntity mob;
+
+        public AzhdarchidLandGoal(AbstractLargeAzhdarchidEntity mob) {
+            this.mob = mob;
+            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override
-        public boolean canContinueToUse() {
-            if (!AbstractLargeAzhdarchidEntity.this.isFlying()) return false;
+        public boolean canUse() {
+            return mob.getFlightState() == FlightState.FLYING
+                    && mob.getTarget() == null
+                    && mob.onGround();
+        }
 
-            LivingEntity target = AbstractLargeAzhdarchidEntity.this.getTarget();
-            if (target == null) return false;
-
-            // Stop if we're now close enough
-            return AbstractLargeAzhdarchidEntity.this.distanceToSqr(target) > 64;
+        @Override
+        public void start() {
+            mob.requestLanding();
         }
     }
+
 
     private double distanceToGround() {
         BlockPos pos = this.blockPosition();
@@ -837,34 +723,12 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
         return 20; // Max check distance
     }
 
-    class AzhdarchidLandGoal extends Goal {
-        public AzhdarchidLandGoal() {
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            if (!AbstractLargeAzhdarchidEntity.this.isFlying()) return false;
-
-            // Land if on ground
-            if (AbstractLargeAzhdarchidEntity.this.onGround()) return true;
-
-            // Land if no target
-            LivingEntity target = AbstractLargeAzhdarchidEntity.this.getTarget();
-            if (target == null) {
-                return AbstractLargeAzhdarchidEntity.this.distanceToGround() < 5;
-            }
-
-            // Land if target is now close
-            double distanceSq = AbstractLargeAzhdarchidEntity.this.distanceToSqr(target);
-            return distanceSq < 64 && AbstractLargeAzhdarchidEntity.this.distanceToGround() < 8;
-        }
-
-        @Override
-        public void start() {
-            AbstractLargeAzhdarchidEntity.this.stopFlying();
+    public void requestLanding() {
+        if (flightState == FlightState.FLYING) {
+            setFlightState(FlightState.LANDING);
         }
     }
+
 
     @Nullable
     @Override
@@ -886,117 +750,138 @@ public abstract class AbstractLargeAzhdarchidEntity extends Animal implements Se
         }
     }
 
-    static class AzhdarchidAirAttackGoal extends Goal {
-        private final AbstractLargeAzhdarchidEntity azhdarchid;
-        private int diveTimer = 0;
-        private Vec3 diveTarget = null;
-        private static final int DIVE_DURATION = 30; // 1.5 seconds
+    public static class AzhdarchidAirAttackGoal extends Goal {
+        private final AbstractLargeAzhdarchidEntity mob;
+        private LivingEntity target;
 
-        public AzhdarchidAirAttackGoal(AbstractLargeAzhdarchidEntity azhdarchid) {
-            this.azhdarchid = azhdarchid;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        public AzhdarchidAirAttackGoal(AbstractLargeAzhdarchidEntity mob) {
+            this.mob = mob;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            LivingEntity target = this.azhdarchid.getTarget();
+            if (mob.getFlightState() != FlightState.FLYING) return false;
+            if (mob.airAttackCooldown > 0) return false;
 
-            // Must be flying and have a valid target
-            if (!this.azhdarchid.isFlying() || target == null) return false;
+            LivingEntity t = mob.getTarget();
+            if (t == null || !t.isAlive()) return false;
 
-            double distanceSq = this.azhdarchid.distanceToSqr(target);
-            // Attack only if target is within 8–40 blocks
-            if (distanceSq < 64 || distanceSq > 1600) return false;
-
-            // 1 in 50 random chance to dive
-            return this.azhdarchid.random.nextInt(50) == 0;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            if (this.diveTimer > 0) return true;
-
-            LivingEntity target = this.azhdarchid.getTarget();
-            if (target == null || !target.isAlive()) return false;
-
-            double distanceSq = this.azhdarchid.distanceToSqr(target);
-            return this.azhdarchid.isFlying() && distanceSq < 1600;
+            // cheap checks ONLY
+            return mob.distanceToSqr(t) < 40 * 40;
         }
 
         @Override
         public void start() {
-            LivingEntity target = this.azhdarchid.getTarget();
-            if (target != null) {
-                this.diveTarget = target.position().subtract(0, 1.0, 0); // aim just below target
-                this.diveTimer = DIVE_DURATION;
-                this.azhdarchid.setAttacking(true);
-                this.azhdarchid.setAnimation(AZHDARCHID_DIVE);
+            this.target = mob.getTarget();
+            mob.airAttackTicks = 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return target != null
+                    && target.isAlive()
+                    && mob.airAttackTicks < 40
+                    && mob.getFlightState() == FlightState.FLYING;
+        }
+
+        @Override
+        public void tick() {
+            mob.airAttackTicks++;
+
+            Vec3 dive = target.position().subtract(mob.position()).normalize().scale(0.8);
+            mob.setDeltaMovement(dive);
+
+            mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
+
+            if (mob.distanceToSqr(target) < 4.0) {
+                mob.doHurtTarget(target);
+                stop();
             }
         }
 
         @Override
         public void stop() {
-            this.diveTimer = 0;
-            this.diveTarget = null;
-            this.azhdarchid.setAttacking(false);
-            this.azhdarchid.diveAnimationState.stop();
+            mob.airAttackCooldown = 100;
+            target = null;
         }
+    }
 
-        public void tick() {
-            LivingEntity target = azhdarchid.getTarget();
-            if (target == null || this.diveTarget == null) {
-                this.stop();
-                return;
-            }
+    // =========================
+// SemiFlyer (SAFE)
+// =========================
 
-            // Always face the target
-            azhdarchid.getLookControl().setLookAt(target, 30.0F, 30.0F);
+    @Override
+    public boolean isFlying() {
+        return flightState == FlightState.FLYING
+                || flightState == FlightState.TAKEOFF;
+    }
 
-            if (this.diveTimer > 0) {
-                try {
-                    // Dive phase: move rapidly toward diveTarget
-                    Vec3 currentPos = azhdarchid.position();
-                    Vec3 direction = this.diveTarget.subtract(currentPos).normalize();
+    @Override
+    public boolean canFly() {
+        return true;
+    }
 
-                    double speed = azhdarchid.getAttributeValue(Attributes.FLYING_SPEED) * 2.5;
-                    Vec3 motion = direction.scale(speed);
+    @Override
+    public boolean shouldGlide() {
+        return false;
+    }
 
-                    // Clamp velocity to prevent runaway
-                    double maxVelocity = 2.0;
-                    if (motion.lengthSqr() > maxVelocity * maxVelocity) {
-                        motion = motion.normalize().scale(maxVelocity);
-                    }
-
-                    azhdarchid.setDeltaMovement(motion);
-                    this.diveTimer--;
-
-                    // Check for collision or proximity
-                    if (currentPos.distanceToSqr(this.diveTarget) < 2.0) {
-                        // Impact phase
-                        this.performDiveAttack(target);
-                        this.stop();
-                    }
-                } catch (Exception e) {
-                    // If anything goes wrong during dive, abort
-                    this.stop();
-                }
-            } else {
-                // If dive ended, return to normal flight
-                azhdarchid.setAnimation(AZHDARCHID_SOAR);
-            }
+    @Override
+    public void startFlying() {
+        if (flightState == FlightState.GROUNDED) {
+            requestTakeoff();
         }
+    }
 
-        private void performDiveAttack(LivingEntity target) {
-            if (target != null && this.azhdarchid.distanceTo(target) < 4.0F) {
-                float attackDamage = (float) this.azhdarchid.getAttributeValue(Attributes.ATTACK_DAMAGE);
-                target.hurt(this.azhdarchid.damageSources().mobAttack(this.azhdarchid), attackDamage);
-                this.azhdarchid.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 1.0F, 1.0F);
+    @Override
+    public void stopFlying() {
+        if (flightState == FlightState.FLYING) {
+            requestLanding();
+        }
+    }
+
+    /**
+     * Compatibility shim ONLY.
+     * Never mutates navigation / gravity / controllers.
+     */
+    @Override
+    public void setFlying(boolean flying) {
+        if (flying) {
+            startFlying();
+        } else {
+            stopFlying();
+        }
+    }
+
+    private void setFlightState(FlightState newState) {
+        if (this.flightState == newState) return;
+
+        this.flightState = newState;
+        this.flightStateTicks = 0;
+
+        switch (newState) {
+            case GROUNDED -> {
+                this.setNoGravity(false);
+                this.entityData.set(DATA_FLYING, false);
+            }
+            case TAKEOFF -> {
+                this.setNoGravity(true);
+                this.entityData.set(DATA_FLYING, true);
+                this.setDeltaMovement(this.getDeltaMovement().add(0, 0.6, 0));
+            }
+            case FLYING -> {
+                this.setNoGravity(true);
+                this.entityData.set(DATA_FLYING, true);
+            }
+            case LANDING -> {
+                this.setNoGravity(false);
             }
         }
     }
 
-
-    public MoveControl getMovementControl() {
-        return this.moveControl;
+    @Override
+    public PathNavigation getNavigation() {
+        return isFlying() ? flyingNavigation : groundNavigation;
     }
 }

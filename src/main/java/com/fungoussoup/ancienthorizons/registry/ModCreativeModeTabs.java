@@ -533,6 +533,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.HIPPOPOTAMUS_SPAWN_EGG);
                         output.accept(ModItems.HOATZIN_SPAWN_EGG);
                         output.accept(ModItems.HYPNOVENATOR_SPAWN_EGG);
+                        output.accept(ModItems.KOALA_SPAWN_EGG);
                         output.accept(ModItems.LATENIVENATRIX_SPAWN_EGG);
                         output.accept(ModItems.LION_SPAWN_EGG);
                         output.accept(ModItems.MAIP_SPAWN_EGG);

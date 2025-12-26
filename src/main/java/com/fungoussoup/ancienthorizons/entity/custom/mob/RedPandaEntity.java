@@ -3,6 +3,7 @@ package com.fungoussoup.ancienthorizons.entity.custom.mob;
 import com.fungoussoup.ancienthorizons.entity.interfaces.ArborealAnimal;
 import com.fungoussoup.ancienthorizons.entity.interfaces.SleepingAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
+import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -245,17 +246,17 @@ public class RedPandaEntity extends Animal implements SleepingAnimal, ArborealAn
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.PANDA_AMBIENT;
+        return ModSoundEvents.RED_PANDA_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.PANDA_HURT;
+        return ModSoundEvents.RED_PANDA_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.PANDA_DEATH;
+        return ModSoundEvents.RED_PANDA_DEATH;
     }
 
     @Override

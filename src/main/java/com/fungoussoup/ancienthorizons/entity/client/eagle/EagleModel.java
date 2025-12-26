@@ -88,7 +88,6 @@ public class EagleModel<T extends EagleEntity> extends HierarchicalModel<T> {
             this.legright.xRot = 0.0F;
             this.legleft.xRot = 0.0F;
         }
-        this.animate(entity.sitAnimationState, EAGLE_SIT, ageInTicks, 1f);
     }
 
     private void applyWalkingAnimation(float limbSwing, float limbSwingAmount) {

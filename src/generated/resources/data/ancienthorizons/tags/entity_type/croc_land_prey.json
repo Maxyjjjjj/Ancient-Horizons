@@ -1,13 +1,13 @@
 {
-    "values": [
-        "minecraft:chicken",
-        "minecraft:cow",
-        "minecraft:pig",
-        "minecraft:sheep",
-        "minecraft:rabbit",
-        "minecraft:goat",
-        "ancienthorizons:pheasant",
-        "ancienthorizons:hare",
-        "ancienthorizons:domestic_goat"
-    ]
+  "values": [
+    "minecraft:pig",
+    "minecraft:cow",
+    "minecraft:sheep",
+    "minecraft:horse",
+    "minecraft:donkey",
+    "ancienthorizons:domestic_goat",
+    "ancienthorizons:zebra",
+    "ancienthorizons:deer",
+    "ancienthorizons:wildebeest"
+  ]
 }

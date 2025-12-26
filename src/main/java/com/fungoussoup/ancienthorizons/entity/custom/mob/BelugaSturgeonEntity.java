@@ -1,5 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
+import com.fungoussoup.ancienthorizons.entity.custom.mob.misc.FishAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.entity.interfaces.Caviarable;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
@@ -19,17 +20,19 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.animal.PolarBear;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BelugaSturgeonEntity extends TrulyWaterAnimal implements Caviarable, Bucketable {
+public class BelugaSturgeonEntity extends FishAnimal implements Caviarable, Bucketable {
 
     private static final EntityDataAccessor<Integer> CAVIAR_COOLDOWN =
             SynchedEntityData.defineId(BelugaSturgeonEntity.class, EntityDataSerializers.INT);
@@ -39,7 +42,7 @@ public class BelugaSturgeonEntity extends TrulyWaterAnimal implements Caviarable
     private static final int MAX_CAVIAR_COOLDOWN = 6000; // 5 minutes
     private static final int MIN_BREEDING_AGE = 24000; // 20 minutes
 
-    public BelugaSturgeonEntity(EntityType<? extends TrulyWaterAnimal> type, Level level) {
+    public BelugaSturgeonEntity(EntityType<? extends FishAnimal> type, Level level) {
         super(type, level);
     }
 
@@ -54,11 +57,13 @@ public class BelugaSturgeonEntity extends TrulyWaterAnimal implements Caviarable
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0, Ingredient.of(ModItems.WORM.get()), false));
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6, 1.4,
-                EntitySelector.NO_SPECTATORS::test));
+                EntitySelector.NO_CREATIVE_OR_SPECTATOR::test));
+        this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, PolarBear.class, 8.0F, 1.6, 1.4));
     }
 
     public static AttributeSupplier.Builder createAttributes() {

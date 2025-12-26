@@ -26,6 +26,10 @@ public class RedPandaRenderer extends MobRenderer<RedPandaEntity, RedPandaModel<
 
     @Override
     public ResourceLocation getTextureLocation(RedPandaEntity redPandaEntity) {
-        return null;
+        if (redPandaEntity.isSleeping()) {
+            return ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "textures/entity/red_panda/red_panda_sleeping.png");
+        } else {
+            return ResourceLocation.fromNamespaceAndPath(AncientHorizons.MOD_ID, "textures/entity/red_panda/red_panda.png");
+        }
     }
 }

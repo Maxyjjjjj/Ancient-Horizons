@@ -22,6 +22,19 @@ public class ModMessages {
                 MountAttackPacket.STREAM_CODEC,
                 MountAttackPacket::handle
         );
+
+        // Register Bestiary Sync
+        registrar.playToClient(
+                BestiaryNetworking.SyncBestiaryPacket.TYPE,
+                BestiaryNetworking.SyncBestiaryPacket.STREAM_CODEC,
+                BestiaryNetworking.SyncBestiaryPacket::handle
+        );
+
+        registrar.playToClient(
+                BestiaryNetworking.DiscoveryNotificationPacket.TYPE,
+                BestiaryNetworking.DiscoveryNotificationPacket.STREAM_CODEC,
+                BestiaryNetworking.DiscoveryNotificationPacket::handle
+        );
     }
 
     public static <MSG extends CustomPacketPayload> void sendToServer(MSG message) {

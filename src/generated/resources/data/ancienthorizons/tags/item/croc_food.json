@@ -1,7 +1,7 @@
 {
-    "values": [
-        "#minecraft:fishes",
-        "#minecraft:meat",
-        "minecraft:rotten_flesh"
-    ]
+  "values": [
+    "#minecraft:meat",
+    "#minecraft:fishes",
+    "minecraft:rotten_flesh"
+  ]
 }

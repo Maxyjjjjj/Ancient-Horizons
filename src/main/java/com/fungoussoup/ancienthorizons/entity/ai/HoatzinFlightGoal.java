@@ -2,70 +2,76 @@ package com.fungoussoup.ancienthorizons.entity.ai;
 
 import com.fungoussoup.ancienthorizons.entity.custom.mob.HoatzinEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
 public class HoatzinFlightGoal extends Goal {
+
     private final HoatzinEntity hoatzin;
     private BlockPos targetPos;
-    private int cooldown = 0;
+
+    private int flightTicks;
+    private int cooldown;
+
+    private static final int MAX_FLIGHT_TICKS = 100;
+    private static final int FLIGHT_COOLDOWN = 100;
+
+    private static final double MOVEMENT_SPEED = 0.25;
+    private static final double ESCAPE_SPEED = 0.35;
+    private static final double MAX_VELOCITY = 1.5;
 
     public HoatzinFlightGoal(HoatzinEntity hoatzin) {
         this.hoatzin = hoatzin;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
+
+    /* =========================
+       START CONDITIONS
+       ========================= */
 
     @Override
     public boolean canUse() {
-        if (cooldown > 0) {
-            cooldown--;
-            return false;
-        }
+        if (cooldown > 0) return false;
+        if (hoatzin.isFlying() || !hoatzin.canFly()) return false;
 
-        // Don't fly if already flying, tired, or can't fly
-        if (hoatzin.isFlying() || !hoatzin.canFly()) {
-            return false;
-        }
+        if (hoatzin.getLastHurtByMob() != null) return true;
+        if (hoatzin.shouldGlide() && !hoatzin.onGround()) return true;
 
-        // Fly when panicking or trying to escape danger
-        if (hoatzin.getLastHurtByMob() != null) {
-            return true;
-        }
-
-        // Occasionally fly to reach food or interesting spots
-        if (hoatzin.getRandom().nextInt(200) == 0) {
+        if (hoatzin.getRandom().nextInt(300) == 0) {
             targetPos = findNearbyPerchingSpot();
             return targetPos != null;
         }
 
-        // Fly when falling from height to glide
-        return hoatzin.shouldGlide();
+        return false;
     }
 
     @Override
     public boolean canContinueToUse() {
-        // Continue flying while we have stamina and haven't reached target
-        if (!hoatzin.isFlying()) {
-            return false;
-        }
+        if (!hoatzin.isFlying()) return false;
+        if (++flightTicks > MAX_FLIGHT_TICKS) return false;
 
-        // If we have a target, check if we've reached it
+        if (hoatzin.getLastHurtByMob() != null) return true;
+
         if (targetPos != null) {
-            double distance = hoatzin.distanceToSqr(Vec3.atCenterOf(targetPos));
-            return !(distance < 4.0D);
+            return hoatzin.distanceToSqr(Vec3.atCenterOf(targetPos)) > 4.0;
         }
 
-        return true;
+        return false;
     }
+
+    /* =========================
+       LIFECYCLE
+       ========================= */
 
     @Override
     public void start() {
+        flightTicks = 0;
         hoatzin.startFlying();
 
-        // If escaping danger, find a high safe spot
         if (hoatzin.getLastHurtByMob() != null) {
             targetPos = findEscapeSpot();
         }
@@ -73,104 +79,135 @@ public class HoatzinFlightGoal extends Goal {
 
     @Override
     public void stop() {
-        hoatzin.stopFlying();
         targetPos = null;
-        cooldown = 100; // 5 second cooldown before trying to fly again
+        cooldown = FLIGHT_COOLDOWN;
+        flightTicks = 0;
+        // ❌ NO stopFlying() here
     }
+
+    /* =========================
+       TICK
+       ========================= */
 
     @Override
     public void tick() {
-        if (targetPos != null) {
-            // Fly towards target position
-            Vec3 targetVec = Vec3.atCenterOf(targetPos);
-            Vec3 currentPos = hoatzin.position();
-            Vec3 direction = targetVec.subtract(currentPos).normalize();
+        if (!hoatzin.isFlying()) return;
 
-            // Apply movement towards target
-            hoatzin.setDeltaMovement(
-                    direction.x * 0.3D,
-                    Math.max(direction.y * 0.2D, -0.1D), // Controlled vertical movement
-                    direction.z * 0.3D
-            );
+        if (targetPos != null) {
+            flyTowardsTarget();
         } else if (hoatzin.getLastHurtByMob() != null) {
-            // Escape behavior - fly away from attacker
-            Vec3 escapeDirection = hoatzin.position().subtract(hoatzin.getLastHurtByMob().position()).normalize();
-            hoatzin.setDeltaMovement(
-                    escapeDirection.x * 0.4D,
-                    0.3D, // Fly upward when escaping
-                    escapeDirection.z * 0.4D
-            );
+            escapeFromDanger();
+        } else {
+            maintainGlide();
+        }
+
+        clampVelocity();
+    }
+
+    /* =========================
+       MOVEMENT
+       ========================= */
+
+    private void flyTowardsTarget() {
+        Vec3 dir = Vec3.atCenterOf(targetPos)
+                .subtract(hoatzin.position())
+                .normalize();
+
+        Vec3 newVel = hoatzin.getDeltaMovement()
+                .lerp(dir.scale(MOVEMENT_SPEED), 0.1);
+
+        hoatzin.setDeltaMovement(newVel);
+    }
+
+    private void escapeFromDanger() {
+        Vec3 away = hoatzin.position()
+                .subtract(hoatzin.getLastHurtByMob().position())
+                .normalize();
+
+        Vec3 targetVel = new Vec3(
+                away.x * ESCAPE_SPEED,
+                0.25,
+                away.z * ESCAPE_SPEED
+        );
+
+        hoatzin.setDeltaMovement(
+                hoatzin.getDeltaMovement().lerp(targetVel, 0.15)
+        );
+    }
+
+    private void maintainGlide() {
+        Vec3 v = hoatzin.getDeltaMovement();
+        hoatzin.setDeltaMovement(
+                v.x * 0.98,
+                Math.max(v.y - 0.04, -0.5),
+                v.z * 0.98
+        );
+    }
+
+    private void clampVelocity() {
+        Vec3 v = hoatzin.getDeltaMovement();
+        if (v.length() > MAX_VELOCITY) {
+            hoatzin.setDeltaMovement(v.normalize().scale(MAX_VELOCITY));
         }
     }
 
+    /* =========================
+       TARGETING HELPERS
+       ========================= */
+
     private BlockPos findNearbyPerchingSpot() {
-        BlockPos currentPos = hoatzin.blockPosition();
+        BlockPos base = hoatzin.blockPosition();
 
-        // Look for trees or high spots within 16 blocks
-        for (int i = 0; i < 10; i++) {
-            int x = currentPos.getX() + hoatzin.getRandom().nextInt(32) - 16;
-            int z = currentPos.getZ() + hoatzin.getRandom().nextInt(32) - 16;
-            int y = currentPos.getY() + hoatzin.getRandom().nextInt(16) + 2;
+        for (int i = 0; i < 8; i++) {
+            BlockPos pos = base.offset(
+                    hoatzin.getRandom().nextInt(24) - 12,
+                    hoatzin.getRandom().nextInt(12) + 2,
+                    hoatzin.getRandom().nextInt(24) - 12
+            );
 
-            BlockPos checkPos = new BlockPos(x, y, z);
-
-            // Check if it's a valid perching spot (leaves or solid block with air above)
-            if (isValidPerchingSpot(checkPos)) {
-                return checkPos;
+            if (hoatzin.level().isLoaded(pos)
+                    && isValidPerchingSpot(pos)
+                    && hasLineOfSight(pos)) {
+                return pos;
             }
         }
-
         return null;
     }
 
     private BlockPos findEscapeSpot() {
-        BlockPos currentPos = hoatzin.blockPosition();
-        Vec3 escapeDirection;
+        Vec3 dir = hoatzin.getLastHurtByMob() != null
+                ? hoatzin.position().subtract(hoatzin.getLastHurtByMob().position()).normalize()
+                : new Vec3(
+                hoatzin.getRandom().nextGaussian(),
+                0,
+                hoatzin.getRandom().nextGaussian()
+        ).normalize();
 
-        if (hoatzin.getLastHurtByMob() != null) {
-            escapeDirection = hoatzin.position().subtract(hoatzin.getLastHurtByMob().position()).normalize();
-        } else {
-            // Random escape direction if no clear attacker
-            escapeDirection = new Vec3(
-                    hoatzin.getRandom().nextGaussian(),
-                    0,
-                    hoatzin.getRandom().nextGaussian()
-            ).normalize();
-        }
+        BlockPos base = hoatzin.blockPosition().offset(
+                (int)(dir.x * 12),
+                4 + hoatzin.getRandom().nextInt(4),
+                (int)(dir.z * 12)
+        );
 
-        // Find a spot 8-16 blocks away in the escape direction, preferably up high
-        int distance = 8 + hoatzin.getRandom().nextInt(8);
-        int x = (int) (currentPos.getX() + escapeDirection.x * distance);
-        int z = (int) (currentPos.getZ() + escapeDirection.z * distance);
-        int y = currentPos.getY() + 5 + hoatzin.getRandom().nextInt(5);
-
-        BlockPos escapePos = new BlockPos(x, y, z);
-
-        // Try to find a valid spot nearby if the first one isn't good
-        for (int attempts = 0; attempts < 5; attempts++) {
-            if (isValidPerchingSpot(escapePos)) {
-                return escapePos;
-            }
-            escapePos = escapePos.offset(
-                    hoatzin.getRandom().nextInt(6) - 3,
-                    hoatzin.getRandom().nextInt(4) - 2,
-                    hoatzin.getRandom().nextInt(6) - 3
-            );
-        }
-
-        return escapePos; // Return something even if not perfect
+        return hoatzin.level().isLoaded(base) ? base : hoatzin.blockPosition();
     }
 
     private boolean isValidPerchingSpot(BlockPos pos) {
-        // Check if there's a solid block or leaves to perch on
-        // and air above for landing
-        boolean hasSolidGround = (!hoatzin.level().getBlockState(pos.below()).isAir());
-        boolean hasAirAbove = hoatzin.level().getBlockState(pos).isAir() &&
-                hoatzin.level().getBlockState(pos.above()).isAir();
+        if (!hoatzin.level().isLoaded(pos)) return false;
 
-        // Prefer leaves (trees) but accept any solid surface
-        boolean isPreferredSurface = hoatzin.level().getBlockState(pos.below()).is(BlockTags.LEAVES);
+        return !hoatzin.level().getBlockState(pos).isAir()
+                && hoatzin.level().getBlockState(pos.above()).isAir();
+    }
 
-        return hasSolidGround && hasAirAbove && (isPreferredSurface || hoatzin.getRandom().nextInt(3) == 0);
+    private boolean hasLineOfSight(BlockPos pos) {
+        Vec3 from = hoatzin.getEyePosition();
+        Vec3 to = Vec3.atCenterOf(pos);
+
+        return hoatzin.level().clip(new ClipContext(
+                from, to,
+                ClipContext.Block.COLLIDER,
+                ClipContext.Fluid.NONE,
+                hoatzin
+        )).getType() == HitResult.Type.MISS;
     }
 }

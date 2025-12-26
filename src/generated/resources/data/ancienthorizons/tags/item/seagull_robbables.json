@@ -1,9 +1,11 @@
 {
   "values": [
-    "#ancienthorizons:seagull_food",
-    "#minecraft:meat",
-    "minecraft:egg",
-    "minecraft:rotten_flesh",
-    "minecraft:spider_eye"
+    "#minecraft:fishes",
+    "minecraft:bread",
+    "minecraft:cookie",
+    "minecraft:potato",
+    "minecraft:carrot",
+    "minecraft:beetroot",
+    "ancienthorizons:raw_shrimp"
   ]
 }

@@ -155,10 +155,6 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
@@ -427,7 +423,6 @@ public class TigerEntity extends TamableAnimal implements NeutralMob, VariantHol
             return otherVariant;
         }
     }
-
 
     public void doSitTick() {
         if (this.isSitting()) {

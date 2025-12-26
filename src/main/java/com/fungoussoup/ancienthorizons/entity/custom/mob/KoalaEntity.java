@@ -1,5 +1,6 @@
 package com.fungoussoup.ancienthorizons.entity.custom.mob;
 
+import com.fungoussoup.ancienthorizons.entity.ai.ArborealPathNavigation;
 import com.fungoussoup.ancienthorizons.entity.interfaces.ArborealAnimal;
 import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModBlocks;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +26,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -44,6 +47,9 @@ public class KoalaEntity extends Animal implements ArborealAnimal {
 
     private static final int EUCALYPTUS_SEARCH_RANGE = 8;
     private int sleepTimer = 0;
+
+    public final AnimationState climbAnimationState = new AnimationState();
+    public final AnimationState sitAnimationState = new AnimationState();
 
     public KoalaEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -137,8 +143,6 @@ public class KoalaEntity extends Animal implements ArborealAnimal {
                     this.getLookControl().setLookAt(player, 30.0F, 30.0F);
                 }
             }
-            // Don't consume the item, don't heal, don't breed
-            // Just... stare.
             return InteractionResult.SUCCESS;
         }
 
@@ -157,6 +161,56 @@ public class KoalaEntity extends Animal implements ArborealAnimal {
         // Handle climbing (very slowly)
         if (!isSleeping()) {
             handleClimbing(this);
+        }
+
+        if (this.level().isClientSide()) {
+            // Manage Animation States on the client
+            this.setupAnimationStates();
+        } else {
+            // Logic on the server: Are we touching a climbable block?
+            boolean isTouchingTree = this.horizontalCollision;
+            this.setClinging(isTouchingTree && !this.onGround());
+        }
+    }
+
+    private void setupAnimationStates() {
+        if (this.isSleeping()) {
+            this.sitAnimationState.startIfStopped(this.tickCount);
+            this.climbAnimationState.stop();
+        } else if (this.isClinging()) {
+            this.climbAnimationState.startIfStopped(this.tickCount);
+            this.sitAnimationState.stop();
+        } else {
+            this.sitAnimationState.stop();
+            this.climbAnimationState.stop();
+        }
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        return new ArborealPathNavigation(this, level);
+    }
+
+    @Override
+    public void travel(Vec3 travelVector) {
+        if (this.isEffectiveAi()) {
+            // Apply vertical movement logic
+            this.move(MoverType.SELF, this.getDeltaMovement());
+
+            // Custom vertical friction/speed
+            double speed = this.getClimbingSpeed();
+            this.setDeltaMovement(this.getDeltaMovement().multiply(0.5, 1.0, 0.5));
+
+            if (this.jumping) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0, speed, 0));
+            } else if (this.isShiftKeyDown()) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0, -speed, 0));
+            } else {
+                // Stay stuck to the tree (antigravity)
+                this.setDeltaMovement(this.getDeltaMovement().x, 0.0, this.getDeltaMovement().z);
+            }
+        } else {
+            super.travel(travelVector);
         }
     }
 
@@ -289,6 +343,19 @@ public class KoalaEntity extends Animal implements ArborealAnimal {
         }
     }
 
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        if (DATA_SLEEPING.equals(key)) {
+            if (this.isSleeping()) {
+                this.sitAnimationState.start(this.tickCount);
+            } else {
+                this.sitAnimationState.stop();
+            }
+        }
+        // You can add logic for DATA_CLINGING -> climbAnimationState here similarly
+        super.onSyncedDataUpdated(key);
+    }
+
     /**
      * Goal to wander towards eucalyptus trees
      */
@@ -336,6 +403,17 @@ public class KoalaEntity extends Animal implements ArborealAnimal {
                         targetPos.getZ(),
                         speedModifier
                 );
+            }
+        }
+
+        @Override
+        public void tick() {
+            if (targetPos != null) {
+                // If we are close to the tree, try to move "up"
+                if (koala.distanceToSqr(targetPos.getCenter()) < 2.0D) {
+                    koala.setJumping(true); // Encourages the AI to "step up" onto the log
+                }
+                koala.getNavigation().moveTo(targetPos.getX(), targetPos.getY(), targetPos.getZ(), speedModifier);
             }
         }
 

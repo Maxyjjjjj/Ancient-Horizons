@@ -175,6 +175,15 @@ public class ModSoundEvents {
     public static final SoundEvent RED_PANDA_HURT = registerSoundEvent("red_panda_hurt", createSoundEvent("entity.red_panda.hurt"));
     public static final SoundEvent RED_PANDA_DEATH = registerSoundEvent("red_panda_death", createSoundEvent("entity.red_panda.death"));
 
+    // BROWN BEAR
+
+    public static final SoundEvent BEAR_AMBIENT = registerSoundEvent("bear_idle", createSoundEvent("entity.brown_bear.idle"));
+    public static final SoundEvent BEAR_HURT = registerSoundEvent("bear_hurt", createSoundEvent("entity.brown_bear.hurt"));
+    public static final SoundEvent BEAR_DEATH = registerSoundEvent("bear_death", createSoundEvent("entity.brown_bear.death"));
+    public static final SoundEvent BEAR_SNEEZE = registerSoundEvent("bear_sneeze", createSoundEvent("entity.brown_bear.sneeze"));
+    public static final SoundEvent BEAR_AMBIENT_AGGRESSIVE = registerSoundEvent("bear_death", createSoundEvent("entity.brown_bear.idle_aggressive"));
+    public static final SoundEvent BEAR_AMBIENT_WORRIED = registerSoundEvent("bear_death", createSoundEvent("entity.brown_bear.idle_worried"));
+
     private static SoundEvent createSoundEvent(String path) {
         ResourceLocation rl = ResourceLocation.fromNamespaceAndPath("ancienthorizons", path);
         return SoundEvent.createVariableRangeEvent(rl);

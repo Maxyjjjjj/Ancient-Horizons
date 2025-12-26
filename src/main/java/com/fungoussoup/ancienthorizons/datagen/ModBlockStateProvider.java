@@ -631,6 +631,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(ModBlocks.YEW_PRESSURE_PLATE);
         blockItem(ModBlocks.YEW_FENCE_GATE);
         blockItem(ModBlocks.YEW_TRAPDOOR,"_bottom");
+
+        blockItem(ModBlocks.PENGUIN_EGG);
     }
 
     private void saplingBlock(DeferredBlock<Block> blockRegistryObject) {

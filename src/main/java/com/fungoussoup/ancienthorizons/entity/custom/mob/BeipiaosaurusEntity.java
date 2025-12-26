@@ -6,6 +6,7 @@ import com.fungoussoup.ancienthorizons.registry.ModSoundEvents;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,6 +15,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Container;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -50,13 +52,19 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
     private int stealingTimer = 0;
     private static final int STEALING_DURATION = 60; // 3 seconds
     private static final int STEAL_COOLDOWN = 600; // 30 seconds
-    private ItemStack stolenItem = ItemStack.EMPTY;
+
+    // Enhanced inventory system
+    private final SimpleContainer inventory;
+    private static final int INVENTORY_SIZE = 9; // 9 slots like a chest row
+    private static final int MIN_ITEMS_TO_STEAL = 2;
+    private static final int MAX_ITEMS_TO_STEAL = 5;
 
     private int hijackAttemptCooldown = 0;
     private static final int HIJACK_COOLDOWN = 200; // 10 seconds
 
     public BeipiaosaurusEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
+        this.inventory = new SimpleContainer(INVENTORY_SIZE);
     }
 
     @Override
@@ -70,7 +78,6 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
-        // 11% chance to be left-handed
         this.entityData.set(IS_LEFT_HANDED, this.random.nextFloat() < 0.11F);
         return super.finalizeSpawn(level, difficulty, spawnType, spawnData);
     }
@@ -115,9 +122,18 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
     }
 
     public boolean canSteal() {
-        return !this.entityData.get(HAS_STOLEN_ITEM)
+        return !isInventoryFull()
                 && this.entityData.get(STEALING_COOLDOWN) <= 0
                 && !this.isBaby();
+    }
+
+    private boolean isInventoryFull() {
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            if (inventory.getItem(i).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void startStealing(BlockPos chestPos) {
@@ -125,10 +141,9 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         this.entityData.set(IS_STEALING, true);
         this.stealingTimer = 0;
 
-        // Use block events instead of startOpen
         if (this.level() instanceof ServerLevel serverLevel) {
             BlockState state = serverLevel.getBlockState(chestPos);
-            serverLevel.blockEvent(chestPos, state.getBlock(), 1, 1); // Open chest
+            serverLevel.blockEvent(chestPos, state.getBlock(), 1, 1);
         }
     }
 
@@ -138,26 +153,99 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         if (targetChestPos != null && this.level() instanceof ServerLevel serverLevel) {
             BlockEntity blockEntity = serverLevel.getBlockEntity(targetChestPos);
             if (blockEntity instanceof ChestBlockEntity chestEntity) {
-                int size = chestEntity.getContainerSize();
-                for (int attempts = 0; attempts < 10; attempts++) {
-                    int slot = this.random.nextInt(size);
+                int itemsStolen = 0;
+                int targetItemCount = MIN_ITEMS_TO_STEAL + this.random.nextInt(MAX_ITEMS_TO_STEAL - MIN_ITEMS_TO_STEAL + 1);
+
+                // Try to steal multiple items
+                for (int attempt = 0; attempt < 50 && itemsStolen < targetItemCount; attempt++) {
+                    int slot = this.random.nextInt(chestEntity.getContainerSize());
                     ItemStack stack = chestEntity.getItem(slot);
+
                     if (!stack.isEmpty()) {
-                        int stealAmount = Math.min(stack.getCount(), this.random.nextInt(3) + 1);
-                        this.stolenItem = stack.split(stealAmount);
-                        chestEntity.setChanged();
-                        this.entityData.set(HAS_STOLEN_ITEM, true);
-                        this.entityData.set(STEALING_COOLDOWN, STEAL_COOLDOWN);
-                        this.playSound(SoundEvents.ITEM_PICKUP, 1.0F, 1.0F);
-                        break;
+                        // Determine how much to steal from this stack
+                        int stealAmount = Math.min(
+                                stack.getCount(),
+                                this.random.nextInt(Math.min(stack.getMaxStackSize() / 2, 8)) + 1
+                        );
+
+                        ItemStack stolenStack = stack.split(stealAmount);
+
+                        // Try to add to inventory
+                        if (addToInventory(stolenStack)) {
+                            chestEntity.setChanged();
+                            itemsStolen++;
+                            this.playSound(SoundEvents.ITEM_PICKUP, 0.8F, 1.0F + (this.random.nextFloat() * 0.4F));
+                        } else {
+                            // Inventory full, return item to chest
+                            stack.grow(stealAmount);
+                            break;
+                        }
                     }
                 }
+
+                if (itemsStolen > 0) {
+                    this.entityData.set(HAS_STOLEN_ITEM, true);
+                    this.entityData.set(STEALING_COOLDOWN, STEAL_COOLDOWN);
+
+                    // Play triumphant sound if stole multiple items
+                    if (itemsStolen >= 3) {
+                        this.playSound(SoundEvents.PLAYER_LEVELUP, 0.5F, 1.5F);
+                    }
+                }
+
                 BlockState state = serverLevel.getBlockState(targetChestPos);
-                serverLevel.blockEvent(targetChestPos, state.getBlock(), 1, 0); // Close chest
+                serverLevel.blockEvent(targetChestPos, state.getBlock(), 1, 0);
             }
         }
 
         this.targetChestPos = null;
+    }
+
+    private boolean addToInventory(ItemStack stack) {
+        // Try to stack with existing items first
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack slotStack = inventory.getItem(i);
+            if (!slotStack.isEmpty() && ItemStack.isSameItemSameComponents(slotStack, stack)) {
+                int spaceLeft = slotStack.getMaxStackSize() - slotStack.getCount();
+                if (spaceLeft > 0) {
+                    int toAdd = Math.min(spaceLeft, stack.getCount());
+                    slotStack.grow(toAdd);
+                    stack.shrink(toAdd);
+                    if (stack.isEmpty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // Find empty slot
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            if (inventory.getItem(i).isEmpty()) {
+                inventory.setItem(i, stack.copy());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Get display item for rendering (first non-empty slot)
+    public ItemStack getStolenItem() {
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (!stack.isEmpty()) {
+                return stack;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public SimpleContainer getInventory() {
+        return this.inventory;
+    }
+
+    public boolean isLeftHanded() {
+        return this.entityData.get(IS_LEFT_HANDED);
     }
 
     public boolean hasVehicleNearby() {
@@ -204,16 +292,6 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         return ModSoundEvents.BEIPIAOSAURUS_DEATH;
     }
 
-    // Public getter for stolen item (used by renderer)
-    public ItemStack getStolenItem() {
-        return this.stolenItem;
-    }
-
-    // Public getter for handedness (used by renderer and model)
-    public boolean isLeftHanded() {
-        return this.entityData.get(IS_LEFT_HANDED);
-    }
-
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
@@ -221,11 +299,17 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         tag.putInt("StealingCooldown", this.entityData.get(STEALING_COOLDOWN));
         tag.putBoolean("IsLeftHanded", this.entityData.get(IS_LEFT_HANDED));
 
-        if (!this.stolenItem.isEmpty()) {
-            CompoundTag itemTag = new CompoundTag();
-            this.stolenItem.save(this.level().registryAccess(), itemTag);
-            tag.put("StolenItem", itemTag);
+        // Save entire inventory
+        ListTag inventoryTag = new ListTag();
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (!stack.isEmpty()) {
+                CompoundTag itemTag = new CompoundTag();
+                itemTag.putByte("Slot", (byte) i);
+                inventoryTag.add(stack.save(this.level().registryAccess(), itemTag));
+            }
         }
+        tag.put("Inventory", inventoryTag);
     }
 
     @Override
@@ -235,13 +319,14 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
         this.entityData.set(STEALING_COOLDOWN, tag.getInt("StealingCooldown"));
         this.entityData.set(IS_LEFT_HANDED, tag.getBoolean("IsLeftHanded"));
 
-        if (tag.contains("StolenItem")) {
-            this.stolenItem = ItemStack.parseOptional(
-                    this.level().registryAccess(),
-                    tag.getCompound("StolenItem")
-            );
-        } else {
-            this.stolenItem = ItemStack.EMPTY;
+        // Load inventory
+        ListTag inventoryTag = tag.getList("Inventory", 10);
+        for (int i = 0; i < inventoryTag.size(); i++) {
+            CompoundTag itemTag = inventoryTag.getCompound(i);
+            int slot = itemTag.getByte("Slot") & 255;
+            if (slot < inventory.getContainerSize()) {
+                inventory.setItem(slot, ItemStack.parseOptional(this.level().registryAccess(), itemTag));
+            }
         }
     }
 
@@ -259,10 +344,14 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, source, recentlyHit);
-        if (!stolenItem.isEmpty()) {
-            this.spawnAtLocation(stolenItem);
-            stolenItem = ItemStack.EMPTY;
+        // Drop entire inventory on death
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (!stack.isEmpty()) {
+                this.spawnAtLocation(stack);
+            }
         }
+        inventory.clearContent();
     }
 
     @Override
@@ -328,7 +417,6 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
                     mobPos.offset(range, range, range))) {
                 BlockState state = mob.level().getBlockState(pos);
                 if (state.getBlock() instanceof AbstractChestBlock<?>) {
-                    // Check if chest has items before targeting it
                     if (isChestNonEmpty(pos)) {
                         return pos.immutable();
                     }
@@ -341,7 +429,6 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
             if (mob.level() instanceof ServerLevel serverLevel) {
                 BlockEntity blockEntity = serverLevel.getBlockEntity(pos);
                 if (blockEntity instanceof ChestBlockEntity chestEntity) {
-                    // Check if chest has any items
                     for (int i = 0; i < chestEntity.getContainerSize(); i++) {
                         if (!chestEntity.getItem(i).isEmpty()) {
                             return true;
@@ -355,11 +442,9 @@ public class BeipiaosaurusEntity extends Animal implements ILootsChests {
 
     static class HijackVehicleGoal extends Goal {
         private final BeipiaosaurusEntity mob;
-        private final double speed;
 
         public HijackVehicleGoal(BeipiaosaurusEntity mob, double speed) {
             this.mob = mob;
-            this.speed = speed;
         }
 
         @Override

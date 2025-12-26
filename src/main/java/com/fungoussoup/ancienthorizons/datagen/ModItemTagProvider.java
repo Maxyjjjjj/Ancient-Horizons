@@ -2,13 +2,16 @@ package com.fungoussoup.ancienthorizons.datagen;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
 import com.fungoussoup.ancienthorizons.registry.ModBlocks;
+import com.fungoussoup.ancienthorizons.registry.ModEntities;
 import com.fungoussoup.ancienthorizons.registry.ModItems;
 import com.fungoussoup.ancienthorizons.registry.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -33,37 +36,39 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.PLATINUM_SWORD.get())
                 .add(ModItems.COBALT_SWORD.get())
                 .add(ModItems.TUNGSTEN_SWORD.get())
-
-                .add(ModItems.TUNGSTEN_FLAIL.get())
-                .add(ModItems.SILVER_KATANA.get());
+                .add(ModItems.LEAD_SWORD.get());
         tag(ItemTags.PICKAXES)
                 .add(ModItems.ALUMINIUM_PICKAXE.get())
                 .add(ModItems.BRONZE_PICKAXE.get())
                 .add(ModItems.SILVER_PICKAXE.get())
                 .add(ModItems.PLATINUM_PICKAXE.get())
                 .add(ModItems.COBALT_PICKAXE.get())
-                .add(ModItems.TUNGSTEN_PICKAXE.get());
+                .add(ModItems.TUNGSTEN_PICKAXE.get())
+                .add(ModItems.LEAD_PICKAXE.get());
         tag(ItemTags.AXES)
                 .add(ModItems.ALUMINIUM_AXE.get())
                 .add(ModItems.BRONZE_AXE.get())
                 .add(ModItems.SILVER_AXE.get())
                 .add(ModItems.PLATINUM_AXE.get())
                 .add(ModItems.COBALT_AXE.get())
-                .add(ModItems.TUNGSTEN_AXE.get());
+                .add(ModItems.TUNGSTEN_AXE.get())
+                .add(ModItems.LEAD_AXE.get());
         tag(ItemTags.SHOVELS)
                 .add(ModItems.ALUMINIUM_SHOVEL.get())
                 .add(ModItems.BRONZE_SHOVEL.get())
                 .add(ModItems.SILVER_SHOVEL.get())
                 .add(ModItems.PLATINUM_SHOVEL.get())
                 .add(ModItems.COBALT_SHOVEL.get())
-                .add(ModItems.TUNGSTEN_SHOVEL.get());
+                .add(ModItems.TUNGSTEN_SHOVEL.get())
+                .add(ModItems.LEAD_SHOVEL.get());
         tag(ItemTags.HOES)
                 .add(ModItems.ALUMINIUM_HOE.get())
                 .add(ModItems.BRONZE_HOE.get())
                 .add(ModItems.SILVER_HOE.get())
                 .add(ModItems.PLATINUM_HOE.get())
                 .add(ModItems.COBALT_HOE.get())
-                .add(ModItems.TUNGSTEN_HOE.get());
+                .add(ModItems.TUNGSTEN_HOE.get())
+                .add(ModItems.LEAD_HOE.get());
 
         this.tag(ItemTags.TRIMMABLE_ARMOR)
                 .add(ModItems.ALUMINIUM_HELMET.get())
@@ -194,5 +199,121 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.REDWOOD_PLANKS.asItem())
                 .add(ModBlocks.MONKEY_PUZZLE_PLANKS.asItem())
                 .add(ModBlocks.YEW_PLANKS.asItem());
+
+        // CUSTOM METAL TAG
+        tag(ModTags.Items.ALUMINIUM)
+                .add(ModItems.ALUMINIUM_INGOT.get())
+                .add(ModItems.ALUMINIUM_NUGGET.get());
+
+        // ANIMAL FOOD TAGS
+        tag(ModTags.Items.PASSERINE_FOOD)
+                .addTag(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .add(Items.WHEAT_SEEDS)
+                .add(Items.BEETROOT_SEEDS)
+                .add(Items.MELON_SEEDS)
+                .add(Items.PUMPKIN_SEEDS);
+
+        tag(ModTags.Items.SEAGULL_FOOD)
+                .addTag(ItemTags.FISHES)
+                .add(Items.BREAD)
+                .add(Items.COOKIE)
+                .add(ModItems.RAW_SHRIMP.get());
+
+        tag(ModTags.Items.SEAGULL_ROBBABLES)
+                .addTag(ItemTags.FISHES)
+                .add(Items.BREAD)
+                .add(Items.COOKIE)
+                .add(Items.POTATO)
+                .add(Items.CARROT)
+                .add(Items.BEETROOT)
+                .add(ModItems.RAW_SHRIMP.get());
+
+        tag(ModTags.Items.RACCOON_FOOD)
+                .addTag(ItemTags.FISHES)
+                .add(Items.APPLE)
+                .add(Items.SWEET_BERRIES)
+                .add(Items.GLOW_BERRIES)
+                .add(Items.MELON_SLICE)
+                .add(Items.EGG)
+                .add(Items.CHICKEN)
+                .add(Items.COOKED_CHICKEN)
+                .add(ModItems.BANANA.get());
+
+        tag(ModTags.Items.ELEPHANT_FOOD)
+                .add(Items.WHEAT)
+                .add(Items.HAY_BLOCK)
+                .add(Items.APPLE)
+                .add(Items.GOLDEN_APPLE)
+                .add(Items.GOLDEN_CARROT)
+                .add(Items.CARROT)
+                .add(Items.SUGAR_CANE)
+                .add(ModItems.BANANA.get());
+
+        tag(ModTags.Items.MANTIS_FOOD)
+                .add(Items.SPIDER_EYE)
+                .add(Items.FERMENTED_SPIDER_EYE);
+
+        tag(ModTags.Items.STOAT_FOOD)
+                .add(Items.CHICKEN)
+                .add(Items.COOKED_CHICKEN)
+                .add(Items.RABBIT)
+                .add(Items.COOKED_RABBIT);
+
+        tag(ModTags.Items.SAOLA_FOOD)
+                .addTag(ItemTags.LEAVES)
+                .add(Items.FERN)
+                .add(Items.BAMBOO);
+
+        tag(ModTags.Items.AZHDARCHID_FOOD)
+                .addTag(ItemTags.FISHES)
+                .add(Items.CHICKEN)
+                .add(Items.RABBIT)
+                .add(Items.MUTTON);
+
+        tag(ModTags.Items.PENGUIN_FOOD)
+                .addTag(ItemTags.FISHES)
+                .add(ModItems.RAW_SHRIMP.get());
+
+        tag(ModTags.Items.PENGUIN_FOOD)
+                .addTag(ItemTags.FISHES)
+                .add(ModItems.RAW_SHRIMP.get());
+
+        tag(ModTags.Items.CROC_FOOD)
+                .addTag(ItemTags.MEAT)
+                .addTag(ItemTags.FISHES)
+                .add(Items.ROTTEN_FLESH);
+
+        tag(ModTags.Items.PREHISTORIC_HERBIVORE_FOOD)
+                .add(Items.FERN)
+                .add(Items.LARGE_FERN)
+                .add(Items.SPRUCE_LEAVES);
+
+        // WEAPON ENCHANTMENT TAGS
+        tag(ModTags.Items.KATANA_ENCHANTABLE)
+                .add(ModItems.SILVER_KATANA.get());
+
+        tag(ModTags.Items.HAMMER_ENCHANTABLE)
+                .add(ModItems.ALUMINIUM_HAMMER.get());
+
+        tag(ModTags.Items.CHAKRAM_ENCHANTABLE)
+                .add(ModItems.COBALT_CHAKRAM.get());
+
+        tag(ModTags.Items.KHOPESH_ENCHANTABLE)
+                .add(ModItems.GOLDEN_KHOPESH.get());
+
+        tag(ModTags.Items.CLUB_ENCHANTABLE)
+                .add(ModItems.WOODEN_CLUB.get());
+
+        tag(ModTags.Items.HALBERD_ENCHANTABLE)
+                .add(ModItems.BRONZE_HALBERD.get());
+
+        tag(ModTags.Items.MACUAHUITL_ENCHANTABLE)
+                .add(ModItems.STONE_MACUAHUITL.get());
+
+        tag(ModTags.Items.WARFANS_ENCHANTABLE)
+                .add(ModItems.IRON_WARFANS.get());
+
+        tag(ModTags.Items.WARSCYTHE_ENCHANTABLE)
+                .add(ModItems.DIAMOND_WARSCYTHE.get());
     }
 }

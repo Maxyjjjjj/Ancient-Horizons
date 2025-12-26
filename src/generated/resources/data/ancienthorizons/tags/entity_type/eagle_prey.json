@@ -1,11 +1,11 @@
 {
   "values": [
-    "minecraft:armadillo",
-    "minecraft:chicken",
-    "ancienthorizons:domestic_goat",
-    "minecraft:goat",
     "minecraft:rabbit",
-    "ancienthorizons:pheasant",
-    "ancienthorizons:hare"
+    "minecraft:chicken",
+    "minecraft:fox",
+    "minecraft:wolf",
+    "ancienthorizons:hare",
+    "ancienthorizons:raccoon",
+    "ancienthorizons:stoat"
   ]
 }

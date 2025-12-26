@@ -1,5 +1,8 @@
 {
   "values": [
-    "#minecraft:undead"
+    "#minecraft:undead",
+    "ancienthorizons:lion",
+    "ancienthorizons:brown_bear",
+    "minecraft:polar_bear"
   ]
 }

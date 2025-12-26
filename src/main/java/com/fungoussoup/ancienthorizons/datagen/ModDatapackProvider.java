@@ -1,6 +1,7 @@
 package com.fungoussoup.ancienthorizons.datagen;
 
 import com.fungoussoup.ancienthorizons.AncientHorizons;
+import com.fungoussoup.ancienthorizons.registry.ModEnchantments;
 import com.fungoussoup.ancienthorizons.worldgen.ModBiomeModifiers;
 import com.fungoussoup.ancienthorizons.worldgen.ModConfiguredFeatures;
 import com.fungoussoup.ancienthorizons.worldgen.ModPlacedFeatures;
@@ -18,9 +19,9 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
-            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap);
-
-
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
+            .add(Registries.ENCHANTMENT, ModEnchantments::bootstrap)
+            .add(Registries.DAMAGE_TYPE, ModDamageTypeProvider::bootstrap);
 
     public ModDatapackProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(AncientHorizons.MOD_ID));

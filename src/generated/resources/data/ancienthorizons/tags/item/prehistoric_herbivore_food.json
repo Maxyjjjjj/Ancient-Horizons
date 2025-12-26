@@ -1,6 +1,7 @@
 {
-    "values": [
-        "minecraft:fern",
-        "minecraft:large_fern"
-    ]
+  "values": [
+    "minecraft:fern",
+    "minecraft:large_fern",
+    "minecraft:spruce_leaves"
+  ]
 }

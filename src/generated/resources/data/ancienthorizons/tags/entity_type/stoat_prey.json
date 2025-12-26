@@ -1,7 +1,8 @@
 {
   "values": [
     "minecraft:rabbit",
-    "ancienthorizons:pheasant",
-    "ancienthorizons:hare"
+    "minecraft:chicken",
+    "ancienthorizons:hare",
+    "ancienthorizons:earthworm"
   ]
 }

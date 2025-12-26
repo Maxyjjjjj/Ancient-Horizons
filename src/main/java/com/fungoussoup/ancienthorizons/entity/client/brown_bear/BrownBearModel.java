@@ -86,14 +86,8 @@ public class BrownBearModel<T extends BrownBearEntity> extends HierarchicalModel
         this.legright.xRot = Mth.cos(limbSwing * walkSpeed) * walkDegree * limbSwingAmount;
         this.legright2.xRot = Mth.cos(limbSwing * walkSpeed + (float)Math.PI) * walkDegree * limbSwingAmount;
 
-        if (entity.isCowering()){
-            this.applyCowerAnimation(ageInTicks);
-        }
         if (entity.isSleeping()){
             this.applySleepingAnimation(ageInTicks);
-        }
-        if (entity.isSitting()){
-            this.applySittingAnimation(ageInTicks);
         }
     }
 
