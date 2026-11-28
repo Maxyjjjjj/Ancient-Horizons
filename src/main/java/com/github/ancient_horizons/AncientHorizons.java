@@ -36,7 +36,7 @@ public class AncientHorizons {
     public static final String MODID = "ancient_horizons";
     public static final Logger LOGGER = LogUtils.getLogger();
     
-    public ExampleMod(IEventBus modEventBus, ModContainer modContainer) {
+    public AncientHorizons(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
