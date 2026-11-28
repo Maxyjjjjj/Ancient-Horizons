@@ -31,7 +31,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-@Mod(ExampleMod.MODID)
+@Mod(AncientHorizons.MODID)
 public class ExampleMod {
     public static final String MODID = "ancient_horizons";
     public static final Logger LOGGER = LogUtils.getLogger();
